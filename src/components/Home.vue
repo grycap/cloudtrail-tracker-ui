@@ -65,10 +65,10 @@
         <div style="font-family: DKHoney; color: #000;
              letter-spacing: 2px;font-weight:bold;"> 
              CLOUD TRAIL TRACKER
-              <p class="text-center sub-text" style="color:black;">Herramienta docente para la recopilación de información
+              <!-- <p class="text-center sub-text" style="color:black;">Herramienta docente para la recopilación de información
                 como evidencias de realización de actividades en la nube, 
                 conducentes a la evaluación automática de las mismas.
-              </p>
+              </p> -->
         </div>
     </div>
   </div>
