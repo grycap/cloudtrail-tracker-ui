@@ -5,6 +5,7 @@ import cognitoAuth from './cognito'
 import App from './App.vue'
 import VueChartkick from 'vue-chartkick'
 import Helpers from './misc/helpers'
+import env from './env.js'
 // import axios from 'axios'
 
 window.axios = require('axios')
