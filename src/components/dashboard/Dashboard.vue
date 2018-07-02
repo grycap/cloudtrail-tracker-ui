@@ -1,6 +1,6 @@
 <template>	
 	<div class="dashboard">	
-				<dashboard-info-widgets></dashboard-info-widgets>			
+				<dashboard-info-widgets v-show="graphData.length > 0 && !showSpinner"></dashboard-info-widgets>			
 		
 		<div v-show="loading" style="position:absolute;height:100px; top:50%; margin-top:-50px; left:43%;justify-content:center;">	
 			<atom-spinner  :animation-duration="2000"  :size="100"  color="rgb(74,227,135)" />		
@@ -197,32 +197,33 @@ export default {
 					axios.get("https://api.cursocloudaws.net/tracker/scan?from=" +this.start_date +"&to=" +this.end_date + "&count=True")					
 					.then(function(resp) {						
 						// _this.search(resp);
-						generalInfo["total"]=resp.data;
-						console.log(resp.data)
+						_this.$eventHub.$emit("generalInfo",{'type': 'total', 'value': resp.data});
 					});
 					//Run Instances en una hora 
 					axios.get("https://api.cursocloudaws.net/tracker/scan?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=RunInstances&count=True")					
 					.then(function(resp) {						
 						// _this.search(resp);
 						generalInfo["runInstances"]=resp.data;
-						console.log(resp.data)
+						_this.$eventHub.$emit("generalInfo",{'type': 'runInstances', 'value': resp.data})
 					});
 					//CreateDBInstace
-					axios.get("https://api.cursocloudaws.net/tracker/scan?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateDBInstance&count=True")					
+					axios.get("https://api.cursocloudaws.net/tracker/scan?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateDBInstance&count=True&begin_with=True")					
 					.then(function(resp) {						
 						// _this.search(resp);
 						generalInfo["createDBInstance"]=resp.data;
-						console.log(resp.data)
+						_this.$eventHub.$emit("generalInfo",{'type': 'createDBInstance', 'value': resp.data})
+					});
+					axios.get("https://api.cursocloudaws.net/tracker/scan?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateFunction&count=True&begin_with=True")					
+					.then(function(resp) {						
+						// _this.search(resp);
+						generalInfo["createFunction"]=resp.data;
+						_this.$eventHub.$emit("generalInfo",{'type': 'createFunction', 'value': resp.data})
 					});
 					axios.get("https://api.cursocloudaws.net/tracker/scan?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateLoadBalancer&count=True")					
 					.then(function(resp) {	
-						generalInfo["createLoadBalancer"]=resp.data;					
-						// _this.search(resp);
-						console.log(resp.data)
+						generalInfo["createLoadBalancer"]=resp.data;
+						_this.$eventHub.$emit("generalInfo",{'type': 'createLoadBalancer', 'value': resp.data})					
 					});
-					this.$nextTick(function(){
-						_this.$eventHub.$emit("generalInfo",generalInfo)
-					})
 		 },
 		search(resp) {
 		
