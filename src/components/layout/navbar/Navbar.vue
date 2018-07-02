@@ -101,7 +101,7 @@
      this.url = 'static/avatar/gmolto.jpg'
     }else 
     {
-      this.url = 'static/avatar/2.jpg'
+      this.url = 'static/avatar/guest.png'
     }
     }
 	}
