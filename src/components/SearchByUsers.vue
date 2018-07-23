@@ -1,5 +1,7 @@
 <template>
 	<div class="dashboard">
+			<dashboard-info-widgets v-show="graphData.length > 0"></dashboard-info-widgets>			
+
 		<vuestic-widget class="no-padding no-v-padding">
 			<div class="row" style="padding-top:40px; padding-bottom:40px;">
 				<div class="col-12 col-md-5 col-lg-4" style="margin-top:10px;">      
@@ -67,13 +69,15 @@
 <script>
 import jwtDecode from "jwt-decode";
 import vSelect from "vue-select";
+import DashboardInfoWidgets from './dashboard/DashboardInfoWidgets'
 
 
 
 export default {
 	name: "dashboard",
 	components: {
-		"v-select": vSelect,	
+		"v-select": vSelect,
+		DashboardInfoWidgets,   	
 		
 	},
 	data() {
@@ -114,7 +118,7 @@ export default {
 		for (var i in this.all_services) {
 			this.all_services[i].count = 0;
 		}
-		console.log(this.all_services);
+		// console.log(this.all_services);
 		for (var i in resp.data) {
 			var data2 = resp.data[i].eventSource;
 
@@ -127,7 +131,7 @@ export default {
 			this.graphData.push([this.all_services[i].name,	this.all_services[i].count]);
 			}
 		}
-		console.log(this.graphData.length);
+		// console.log(this.graphData.length);
 		if (this.graphData.length > 0) {
 			this.no_result = false;
 			// google.charts.load("current", { packages: ["corechart", "bar"] });
@@ -148,11 +152,41 @@ export default {
     search() {
 		this.graphData = [];
 
-		console.log(this.graphData);
+		// console.log(this.graphData);
 		if (this.user_name != "") {
 			this.errors.username = false;
 			this.processing = true;
 			var _this = this;
+			var generalInfo={};
+					
+					//Run Instances en una hora 
+					axios.get("https://api.cursocloudaws.net/tracker/users/"+  this.user_name +"?from=" +this.start_date + "&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=RunInstances&count=True")					
+					.then(function(resp) {						
+						// _this.search(resp);
+						generalInfo["runInstances"]=resp.data;
+						_this.$eventHub.$emit("generalInfo",{'type': 'runInstances', 'value': resp.data})
+					});
+					//CreateDBInstace
+					axios.get("https://api.cursocloudaws.net/tracker/users/"+ this.user_name + "?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateDBInstance&count=True&begin_with=True")					
+					.then(function(resp) {						
+						// _this.search(resp);
+						generalInfo["createDBInstance"]=resp.data;
+						_this.$eventHub.$emit("generalInfo",{'type': 'createDBInstance', 'value': resp.data})
+					});
+					axios.get("https://api.cursocloudaws.net/tracker/users/"+ this.user_name + "?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateFunction&count=True&begin_with=True")					
+					.then(function(resp) {						
+						// _this.search(resp);
+						generalInfo["createFunction"]=resp.data;
+						console.log(generalInfo)
+						_this.$eventHub.$emit("generalInfo",{'type': 'createFunction', 'value': resp.data})
+					});
+					axios.get("https://api.cursocloudaws.net/tracker/users/"+ this.user_name + "?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateLoadBalancer&count=True")					
+					.then(function(resp) {	
+						generalInfo["createLoadBalancer"]=resp.data;
+						_this.$eventHub.$emit("generalInfo",{'type': 'createLoadBalancer', 'value': resp.data})					
+					});
+					
+
 			if (!this.show_dates) {
 			axios.get("https://api.cursocloudaws.net/tracker/users/" +	this.user_name)
 				.then(function(resp) {
@@ -162,7 +196,7 @@ export default {
 			axios.get("https://api.cursocloudaws.net/tracker/users/" +	this.user_name +"?from=" +this.start_date +	"&to=" +this.end_date)
 				.then(function(resp) {
 				_this.search_callback(resp);
-				});
+				});			
 			}
 		} else {
 			this.errors.username = true;
@@ -171,7 +205,7 @@ export default {
    drawGraph() {				
 		///finding max value of array
 		this.max = 0;
-		console.log(this.graphData)
+		// console.log(this.graphData)
 		for (var i in this.graphData) {
 			if (this.max < this.graphData[i][1]) {
 			this.max = this.graphData[i][1];
@@ -304,7 +338,6 @@ export default {
 			return;
 		}
 		this.token = jwtDecode(jwtToken);
-		console.log('here');
 		this.user = this.$cognitoAuth.getCurrentUser();
 		document.getElementsByName("token")["0"].content = jwtToken;
 		//console.log(jwtToken)
