@@ -2,7 +2,8 @@
 	<div class="dashboard">	
 				<dashboard-info-widgets v-show="graphData.length > 0 && !showSpinner"></dashboard-info-widgets>			
 		
-		<div v-show="loading" style="position:absolute;height:100px; top:50%; margin-top:-50px; left:43%;justify-content:center;">	
+		<!-- <div v-show="loading" style="position:absolute;height:100px; top:50%; margin-top:-50px; left:43%;justify-content:center;">	 -->
+		<div v-show="loading" style="position:fixed; top:50%; left:50%;">	
 			<atom-spinner  :animation-duration="2000"  :size="100"  color="rgb(74,227,135)" />		
 		</div>		
 		<vuestic-widget v-show="loading == false" class="no-padding no-v-padding" style="/*min-width:910px*/">	
@@ -25,8 +26,9 @@
 			<div v-if="no_result" class="col-12 text-center">
 				<h3>No AWS service has been used in the {{simpleSelectModel}}.</h3>						
 			</div>					
-			<div v-show="showSpinner" style="position:absolute;height:100px; top:50%; margin-top:-50px; left:55%;justify-content:center;">	
-				<semipolar-spinner  :animation-duration="2000"  :size="100"  color="rgb(74,227,135)"/>
+			<!-- <div v-show="showSpinner" style="position:absolute;height:100px; top:50%; margin-top:-50px; left:55%;justify-content:center;">	 -->
+			<div v-show="showSpinner" style="position:fixed; top:50%; left:50%;">	
+				<semipolar-spinner  :animation-duration="2000"  :size="90"  color="rgb(74,227,135)"/>
 			</div>
 			<div class="row" style="margin-top:20px; min-height:50vh;"> 				     
 				<div v-show="graphData.length > 0 && !showSpinner" class="col-12"  style="margin-top:20px;">
@@ -221,9 +223,10 @@ export default {
 					});
 					axios.get("https://api.cursocloudaws.net/tracker/scan?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateLoadBalancer&count=True")					
 					.then(function(resp) {	
-						generalInfo["createLoadBalancer"]=resp.data;
+						generalInfo["createLoadBalancer"]=resp.data;						
 						_this.$eventHub.$emit("generalInfo",{'type': 'createLoadBalancer', 'value': resp.data})					
 					});
+					
 		 },
 		search(resp) {
 		
@@ -242,7 +245,7 @@ export default {
 					count: 0
 				};					
 		}
-		console.log(this.all_data_user)
+		// console.log(this.all_data_user)
 		for (var i in this.all_services) {
 			this.all_services[i].count = 0;
 		}
@@ -301,7 +304,7 @@ export default {
 			}	
 			
 			$("#canva").append('<canvas id="myChart"></canvas>');
-			console.log(this.graphData.length)
+			// console.log(this.graphData.length)
 			
 			var ctx = $("#myChart");
 			var myChart = new Chart(ctx, {
