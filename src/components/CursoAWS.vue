@@ -38,7 +38,7 @@
 			</div>
 		
 			<div v-show="graphData.length > 0" class="row" style="margin-bottom:40px;">
-				<div id="accordion" class="col-md-12">
+				<div id="accordion-dashboard" class="col-md-12">
 					<div>
 						<div id="headingOne">
 							<h5 class="mb-0">
@@ -49,7 +49,7 @@
 							</h5>
 						</div>
 
-						<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+						<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion-dashboard">
 							<div class="card-body">
 								<table id="table-details" class="stripe" style="width:100%">
 								</table>
@@ -415,6 +415,9 @@ export default {
 		"columnDefs": [
         		{className: "dt-center", "targets": "_all"}
    			 ]
+		});
+		$('#accordion-dashboard').on('shown.bs.collapse', function(){
+			$("#table-details").DataTable().columns.adjust();
 		});
 	}	
 }

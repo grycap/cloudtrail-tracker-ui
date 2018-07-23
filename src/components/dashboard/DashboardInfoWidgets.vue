@@ -97,25 +97,23 @@
         dbper:0
       }
     },
+    // mounted () {
+      
+    //   // this.$refs.circleProgress.$data.value = this.data.runInstances*100/this.data.total
+      
+    // }, 
 
     mounted () {
-      
-      // this.$refs.circleProgress.$data.value = this.data.runInstances*100/this.data.total
-      
-    }, 
-    created () {
-      this.$eventHub.$on('generalInfo', function(data){
+     this.$eventHub.$on('generalInfo', function(data){
+                console.log(data)
             if(data){
                 this.data[data.type] = data.value;
-                this.dbper = this.data.runInstances*100/this.data.total
-                console.log(this.dbper)
-                console.log(this.data.total)
             };
-            console.log(this.data)
-            }.bind(this));
+           }.bind(this));
     },
     beforeDestroy() {
         this.$eventHub.$off('generalInfo');
+        
     }, 
   }
 </script>
