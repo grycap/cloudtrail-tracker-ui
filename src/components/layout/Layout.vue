@@ -10,7 +10,7 @@
       </main>
     </div>
     <div class="made-by-footer">
-      &copy; Copyright © 2018, GRyCAP-I3M-UPV, Universitat Politècnica de València, Spain.
+      <h6> Copyright © 2018, GRyCAP-I3M-UPV, Universitat Politècnica de València, Spain.</h6>
       <div style="padding-left:50px">
       <a href="https://github.com/grycap/cloudtrail-tracker">
           <i class="fab fa-github fa-2x"></i>
