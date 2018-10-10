@@ -5,7 +5,7 @@
 		<vuestic-widget class="no-padding no-v-padding">
 			<div class="row" style="padding-top:40px; padding-bottom:40px;">
 				<div class="col-12 col-md-5 col-lg-4" style="margin-top:10px;">      
-					<v-select  v-model="user_name" ref="select" label="first_name" :options="all_users" placeholder="Users" v-bind:class="{'is-invalid' : errors.username}"></v-select>
+					<v-select  v-model="user_name"  id="selectc" ref="select" label="first_name" :options=all_users  placeholder="Users" v-bind:class="{'is-invalid' : errors.username}"></v-select>
 					<span v-show="errors.username" style="color: #cc3300; font-size: 12px;"><b>Please, select a username.</b></span>
 				</div>
 				<div v-show="show_dates" class="col-12 col-md-4 col-lg-4" style="margin-top:10px;"> 
@@ -85,6 +85,7 @@ export default {
 		token: "Loading token..",
 		user: {},
 		options: [],
+		dis : true,
 		all_users: [],
 		all_data: [],
 		max: 0,
@@ -344,10 +345,21 @@ export default {
 		});
 		var _this = this;
 		axios.get("https://api.cursocloudaws.net/tracker/users")
-		.then(function(resp) {
-			// console.log(resp.data);
-			_this.all_users = resp.data;
-			// _this.all_users.splice(0,0, 'General');
+		.then(function(resp) {			
+			var session = JSON.parse(localStorage.getItem("session"))			
+			
+			if (session.user.username == "gmolto" || session.user.username == "admin"){
+				_this.all_users = resp.data;
+					
+			}else {
+				_this.all_users = [];
+				for (var i in resp.data){					
+					if (session.user.username == resp.data[i]){
+						_this.all_users.push(resp.data[i])
+					}		
+				}
+			} 
+			
 		});
 		axios.get("https://api.cursocloudaws.net/tracker/services")
 		.then(function(resp) {
@@ -358,8 +370,20 @@ export default {
 			};
 			}
 		});
+		
+		// var session = JSON.parse(localStorage.getItem("session"))	
+		// var list = $("#selectc").options 
+		// console.log(list)
+		// if (session.user.username == "gmolto"){
+		// 	console.log("ok")
+		// 	this.dis = false;
+		// }else {
+			
+
+		// }
 	},
-	mounted() {
+	mounted() {	
+		
 		var _this = this;
 		var maxDate = moment().format("DD/MM/YYYY");
 		$("#date-range").daterangepicker(

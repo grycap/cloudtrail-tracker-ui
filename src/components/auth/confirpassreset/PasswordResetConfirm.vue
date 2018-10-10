@@ -4,7 +4,7 @@
 		<div v-if="error" class="alert alert-danger">
 			{{error_message_text}}
 		</div>
-		<form @submit.prevent="passwordResetConfirm">
+		<form>
 			<div class="form-group">
 				<div class="input-group">				
 					<input type="text" id="username" v-model="username" autofocus autocomplete="off" v-bind:class="{'is-invalid' : mistake.username}"/>
@@ -17,17 +17,21 @@
 					<input type="text" id="code" v-model="code" autocomplete="off" v-bind:class="{'is-invalid' : mistake.code}"/>
 					<label class="control-label" for="email">Confirmation Code</label><i class="bar"></i>
 					<span v-show="mistake.code" style="color: #cc3300; font-size: 12px;"><b>Confirmation code is required</b></span>
+				
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="input-group">
-					<input type="password" id="password" v-model="pass" autocomplete="off" v-bind:class="{'is-invalid' : mistake.password}"/>
+					<input :type="passwordFieldType" id="password" v-model="pass" autocomplete="off" v-bind:class="{'is-invalid' : mistake.password}"/>
 					<label class="control-label" for="password">{{'auth.password' | translate}}</label><i class="bar"></i>
-					<span v-show="mistake.password" style="color: #cc3300; font-size: 12px;"><b>Password is required</b></span>
+					<span v-show="mistake.password" style="color: #cc3300; font-size: 12px;"><b>Password is required</b></span>				
+				</div>
+				<div class="input-group-append">
+					<button type="password" class="btn btn-outline-primary btn-micro btn-with-icon rounded-icon" @click = "switchVisibility" style="box-shadow:none;" ><i id="showpass" class="fas fa-eye-slash"></i></button>					
 				</div>
 			</div>        
 			<div class="d-flex flex-column flex-lg-row align-items-center justify-content-between down-container">
-				<button class="btn btn-primary" type="submit" :disabled="processing">
+				<button class="btn btn-primary" type="submit" :disabled="processing" @click="passwordResetConfirm()">
 					<i v-if="!processing" class="fas fa-unlock-alt fa-sm"></i> 
 					<i v-if="processing" class="fas fa-spinner fa-pulse"></i>
 					Confirm Password Reset
@@ -47,6 +51,7 @@ export default {
 		pass: "",
 		error: false,
 		error_message_text: "",
+		passwordFieldType: 'password',
 		processing: false,
 		mistake: {
 			username: false,
@@ -91,7 +96,18 @@ export default {
 					}
 				);
 			}
-		}
+		},
+		switchVisibility(){
+			this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password'
+			console.log(this.passwordFieldType)
+			if(this.passwordFieldType == 'text'){
+				$("#showpass" ).removeClass( "fa-eye-slash" )
+				$("#showpass").addClass( "fa-eye" );
+			}else if(this.passwordFieldType == 'password') {
+				$("#showpass" ).removeClass( "fa-eye" )
+				$("#showpass").addClass( "fa-eye-slash " );
+			}
+		},
 	}
 };
 </script>
