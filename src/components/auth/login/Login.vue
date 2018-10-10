@@ -19,7 +19,7 @@
 					<span v-show="mistake.password" style="color: #cc3300; font-size: 12px;"><b>Password is required</b></span>
 				</div>
 				<div class="input-group-append">
-					<button type="password" class="btn btn-outline-primary btn-micro btn-with-icon rounded-icon" @click = "switchVisibility" style="box-shadow:none;" ><i id="showpass" class="fas fa-eye-slash"></i></button>					
+					<button type="button" class="btn btn-outline-primary btn-micro btn-with-icon rounded-icon" @click="switchVisibility()" style="box-shadow:none;" ><i id="showpass" class="fas fa-eye-slash"></i></button>					
 				</div>
 			</div>
 			
@@ -27,7 +27,7 @@
 				<router-link to="/resetpass" class="link">Reset Password</router-link>
 			</div>
 			<div class="d-flex flex-column flex-lg-row align-items-center justify-content-between down-container">
-				<button tabindex="3" class="btn btn-primary custom-button" type="submit" style="min-width:40%; margin-top:5px;" :disable="processing" @click = "login">
+				<button tabindex="3" class="btn btn-primary custom-button" type="button" style="min-width:40%; margin-top:5px;" :disable="processing" @click="login()">
 				<i v-if="!processing" class="fas fa-unlock-alt fa-sm"></i> 
 				<i v-if="processing" class="fas fa-spinner fa-pulse"></i>			
 				{{'auth.login' | translate}}
@@ -143,6 +143,11 @@ export default {
    .btn-outline-primary:hover {
     color: #4ae387;
     background-color: white;
+    border-color: white;
+}
+.btn-outline-primary:not(:disabled):not(.disabled):active, .btn-outline-primary:not(:disabled):not(.disabled).active, .show > .btn-outline-primary.dropdown-toggle {
+    color: #4ae387;
+    background-color:white;
     border-color: white;
 }
 }

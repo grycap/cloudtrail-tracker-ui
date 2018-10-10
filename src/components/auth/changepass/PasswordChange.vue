@@ -13,7 +13,7 @@
 					<span v-show="mistake.oldpassword" style="color: #cc3300; font-size: 12px;"><b>Current Password is required</b></span>
 				</div>
 				<div class="input-group-append">
-					<button type="password" class="btn btn-outline-primary btn-micro btn-with-icon rounded-icon" @click = "switchVisibility" style="box-shadow:none;" ><i id="showpass" class="fas fa-eye-slash"></i></button>					
+					<button type="button" class="btn btn-outline-primary btn-micro btn-with-icon rounded-icon" @click="switchVisibility()" style="box-shadow:none;" ><i id="showpass" class="fas fa-eye-slash"></i></button>					
 				</div>
 				</div>
 				<div class="form-group">
@@ -23,12 +23,12 @@
 					<span v-show="mistake.newpassword" style="color: #cc3300; font-size: 12px;"><b>Password is required</b></span>
 				    </div>
 					<div class="input-group-append">
-					  	<button type="password" class="btn btn-outline-primary btn-micro btn-with-icon rounded-icon" @click = "switchVisibility2" style="box-shadow:none;" ><i id="showpass2" class="fas fa-eye-slash"></i></button>					
+					  	<button type="button" class="btn btn-outline-primary btn-micro btn-with-icon rounded-icon" @click="switchVisibility2()" style="box-shadow:none;" ><i id="showpass2" class="fas fa-eye-slash"></i></button>					
 					</div>
 				</div>
 				
 				<div class="d-flex flex-column  align-items-center justify-content-between down-container">
-					<button tabindex="3" class="btn btn-primary custom-button" type="submit" style="margin-top:5px;" :disable="processing" @click="passwordChange()">
+					<button tabindex="3" class="btn btn-primary custom-button" type="button" style="margin-top:5px;" :disable="processing" @click="passwordChange()">
 					<i v-if="!processing" class="fas fa-unlock-alt fa-sm"></i> 
 					<i v-if="processing" class="fas fa-spinner fa-pulse"></i>			
 					Confirm New Password
@@ -132,6 +132,11 @@ export default {
  width: 21.375rem;
 }
  .btn-outline-primary:hover {
+    color: #4ae387;
+    background-color: #eee;
+    border-color: #eee;
+}
+.btn-outline-primary:not(:disabled):not(.disabled):active, .btn-outline-primary:not(:disabled):not(.disabled).active, .show > .btn-outline-primary.dropdown-toggle {
     color: #4ae387;
     background-color: #eee;
     border-color: #eee;
