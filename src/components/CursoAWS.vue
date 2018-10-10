@@ -117,9 +117,19 @@ export default {
 		var _this = this;
 		axios.get("https://api.cursocloudaws.net/tracker/users")
 		.then(function(resp) {
-			// console.log(resp.data);
-			_this.all_users = resp.data;
-			// _this.all_users.splice(0,0, 'General');
+			var session = JSON.parse(localStorage.getItem("session"))			
+			
+			if (session.user.username == "gmolto" || session.user.username == "admin"){
+				_this.all_users = resp.data;
+					
+			}else {
+				_this.all_users = [];
+				for (var i in resp.data){					
+					if (session.user.username == resp.data[i]){
+						_this.all_users.push(resp.data[i])
+					}		
+				}
+			} 
 		});	
 		this.initData = env.INITDATA;
 		this.referData = env.REFERDATA;

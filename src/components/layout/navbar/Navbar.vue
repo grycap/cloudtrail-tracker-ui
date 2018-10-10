@@ -92,8 +92,8 @@
     mounted (){
     var session = JSON.parse(localStorage.getItem("session"))
     // console.log(session.user.username)
-    if (session.user.username == 'alucloud36'){      
-      this.url = 'static/avatar/1.jpg'
+    if (session.user.username == 'admin'){      
+      this.url = 'static/avatar/admin.png'
     }else if (session.user.username == 'amcaar'){
      this.url = 'static/avatar/amanda.jpg'
     }
@@ -101,7 +101,7 @@
      this.url = 'static/avatar/gmolto.jpg'
     }else 
     {
-      this.url = 'static/avatar/guest.png'
+      this.url = 'static/avatar/students.jpeg'
     }
     }
 	}

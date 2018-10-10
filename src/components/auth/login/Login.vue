@@ -4,7 +4,7 @@
 		<div v-if="error" class="alert alert-danger">
 			{{error_message_text}}
 		</div>
-		<form @submit.prevent="login" name="login">
+		<form>
 			<div class="form-group">
 				<div class="input-group">
 				<input type="text" id="username" v-bind:class="{'is-invalid' : mistake.username}" v-model="username" />
@@ -14,21 +14,25 @@
 			</div>
 			<div class="form-group">
 				<div class="input-group">
-				<input type="password" id="password" v-bind:class="{'is-invalid' : mistake.password}" v-model="pass" />
-				<label class="control-label" for="password">{{'auth.password' | translate}}</label><i class="bar"></i>
-				<span v-show="mistake.password" style="color: #cc3300; font-size: 12px;"><b>Password is required</b></span>
+					<input :type="passwordFieldType" id="password" v-bind:class="{'is-invalid' : mistake.password}" v-model="pass" />				
+					<label class="control-label" for="password">{{'auth.password' | translate}}</label><i class="bar"></i>
+					<span v-show="mistake.password" style="color: #cc3300; font-size: 12px;"><b>Password is required</b></span>
+				</div>
+				<div class="input-group-append">
+					<button type="password" class="btn btn-outline-primary btn-micro btn-with-icon rounded-icon" @click = "switchVisibility" style="box-shadow:none;" ><i id="showpass" class="fas fa-eye-slash"></i></button>					
 				</div>
 			</div>
+			
 			<div class="form-group" style="justify-content:flex-end;">
 				<router-link to="/resetpass" class="link">Reset Password</router-link>
 			</div>
 			<div class="d-flex flex-column flex-lg-row align-items-center justify-content-between down-container">
-				<button tabindex="3" class="btn btn-primary custom-button" type="submit" style="min-width:40%; margin-top:5px;" :disable="processing">
+				<button tabindex="3" class="btn btn-primary custom-button" type="submit" style="min-width:40%; margin-top:5px;" :disable="processing" @click = "login">
 				<i v-if="!processing" class="fas fa-unlock-alt fa-sm"></i> 
 				<i v-if="processing" class="fas fa-spinner fa-pulse"></i>			
 				{{'auth.login' | translate}}
 				</button>	
-				<router-link to="/signup" class="link"><i class="far fa-user fa-sm"></i>{{'auth.createAccount' | translate}}</router-link>		
+				<!-- <router-link to="/signup" class="link"><i class="far fa-user fa-sm"></i>{{'auth.createAccount' | translate}}</router-link>		 -->
 			</div>
 		</form>
 	</div>
@@ -37,6 +41,7 @@
 <script>
 import jwtDecode from "jwt-decode";
 export default {
+	
   	name: "login",
 	data() {
 		return {
@@ -45,13 +50,15 @@ export default {
 		error: false,
 		error_message_text: "",
 		processing: false,
+		passwordFieldType: 'password',		
 		mistake: {
 				username: false,
 				password: false
 			}
 		};
-	},
+	},	
 	methods: {
+		
 		login() {
 			this.error = false;
 			if (this.username == "") {
@@ -92,7 +99,18 @@ export default {
 					}
 				});
 			}		
-		}
+		},
+		switchVisibility(){
+			this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password'
+			console.log(this.passwordFieldType)
+			if(this.passwordFieldType == 'text'){
+				$("#showpass" ).removeClass( "fa-eye-slash" )
+				$("#showpass").addClass( "fa-eye" );
+			}else if(this.passwordFieldType == 'password') {
+				$("#showpass" ).removeClass( "fa-eye" )
+				$("#showpass").addClass( "fa-eye-slash " );
+			}
+		},
 	}
 };
 </script>
