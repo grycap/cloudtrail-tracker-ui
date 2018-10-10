@@ -137,5 +137,10 @@ export default {
   .down-container {
     margin-top: 3.125rem;
   }
+   .btn-outline-primary:hover {
+    color: #4ae387;
+    background-color: white;
+    border-color: white;
+}
 }
 </style>

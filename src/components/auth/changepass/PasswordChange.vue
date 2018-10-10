@@ -5,24 +5,30 @@
 			<div v-if="error" class="alert alert-danger">
 				{{error_message_text}}
 			</div>
-			<form @submit.prevent="login">
+			<form >  
 				<div class="form-group">
 					<div class="input-group">
-					<input type="password" id="username" v-bind:class="{'is-invalid' : mistake.oldpassword}" v-model="oldpass"/>
+					<input :type="passwordFieldType" id="username" v-bind:class="{'is-invalid' : mistake.oldpassword}" v-model="oldpass"/>
 					<label class="control-label" for="username">Current Password</label><i class="bar"></i>
 					<span v-show="mistake.oldpassword" style="color: #cc3300; font-size: 12px;"><b>Current Password is required</b></span>
-					</div>
+				</div>
+				<div class="input-group-append">
+					<button type="password" class="btn btn-outline-primary btn-micro btn-with-icon rounded-icon" @click = "switchVisibility" style="box-shadow:none;" ><i id="showpass" class="fas fa-eye-slash"></i></button>					
+				</div>
 				</div>
 				<div class="form-group">
 					<div class="input-group">
-					<input type="password" id="password" v-bind:class="{'is-invalid' : mistake.newpassword}" v-model="newpass"/>
+					<input :type="passwordFieldType2" id="password" v-bind:class="{'is-invalid' : mistake.newpassword}" v-model="newpass"/>
 					<label class="control-label" for="password">New Password</label><i class="bar"></i>
 					<span v-show="mistake.newpassword" style="color: #cc3300; font-size: 12px;"><b>Password is required</b></span>
+				    </div>
+					<div class="input-group-append">
+					  	<button type="password" class="btn btn-outline-primary btn-micro btn-with-icon rounded-icon" @click = "switchVisibility2" style="box-shadow:none;" ><i id="showpass2" class="fas fa-eye-slash"></i></button>					
 					</div>
 				</div>
 				
 				<div class="d-flex flex-column  align-items-center justify-content-between down-container">
-					<button tabindex="3" class="btn btn-primary custom-button" type="submit" style="margin-top:5px;" :disable="processing">
+					<button tabindex="3" class="btn btn-primary custom-button" type="submit" style="margin-top:5px;" :disable="processing" @click="passwordChange()">
 					<i v-if="!processing" class="fas fa-unlock-alt fa-sm"></i> 
 					<i v-if="processing" class="fas fa-spinner fa-pulse"></i>			
 					Confirm New Password
@@ -43,6 +49,8 @@ export default {
 		error: false,
 		error_message_text: "",
 		processing: false,
+		passwordFieldType: 'password',
+		passwordFieldType2: 'password',
 		mistake: {
 			oldpassword: false,
 			newpassword: false
@@ -79,7 +87,27 @@ export default {
 					}
 				);
 			}
-		}
+		},
+		switchVisibility(){
+			this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password'			
+			if(this.passwordFieldType == 'text'){
+				$("#showpass" ).removeClass( "fa-eye-slash" )
+				$("#showpass").addClass( "fa-eye" );
+			}else if(this.passwordFieldType == 'password') {
+				$("#showpass" ).removeClass( "fa-eye" )
+				$("#showpass").addClass( "fa-eye-slash " );
+			}
+		},
+		switchVisibility2(){
+			this.passwordFieldType2 = this.passwordFieldType2 === 'password' ? 'text' : 'password'			
+			if(this.passwordFieldType2 == 'text'){
+				$("#showpass2" ).removeClass( "fa-eye-slash" )
+				$("#showpass2").addClass( "fa-eye" );
+			}else if(this.passwordFieldType2 == 'password') {
+				$("#showpass2" ).removeClass( "fa-eye" )
+				$("#showpass2").addClass( "fa-eye-slash " );
+			}
+		},
 	}
 };
 </script>
@@ -103,9 +131,18 @@ export default {
   }
  width: 21.375rem;
 }
+ .btn-outline-primary:hover {
+    color: #4ae387;
+    background-color: #eee;
+    border-color: #eee;
+}
   
 
 .error {
   color: red;
 }
 </style>
+
+
+
+
