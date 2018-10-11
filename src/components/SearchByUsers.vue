@@ -20,10 +20,9 @@
 				<div class="col-12 col-md-3 col-lg-4">
 					<fieldset style="display:inline-block;padding-right:10px;">
 					<vuestic-checkbox 
-						label="Dates"
+						label="Dates"						
 						:id="'checkbox4'"
-						v-model="show_dates"/>
-					
+						v-model="show_dates"/>					
 					</fieldset>
 					
 					<button class="btn btn-primary" @click="search()" style="padding: 0.8rem 1.0rem!important;letter-spacing: normal;">
@@ -92,12 +91,12 @@ export default {
 		user_name: "",
 		user_search: "",
 		all_services: [],
-		start_date: "",
+		start_date: "",		
 		end_date: "",
 		graphData: [],
-		show_dates: false,
+		show_dates: true,
 		no_result: false,
-		processing: false,
+		processing: false,		
 		table: "",
 		datepicker:{
 			range:''
@@ -350,6 +349,7 @@ export default {
 			
 			if (session.user.username == "gmolto" || session.user.username == "admin"){
 				_this.all_users = resp.data;
+				_this.user_name = "";
 					
 			}else {
 				_this.all_users = [];
@@ -358,7 +358,8 @@ export default {
 						_this.all_users.push(resp.data[i])
 					}		
 				}
-			} 
+				_this.user_name = _this.all_users[0]
+			} 			
 			
 		});
 		axios.get("https://api.cursocloudaws.net/tracker/services")
@@ -369,27 +370,28 @@ export default {
 				count: 0
 			};
 			}
-		});
-		
-		// var session = JSON.parse(localStorage.getItem("session"))	
-		// var list = $("#selectc").options 
-		// console.log(list)
-		// if (session.user.username == "gmolto"){
-		// 	console.log("ok")
-		// 	this.dis = false;
-		// }else {
-			
-
-		// }
+		});	
 	},
 	mounted() {	
+		var d = new Date();
+		   var currDay = d.getDay();
+           var currMonth = d.getMonth();
+           var currYear = d.getFullYear();
+           var currYearEnd = d.getFullYear() + 1;
+		   var startDateDefault = new Date(currYear, 8, 1);
+		   var endDateDefault = new Date(currYearEnd, 6, 31);
+		   var start_date = moment(startDateDefault).format("DD/MM/YYYY");
+		   var end_date = moment(endDateDefault).format("DD/MM/YYYY");      
+		
 		
 		var _this = this;
 		var maxDate = moment().format("DD/MM/YYYY");
 		$("#date-range").daterangepicker(
 		{
 			opens: "left",
-			maxDate: maxDate,
+			startDate: start_date,
+			endDate : end_date,
+			// maxDate: maxDate,
 			locale: {
 			format: "DD/MM/YYYY"
 			}

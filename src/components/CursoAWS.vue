@@ -90,7 +90,7 @@ export default {
 			start_date: "",
 			end_date: "",
 			graphData: [],
-			show_dates: false,
+			show_dates: true,
 			no_result: false,
 			processing: false,
 			table: "",
@@ -121,6 +121,7 @@ export default {
 			
 			if (session.user.username == "gmolto" || session.user.username == "admin"){
 				_this.all_users = resp.data;
+				_this.user_name = "";
 					
 			}else {
 				_this.all_users = [];
@@ -129,6 +130,7 @@ export default {
 						_this.all_users.push(resp.data[i])
 					}		
 				}
+				_this.user_name = _this.all_users[0]
 			} 
 		});	
 		this.initData = env.INITDATA;
@@ -399,12 +401,24 @@ export default {
 		}
 	},
 	mounted() {
+		var d = new Date();
+		   var currDay = d.getDay();
+           var currMonth = d.getMonth();
+           var currYear = d.getFullYear();
+           var currYearEnd = d.getFullYear() + 1;
+		   var startDateDefault = new Date(currYear, 8, 1);
+		   var endDateDefault = new Date(currYearEnd, 6, 31);
+		   var start_date = moment(startDateDefault).format("DD/MM/YYYY");
+		   var end_date = moment(endDateDefault).format("DD/MM/YYYY");   
+
 		var _this = this;
 		var maxDate = moment().format("DD/MM/YYYY");
 		$("#date-range").daterangepicker(
 		{
 			opens: "left",
-			maxDate: maxDate,
+			startDate: start_date,
+			endDate : end_date,
+			// maxDate: maxDate,
 			locale: {
 			format: "DD/MM/YYYY"
 			}
