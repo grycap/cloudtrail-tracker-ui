@@ -71,9 +71,7 @@ import { install } from 'vuex';
 export default {
 	name: "dashboard",
 	components: {
-		"v-select": vSelect,
-		
-		
+		"v-select": vSelect,		
 	},
 	data() {
 		return {
