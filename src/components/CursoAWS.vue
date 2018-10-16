@@ -27,7 +27,7 @@
 				</div>
 			</div>   
 			<div v-if="no_result" class="col-12 text-center">
-				<h3>{{user_search}} haven't used any service.</h3>
+				<h3>{{user_search}} has not used any service.</h3>
 			</div>
 		
 			<div v-show="graphData.length > 0" class="col-12" style="margin-top:20px;padding-left:0;padding-right:0;">
