@@ -6,9 +6,7 @@
         <router-view></router-view>
       </div>
       <div class="auth-wallpaper col-6 d-none d-lg-flex" style="padding:0;">
-        <img src="static/login/dashboard4.jpg" style="height: 100%;width: 100%;" alt="">
-        <!-- <div class="oblique"></div>
-        <router-link class="i-vuestic" :to="{path: '/'}"></router-link> -->
+        <img src="static/login/dashboard4.jpg" style="height: 100%;width: 100%;" alt="">        
       </div>
     </div>
   </div>
@@ -33,11 +31,7 @@
       align-items: center;
       justify-content: center;
       height: $top-mobile-nav-height;
-      background-color: $top-nav-bg;
-      // .i-vuestic {
-      //   height: $auth-mobile-nav-ivuestic-h;
-      //   width: 100%;
-      // }
+      background-color: $top-nav-bg;      
     }
     .main {
       margin: 0;
@@ -54,21 +48,7 @@
         overflow: hidden;
         display: flex;
         align-items: center;
-        justify-content: center;
-        // .i-vuestic {
-        //   // z-index: 2;
-        //   height: 100%;
-        //   // height: $auth-wallpaper-ivuestic-h;
-        //   width: 100%;
-        // }
-        // .oblique {
-        //   position: absolute;
-        //   background-color: $auth-wallpaper-oblique-line;
-        //   left: calc(50% - 27%/2);
-        //   transform: rotate(15deg);
-        //   width: 27%;
-        //   height: 115%;
-        // }
+        justify-content: center;        
       }
     }
     // Medium devices (tablets, 768px and up)

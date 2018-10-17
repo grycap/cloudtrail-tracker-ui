@@ -47,7 +47,7 @@
 			var session = JSON.parse(localStorage.getItem("session"));
 			if (session != null && typeof session.user != "undefined") {
         this.loggedIn = true;
-				console.log(session.user.username);
+				//console.log(session.user.username);
 				// $(".users-dropdown").text(session.user.username);
 			}
 		}

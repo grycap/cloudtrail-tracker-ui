@@ -138,14 +138,10 @@ export default {
 	  
 	methods: {
 		search_callback(resp) {
-			this.all_data = []
-			// this.all_services = []
+			this.all_data = []			
 						
 			this.user_search = this.user_name;			
-			for (var i in resp.data) {
-				// console.log(this.all_data[i],resp.data[i]);
-			//	var datatime = resp.data[i].eventTime;
-			//	var time = moment(datatime,'YYYY-MM-DDTHH:mm:ssZ').format('HH:mm:ss DD-MM-YYYY');
+			for (var i in resp.data) {		
 				
 				var event_data= resp.data[i].eventName
 				if( typeof this.all_services[event_data] == 'undefined'){
@@ -298,8 +294,7 @@ export default {
 						align : function (context){							
 							
 							var index = context.dataIndex;
-							var value = context.dataset.data[index];
-							console.log(value);
+							var value = context.dataset.data[index];							
 							return value > 90 ? 'bottom' : 'top'
 
 							
