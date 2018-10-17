@@ -4,8 +4,7 @@
       <vuestic-widget class="info-widget brand-danger">
         <div class="info-widget-inner">
           <div class="stats">
-            <div class="stats-number">
-              <!-- <i class="ion ion-md-arrow-up text-primary stats-icon"></i> -->
+            <div class="stats-number">             
               <i class="fas fa-2x fa-desktop text-primary stats-icon icon-wide"></i>
              {{data.runInstances}}             
             </div>
@@ -18,8 +17,7 @@
       <vuestic-widget class="info-widget">
         <div class="info-widget-inner">
           <div class="stats">
-            <div class="stats-number">
-              <!-- <i class="ion ion-md-arrow-down text-danger stats-icon "></i> -->
+            <div class="stats-number">             
               <i class="fas fa-database text-danger stats-icon icon-wide"></i>
               {{data.createDBInstance}}
             </div>
@@ -27,25 +25,7 @@
           </div>          
         </div>
       </vuestic-widget>
-    </div>
-    <!-- <div class="col-md-6 col-xl-3">
-      <vuestic-widget class="info-widget brand-danger">
-        <div class="info-widget-inner">
-          <div class="info-widget-inner has-chart">
-            <div class="stats">
-              <div class="stats-number">
-               {{data.createDBInstance}}
-              </div>
-              <div class="stats-title">CreateDBInstance</div>
-            </div>
-            <div class="chart-container">
-              <vuestic-progress-bar type="circle" ref="circleProgress" :colorName="'white'" :backgroundColorName="'danger'"
-                            :startColorName="'danger'"></vuestic-progress-bar>
-            </div>
-          </div>
-        </div>
-      </vuestic-widget>
-    </div> -->
+    </div>   
     <div class="col-md-6 col-xl-3">
       <vuestic-widget class="info-widget">   
         <div class="info-widget-inner">
@@ -57,11 +37,7 @@
                {{data.createFunction}}
               </div>
               <div class="stats-title">CreateFunction</div>
-            </div>
-            <!-- <div class="chart-container">
-              <vuestic-progress-bar type="circle" ref="circleProgress" :colorName="'white'" :backgroundColorName="'danger'"
-                            :startColorName="'danger'"></vuestic-progress-bar>
-            </div> -->
+            </div>            
           </div>
         </div>
       </vuestic-widget>
@@ -96,16 +72,10 @@
         },
         dbper:0
       }
-    },
-    // mounted () {
-      
-    //   // this.$refs.circleProgress.$data.value = this.data.runInstances*100/this.data.total
-      
-    // }, 
+    },    
 
     mounted () {
-     this.$eventHub.$on('generalInfo', function(data){
-                console.log(data)
+     this.$eventHub.$on('generalInfo', function(data){                
             if(data){
                 this.data[data.type] = data.value;
             };

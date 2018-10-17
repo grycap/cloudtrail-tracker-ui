@@ -108,8 +108,7 @@ export default {
     search_callback(resp) {
 		this.all_data = [];
 		this.user_search = this.user_name;
-		for (var i in resp.data) {
-			// console.log(this.all_data[i],resp.data[i]);
+		for (var i in resp.data) {			
 			var datatime = resp.data[i].eventTime;
 			var time = moment(datatime,'YYYY-MM-DDTHH:mm:ssZ').format('HH:mm:ss DD-MM-YYYY');
 			this.all_data.push([i,resp.data[i].eventName,time]);
@@ -117,8 +116,7 @@ export default {
 
 		for (var i in this.all_services) {
 			this.all_services[i].count = 0;
-		}
-		// console.log(this.all_services);
+		}		
 		for (var i in resp.data) {
 			var data2 = resp.data[i].eventSource;
 
@@ -131,18 +129,17 @@ export default {
 			this.graphData.push([this.all_services[i].name,	this.all_services[i].count]);
 			}
 		}
-		// console.log(this.graphData.length);
+		
 		if (this.graphData.length > 0) {
 			this.no_result = false;
-			// google.charts.load("current", { packages: ["corechart", "bar"] });
-			// google.charts.setOnLoadCallback(this.drawGraph);
+			
 			this.drawGraph();
 			var _this = this;
 			this.$nextTick(function() {
 				$("#table-details")	.dataTable().fnClearTable();
 				$("#table-details").dataTable().fnAddData(_this.all_data);
 				$("#table-details").dataTable().fnDraw();
-			// $('#table-details').dataTable().fn
+			
 			});
 		} else {
 			this.no_result = true;
@@ -150,9 +147,7 @@ export default {
 		this.processing = false;
     },
     search() {
-		this.graphData = [];
-
-		// console.log(this.graphData);
+		this.graphData = [];		
 		if (this.user_name != "") {
 			this.errors.username = false;
 			this.processing = true;
@@ -176,8 +171,7 @@ export default {
 					axios.get("https://api.cursocloudaws.net/tracker/users/"+ this.user_name + "?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateFunction&count=True&begin_with=True")					
 					.then(function(resp) {						
 						// _this.search(resp);
-						generalInfo["createFunction"]=resp.data;
-						console.log(generalInfo)
+						generalInfo["createFunction"]=resp.data;						
 						_this.$eventHub.$emit("generalInfo",{'type': 'createFunction', 'value': resp.data})
 					});
 					axios.get("https://api.cursocloudaws.net/tracker/users/"+ this.user_name + "?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateLoadBalancer&count=True")					
@@ -204,8 +198,7 @@ export default {
     },
    drawGraph() {				
 		///finding max value of array
-		this.max = 0;
-		// console.log(this.graphData)
+		this.max = 0;		
 		for (var i in this.graphData) {
 			if (this.max < this.graphData[i][1]) {
 			this.max = this.graphData[i][1];
@@ -340,7 +333,7 @@ export default {
 		this.token = jwtDecode(jwtToken);
 		this.user = this.$cognitoAuth.getCurrentUser();
 		document.getElementsByName("token")["0"].content = jwtToken;
-		//console.log(jwtToken)
+		
 		});
 		var _this = this;
 		axios.get("https://api.cursocloudaws.net/tracker/users")

@@ -115,8 +115,7 @@ export default {
 		]
 		};
   },
-  created() {  	  
-		
+  created() {    		
 		
 		var _this = this;			
 		axios.get("https://api.cursocloudaws.net/tracker/services")
