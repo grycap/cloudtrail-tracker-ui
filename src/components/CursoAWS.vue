@@ -101,6 +101,16 @@ export default {
 		
 	},
 	created() {
+		var dmy = new Date();
+		   var currDay = dmy.getDay();
+           var currMonth = dmy.getMonth();
+           var currYear = dmy.getFullYear();
+           var currYearEnd = dmy.getFullYear() + 1;
+		   var start = new Date(currYear, 8, 1);
+		   var end = new Date(currYearEnd, 6, 31);
+		   this.start_date = moment(start).format("YYYY-MM-DD");
+		   this.end_date = moment(end).format("YYYY-MM-DD"); 
+		   
 		this.$cognitoAuth.getIdToken((err, jwtToken) => {
 		if (err) {
 			console.log("Dashboard: Couldn't get the session:", err, err.stack);
