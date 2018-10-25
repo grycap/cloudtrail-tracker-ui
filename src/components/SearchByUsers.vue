@@ -153,6 +153,7 @@ export default {
 			this.processing = true;
 			var _this = this;
 			var generalInfo={};
+
 					
 					//Run Instances en una hora 
 					axios.get("https://api.cursocloudaws.net/tracker/users/"+  this.user_name +"?from=" +this.start_date + "&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=RunInstances&count=True")					
@@ -325,6 +326,16 @@ export default {
 		}
 	},
 	created() {
+		var dmy = new Date();
+		   var currDay = dmy.getDay();
+           var currMonth = dmy.getMonth();
+           var currYear = dmy.getFullYear();
+           var currYearEnd = dmy.getFullYear() + 1;
+		   var start = new Date(currYear, 8, 1);
+		   var end = new Date(currYearEnd, 6, 31);
+		   this.start_date = moment(start).format("YYYY-MM-DD");
+		   this.end_date = moment(end).format("YYYY-MM-DD");    
+		 
 		this.$cognitoAuth.getIdToken((err, jwtToken) => {
 		if (err) {
 			console.log("Dashboard: Couldn't get the session:", err, err.stack);
@@ -373,8 +384,8 @@ export default {
            var currYearEnd = d.getFullYear() + 1;
 		   var startDateDefault = new Date(currYear, 8, 1);
 		   var endDateDefault = new Date(currYearEnd, 6, 31);
-		   var start_date = moment(startDateDefault).format("DD/MM/YYYY");
-		   var end_date = moment(endDateDefault).format("DD/MM/YYYY");      
+		   var startdate = moment(startDateDefault).format("DD/MM/YYYY");
+		   var enddate = moment(endDateDefault).format("DD/MM/YYYY");      
 		
 		
 		var _this = this;
@@ -382,17 +393,18 @@ export default {
 		$("#date-range").daterangepicker(
 		{
 			opens: "left",
-			startDate: start_date,
-			endDate : end_date,
+			startDate: startdate,
+			endDate : enddate,
 			// maxDate: maxDate,
 			locale: {
 			format: "DD/MM/YYYY"
 			}
 			// autoApply: true
 		},
-		function(start, end, label) {
+		function(start, end, label) {			
 			_this.start_date = start.format("YYYY-MM-DD");
 			_this.end_date = end.format("YYYY-MM-DD");
+		
 		}
 		);
 		

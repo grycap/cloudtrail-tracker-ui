@@ -1,6 +1,6 @@
 #CloudTrail-Tracker-UI 
 
-CloudTrail-Tracker-UI is the web portal based on Vue.js that queries the REST service of the [CloudTrail-Tracker] (https://github.com/grycap/cloudtrail-tracker) tool to visually show the high-level aggregate information related to the use of resources in AWS by different users based on the events information.
+CloudTrail-Tracker-UI is the web portal based on Vue.js that queries the REST service of the [CloudTrail-Tracker](https://github.com/grycap/cloudtrail-tracker) tool to visually show the high-level aggregate information related to the use of resources in AWS by different users based on the events information.
 
 
 Before you start have a read over [What is Amazon Cognito](http://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html) and [Vue.js](https://vuejs.org/)
