@@ -1,7 +1,7 @@
 <template>
 	<div class="dashboard">
 		<vuestic-widget class="no-padding no-v-padding">
-			<div class="row" style="padding-top:40px; padding-bottom:40px;">
+			<div class="row" style="padding-top:40px;">
 				<div class="col-12 col-md-5 col-lg-4" style="margin-top:10px;">      
 					<v-select  v-model="user_name" ref="select" label="first_name" :options="all_users" placeholder="Users" v-bind:class="{'is-invalid' : errors.username}"></v-select>
 					<span v-show="errors.username" style="color: #cc3300; font-size: 12px;"><b>Please, select a username.</b></span>
@@ -25,7 +25,75 @@
 					<button class="btn btn-primary" @click="search()" style="padding: 0.8rem 1.0rem!important;letter-spacing: normal;">
 					<i v-if="processing" class="fas fa-spinner fa-pulse"></i><i v-if="!processing" class="fas fa-search d-lg-none" ></i><span v-if="!processing" class="d-none d-lg-block">Search</span></button>				
 				</div>
-			</div>   
+				
+				<div class="row" style="padding-left:40px;" >
+					
+					<fieldset style="padding-right:20px;display:inline-block">
+						 <vuestic-radio-button
+							:label="'CursoCloudAWS'"
+							id="radio1"
+							value="option1"
+							:name="'radio'"
+							v-model="check"
+							/>
+							
+					</fieldset>						
+					<fieldset style="padding-right:20px;">
+						<vuestic-radio-button
+							:label="'MBDA-CGDNGB'"
+							id="radio2"
+							:value="'option2'"
+							:name="'radio'"		
+							v-model="check"					
+							/>						
+					</fieldset>		
+					<fieldset style="padding-right:20px;">
+						<vuestic-radio-button
+							:label="'MBDA-MEGBD'"
+							id="radio3"
+							value="option3"
+							:name="'radio'"	
+							v-model="check"						
+							/>						
+					</fieldset>		
+					<fieldset style="padding-right:20px;">	
+						<vuestic-radio-button
+							:label="'MUCPD-ICP'"
+							id="radio4"
+							value="option4"	
+							:name="'radio'"	
+							v-model="check"					
+							/>							
+					</fieldset>		
+					<fieldset style="padding-right:20px;">
+						<vuestic-radio-button
+							:label="'MUCPD-CBD'"
+							id="radio5"
+							value="option5"	
+							:name="'radio'"	
+							v-model="check"					
+							/>								
+					</fieldset>		
+					<fieldset style="padding-right:20px;">	
+						<vuestic-radio-button
+							:label="'MUGI-SEN'"
+							id="radio6"
+							value="option6"
+							:name="'radio'"	
+							v-model="check"						
+							/>										
+					</fieldset>
+																		
+				</div>
+				
+			</div> 
+			<div class="row" style=" padding-bottom:40px;">
+				<fieldset style = "width: 500px; margin:  0px auto;">					 				
+					<span v-show="select_subject" style="color: #cc3300; font-size: 12px;"><b>Please, select the subject that it belongs to</b></span>
+				</fieldset>
+			</div>
+				
+			 
 			<div v-if="no_result" class="col-12 text-center">
 				<h3>{{user_search}} has not used any service.</h3>
 			</div>
@@ -77,9 +145,10 @@ export default {
 		return {
 			token: "Loading token..",
 			user: {},
+			name1: "Hello",
 			options: [],
 			all_users: [],
-			all_data: [],
+			all_data: [],			
 			max: 0,
 			array: [],
 			user_name: "",
@@ -89,8 +158,10 @@ export default {
 			end_date: "",
 			graphData: [],
 			show_dates: true,
+			select_subject: false,
 			no_result: false,
 			processing: false,
+			check: "",
 			table: "",
 			datepicker:{
 				range:''
@@ -145,6 +216,14 @@ export default {
 		this.referData = env.REFERDATA;
 		
 	},
+
+	watch: {
+		"check"(val){
+			if(val != "" ){
+				this.search()
+			}
+		}
+	},
 	  
 	methods: {
 		search_callback(resp) {
@@ -162,6 +241,7 @@ export default {
 			}
 			
 
+			
 			
 			var totalref=0
 			for(var i in this.referData){
@@ -196,8 +276,36 @@ export default {
 				this.graphData.push([i,((this.initData[i].total * 100/(this.referData[i].totalref)).toFixed(2))*1]);
 				totalref = 0
 			}
-			
-		
+				console.log(this.graphData)
+				if (this.check == "option1"){
+					 this.graphData.splice(7,1)					
+				}
+				if (this.check == "option2"){
+					var removeValIndex = [3,6,7]
+					for (var i = removeValIndex.length -1; i >= 0; i--)
+   						this.graphData.splice(removeValIndex[i],1);
+				}
+				if (this.check == "option3"){
+					var removeValIndex = [0,1,2,3,4,5,6,8]
+					for (var i = removeValIndex.length -1; i >= 0; i--)
+   						this.graphData.splice(removeValIndex[i],1);
+				}
+				if (this.check == "option4"){
+					this.graphData.splice(7,1)
+				}
+				if (this.check == "option5"){
+					var removeValIndex = [0,1,2,3,4,5,6,8]
+					for (var i = removeValIndex.length -1; i >= 0; i--)   	
+						this.graphData.splice(removeValIndex[i],1);					
+				}
+				if (this.check == "option6"){
+					var removeValIndex = [3,6,7]
+					for (var i = removeValIndex.length -1; i >= 0; i--)   	
+						this.graphData.splice(removeValIndex[i],1);					
+				}
+				
+				console.log(this.graphData)
+
 
 			if (this.graphData.length > 0) {
 				this.no_result = false;
@@ -218,8 +326,23 @@ export default {
 		},
 		search() {
 			this.graphData = [];
+
+			var checkboxchecked = $("#radio1")
+			if ($("input[name='radio']:checked").is(':checked')){
+				
+				this.select_subject = false
+			}else {
+				this.select_subject = true
+				
+			}
 			
-			if (this.user_name != "") {
+			if (this.user_name == "" || this.user_name == null) {
+				this.errors.username = true;
+			}else {
+				this.errors.username = false;
+			}
+
+			if (this.user_name != "" && this.user_name != null && this.select_subject == false) {
 				this.errors.username = false;
 				this.processing = true;
 				var _this = this;
@@ -231,15 +354,15 @@ export default {
 				} else {
 				axios.get("https://api.cursocloudaws.net/tracker/users/" +	this.user_name +"?from=" +this.start_date +	"&to=" +this.end_date)
 					.then(function(resp) {
-					_this.all_services=[];
-					
+					_this.all_services=[];			
 
 					_this.search_callback(resp);
 					});
 				}
-			} else {
-				this.errors.username = true;
-			}
+			} 
+			
+		
+			
 		},
 		drawGraph() {				
 		
