@@ -9,7 +9,7 @@
 				<router-link class="sidebar-link" to="/search_by_user"><i class="sidebar-menu-item-icon fas fa-users"></i>Search By User</router-link>
 			</li>
 			<li>
-				<router-link class="sidebar-link" to="/cursoaws"><i class="sidebar-menu-item-icon fas fa-graduation-cap"></i>Curso Cloud AWS</router-link>
+				<router-link class="sidebar-link" to="/cursoaws"><i class="sidebar-menu-item-icon fas fa-graduation-cap"></i>Search By Course</router-link>
 			</li>	
 		
 		</ul>
