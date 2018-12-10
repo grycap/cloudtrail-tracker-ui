@@ -14,7 +14,7 @@
 			</div>
 			<div class="form-group">
 				<div class="input-group">
-					<input :type="passwordFieldType" id="password" v-bind:class="{'is-invalid' : mistake.password}" v-model="pass" />				
+					<input :type="passwordFieldType" id="password" v-bind:class="{'is-invalid' : mistake.password}" v-model="pass" v-on:keyup="bindLogin()" />				
 					<label class="control-label" for="password">{{'auth.password' | translate}}</label><i class="bar"></i>
 					<span v-show="mistake.password" style="color: #cc3300; font-size: 12px;"><b>Password is required</b></span>
 				</div>
@@ -29,7 +29,7 @@
 			<div class="d-flex flex-column flex-lg-row align-items-center justify-content-between down-container">
 				<button tabindex="3" class="btn btn-primary custom-button" type="button" style="min-width:40%; margin-top:5px;" :disable="processing" @click="login()">
 				<i v-if="!processing" class="fas fa-unlock-alt fa-sm"></i> 
-				<i v-if="processing" class="fas fa-spinner fa-pulse"></i>			
+				<i v-if="processing" class="fas fa-spinner fa-pulse"></i>		
 				{{'auth.login' | translate}}
 				</button>	
 				<!-- <router-link to="/signup" class="link"><i class="far fa-user fa-sm"></i>{{'auth.createAccount' | translate}}</router-link>		 -->
@@ -58,6 +58,12 @@ export default {
 		};
 	},	
 	methods: {
+		bindLogin(){			
+			event.preventDefault();
+			if (event.keyCode === 13) {
+				this.login()
+			}
+		},
 		
 		login() {
 			this.error = false;
