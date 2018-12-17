@@ -332,7 +332,7 @@ export default {
 			this.processing = false;
 		},
 		search() {			
-			
+			$(".collapse").collapse('hide');
 			this.graphData = [];
 			
 			var checkboxchecked = $("#radio1")
