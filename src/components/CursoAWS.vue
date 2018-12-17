@@ -121,7 +121,7 @@
 							<div class="card-body">
 								<table id="table-details" class="stripe" style="width:100%">
 								</table>
-								<span style="color: #cc3300; display:block; text-align:center;font-size: 12px; width:100%; height:100%; margin: 0 auto;">To know information about each event, go to <a id="docs" target="_blank" href="https://docs.aws.amazon.com/">https://docs.aws.amazon.com/</a></span>
+								<span style="color: #cc3300; display:block; text-align:center;font-size: 12px; width:100%; height:100%; margin: 0 auto;">For further information about each event go to: <a id="docs" target="_blank" href="https://docs.aws.amazon.com/">https://docs.aws.amazon.com/</a></span>
 							</div>
 						</div>
 					</div>
