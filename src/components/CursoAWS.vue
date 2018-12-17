@@ -22,7 +22,7 @@
 						:id="'checkbox4'"
 						v-model="show_dates"/>					
 					</fieldset>
-					<button class="btn btn-primary" @click="search()" style="padding: 0.8rem 1.0rem!important;letter-spacing: normal;">
+					<button class="btn btn-primary" @click="search()" :disabled="processing == true" style="padding: 0.8rem 1.0rem!important;letter-spacing: normal;">
 					<i v-if="processing" class="fas fa-spinner fa-pulse"></i><i v-if="!processing" class="fas fa-search d-lg-none" ></i><span v-if="!processing" class="d-none d-lg-block">Search</span></button>				
 				</div>
 				
@@ -110,7 +110,7 @@
 					<div>
 						<div id="headingOne">
 							<h5 class="mb-0">
-							<button class="btn btn-primary" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"
+							<button id="openbtn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"
 							style="padding: 0.8rem 1.0rem!important;letter-spacing: normal;">
 								Details
 							</button>
@@ -121,6 +121,7 @@
 							<div class="card-body">
 								<table id="table-details" class="stripe" style="width:100%">
 								</table>
+								<span style="color: #cc3300; display:block; text-align:center;font-size: 12px; width:100%; height:100%; margin: 0 auto;">To know information about each event, go to <a id="docs" href="https://docs.aws.amazon.com/">https://docs.aws.amazon.com/</a></span>
 							</div>
 						</div>
 					</div>
@@ -133,7 +134,7 @@
 <script>
 import jwtDecode from "jwt-decode";
 import vSelect from "vue-select";
-import env from "../env.js";
+import envprac from "../envprac.js";
 import { install } from 'vuex';
 
 export default {
@@ -161,8 +162,10 @@ export default {
 			select_subject: false,
 			no_result: false,
 			processing: false,
+			validated: 0,
 			check: "",
 			table: "",
+			activeBars: "",
 			datepicker:{
 				range:''
 			},
@@ -212,8 +215,8 @@ export default {
 				_this.user_name = _this.all_users[0]
 			} 
 		});	
-		this.initData = env.INITDATA;
-		this.referData = env.REFERDATA;
+		this.initData = envprac.INITDATA;
+		this.referData = envprac.REFERDATA;
 		
 	},
 
@@ -227,8 +230,9 @@ export default {
 	  
 	methods: {
 		search_callback(resp) {
+			
 			this.all_data = []			
-						
+			
 			this.user_search = this.user_name;			
 			for (var i in resp.data) {		
 				
@@ -240,7 +244,10 @@ export default {
 				}							
 			}
 			
-
+			
+			if(this.check == "option4"){							
+				this.referData = envprac.REFERDATA1;
+			}
 			
 			
 			var totalref=0
@@ -276,7 +283,7 @@ export default {
 				this.graphData.push([i,((this.initData[i].total * 100/(this.referData[i].totalref)).toFixed(2))*1]);
 				totalref = 0
 			}
-				console.log(this.graphData)
+				
 				if (this.check == "option1"){
 					 this.graphData.splice(7,1)					
 				}
@@ -304,7 +311,7 @@ export default {
 						this.graphData.splice(removeValIndex[i],1);					
 				}
 				
-				console.log(this.graphData)
+				// console.log(this.graphData)
 
 
 			if (this.graphData.length > 0) {
@@ -324,9 +331,10 @@ export default {
 			}
 			this.processing = false;
 		},
-		search() {
+		search() {			
+			
 			this.graphData = [];
-
+			
 			var checkboxchecked = $("#radio1")
 			if ($("input[name='radio']:checked").is(':checked')){
 				
@@ -348,18 +356,19 @@ export default {
 				var _this = this;
 				if (!this.show_dates) {
 				axios.get("https://api.cursocloudaws.net/tracker/users/" +	this.user_name)
-					.then(function(resp) {
+					.then(function(resp) {						
 					_this.search_callback(resp);
 					});
 				} else {
 				axios.get("https://api.cursocloudaws.net/tracker/users/" +	this.user_name +"?from=" +this.start_date +	"&to=" +this.end_date)
-					.then(function(resp) {
+					.then(function(resp) {					
 					_this.all_services=[];			
 
 					_this.search_callback(resp);
 					});
 				}
 			} 
+			
 			
 		
 			
@@ -383,9 +392,7 @@ export default {
 				borderColor[i]="rgba(255, 51, 0,1)"
 			}
 		
-		}
-		
-		
+		}		
 
 		
 		$("#myChart").remove();
@@ -524,7 +531,16 @@ export default {
 				}
 			});
 			
-		}
+			$("#myChart").click(function(e) {
+				 this.activeBars = myChart.getElementAtEvent(e); 				
+				var find = this.activeBars["0"]._model.label
+				console.log(find)
+				$(".collapse").collapse('show');
+				$("#table-details").DataTable().search(find).draw();
+				
+			});
+		},
+		
 	},
 	mounted() {
 		var d = new Date();
@@ -575,5 +591,11 @@ export default {
 <style lang="scss" scoped>
 @import "../sass/_variables.scss";
 
-
+#docs {
+	color:#090909;
+}
+#docs:hover {
+	color:blue;
+	text-decoration: underline;
+}
 </style>
