@@ -25,7 +25,7 @@
 						v-model="show_dates"/>					
 					</fieldset>
 					
-					<button class="btn btn-primary" @click="search()" style="padding: 0.8rem 1.0rem!important;letter-spacing: normal;">
+					<button class="btn btn-primary" @click="search()" :disabled="processing == true" style="padding: 0.8rem 1.0rem!important;letter-spacing: normal;">
 					<i v-if="processing" class="fas fa-spinner fa-pulse"></i><i v-if="!processing" class="fas fa-search d-lg-none" ></i><span v-if="!processing" class="d-none d-lg-block">Search</span></button>
 				</div>
 			</div>   
@@ -153,7 +153,6 @@ export default {
 			this.processing = true;
 			var _this = this;
 			var generalInfo={};
-
 					
 					//Run Instances en una hora 
 					axios.get("https://api.cursocloudaws.net/tracker/users/"+  this.user_name +"?from=" +this.start_date + "&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=RunInstances&count=True")					
