@@ -547,9 +547,15 @@ export default {
 		   var currDay = d.getDay();
            var currMonth = d.getMonth();
            var currYear = d.getFullYear();
-           var currYearEnd = d.getFullYear() + 1;
-		   var startDateDefault = new Date(currYear, 8, 1);
-		   var endDateDefault = new Date(currYearEnd, 6, 31);
+		   var currYearEnd = d.getFullYear() + 1;		   
+		   if (currMonth == 8){
+			   var startDateDefault = new Date(currYear, 8, 1);
+			   var endDateDefault = new Date(currYearEnd, 6, 31);
+		   }
+		   else{
+			   var startDateDefault = new Date(currYear - 1, 8, 1);
+			   var endDateDefault = new Date(currYearEnd - 1, 6, 31);
+		   }
 		   var start_date = moment(startDateDefault).format("DD/MM/YYYY");
 		   var end_date = moment(endDateDefault).format("DD/MM/YYYY");   
 
