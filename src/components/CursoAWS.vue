@@ -292,30 +292,30 @@ export default {
 				this.graphData.push([i,((this.initData[i].total * 100/(this.referData[i].totalref)).toFixed(2))*1]);
 				totalref = 0
 			}
-				
+				console.log(this.graphData)
 				if (this.check == "option1"){
-					 this.graphData.splice(7,1)					
+					 this.graphData.splice(6,1)					
 				}
 				if (this.check == "option2"){
-					var removeValIndex = [3,6,7]
+					var removeValIndex = [5,6]
 					for (var i = removeValIndex.length -1; i >= 0; i--)
    						this.graphData.splice(removeValIndex[i],1);
 				}
 				if (this.check == "option3"){
-					var removeValIndex = [0,1,2,3,4,5,6,8]
+					var removeValIndex = [0,1,2,3,4,5,7]
 					for (var i = removeValIndex.length -1; i >= 0; i--)
    						this.graphData.splice(removeValIndex[i],1);
 				}
 				if (this.check == "option4"){
-					this.graphData.splice(7,1)
+					this.graphData.splice(6,1)
 				}
 				if (this.check == "option5"){
-					var removeValIndex = [0,1,2,3,4,5,6,8]
+					var removeValIndex = [0,1,2,3,4,5,7]
 					for (var i = removeValIndex.length -1; i >= 0; i--)   	
 						this.graphData.splice(removeValIndex[i],1);					
 				}
 				if (this.check == "option6"){
-					var removeValIndex = [3,6,7]
+					var removeValIndex = [5,6]
 					for (var i = removeValIndex.length -1; i >= 0; i--)   	
 						this.graphData.splice(removeValIndex[i],1);					
 				}
