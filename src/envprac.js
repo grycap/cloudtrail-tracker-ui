@@ -45,13 +45,13 @@ module.exports = {
             ModifyDBInstance: 2,
             RebootDBInstance: 1            
         },
-        PL_SDB: {
-            CreateDomain: 1,
-            PutAttributes: 2,
-            DeleteAttributes: 2,
-            DeleteDomain: 1
+        // PL_SDB: {
+        //     CreateDomain: 1,
+        //     PutAttributes: 2,
+        //     DeleteAttributes: 2,
+        //     DeleteDomain: 1
 
-        },
+        // },
         PL_APP: {            
             AddTagsToResource: 1,
             AllocateAddress: 1,
@@ -230,13 +230,13 @@ module.exports = {
             ModifyDBInstance: 2,
             RebootDBInstance: 1            
         },
-        PL_SDB: {
-            CreateDomain: 1,
-            PutAttributes: 2,
-            DeleteAttributes: 2,
-            DeleteDomain: 1
+        // PL_SDB: {
+        //     CreateDomain: 1,
+        //     PutAttributes: 2,
+        //     DeleteAttributes: 2,
+        //     DeleteDomain: 1
 
-        },
+        // },
         PL_APP: {            
             AddTagsToResource: 1,
             AllocateAddress: 1,
@@ -371,13 +371,13 @@ module.exports = {
             ModifyDBInstance: 0,
             RebootDBInstance: 0  
         },
-        PL_SDB: {
-            CreateDomain: 0,
-            PutAttributes: 0,
-            DeleteAttributes: 0,
-            DeleteDomain: 0
+        // PL_SDB: {
+        //     CreateDomain: 0,
+        //     PutAttributes: 0,
+        //     DeleteAttributes: 0,
+        //     DeleteDomain: 0
 
-        },
+        // },
         PL_APP: {            
             AddTagsToResource: 0,
             AllocateAddress: 0,
