@@ -330,8 +330,16 @@ export default {
            var currMonth = dmy.getMonth();
            var currYear = dmy.getFullYear();
            var currYearEnd = dmy.getFullYear() + 1;
-		   var start = new Date(currYear, 8, 1);
-		   var end = new Date(currYearEnd, 6, 31);
+		   
+		   if (currMonth == 8){
+			  var  start = new Date(currYear, 8, 1);
+			  var  end = new Date(currYearEnd, 6, 31);
+		   }
+		   else{
+			  var start = new Date(currYear - 1, 8, 1);
+			  var end = new Date(currYearEnd - 1, 6, 31);
+		   }
+		   
 		   this.start_date = moment(start).format("YYYY-MM-DD");
 		   this.end_date = moment(end).format("YYYY-MM-DD");    
 		 
