@@ -256,6 +256,8 @@ export default {
 			
 			if(this.check == "option4"){							
 				this.referData = envprac.REFERDATA1;
+			}else {
+				this.referData = envprac.REFERDATA;
 			}
 			
 			
@@ -287,43 +289,80 @@ export default {
 				
 				totalref = totalref + this.referData[i][j]				
 				}
-
+				
 				this.referData[i]["totalref"]=totalref	
 				this.graphData.push([i,((this.initData[i].total * 100/(this.referData[i].totalref)).toFixed(2))*1]);
 				totalref = 0
-			}
-				console.log(this.graphData)
+			}			
+				
 				if (this.check == "option1"){
-					 this.graphData.splice(6,1)					
+					//  this.graphData.splice(6,1)
+					 this.graphData = this.graphData.filter(function(obj){
+						return obj["0"]!=="PL_EMR"
+					})
+					 this.all_data = this.all_data.filter(function(obj){
+						return obj["0"]!=="PL_EMR"
+					})					
 				}
 				if (this.check == "option2"){
-					var removeValIndex = [5,6]
-					for (var i = removeValIndex.length -1; i >= 0; i--)
-   						this.graphData.splice(removeValIndex[i],1);
+					//var removeValIndex = [5,6]
+					// for (var i = removeValIndex.length -1; i >= 0; i--){
+					// 	   this.graphData.splice(removeValIndex[i],1);
+					// }
+					this.graphData = this.graphData.filter(function(obj){
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC"
+					})
+					this.all_data = this.all_data.filter(function(obj){
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC"
+					})
 				}
 				if (this.check == "option3"){
 					var removeValIndex = [0,1,2,3,4,5,7]
-					for (var i = removeValIndex.length -1; i >= 0; i--)
-   						this.graphData.splice(removeValIndex[i],1);
+					// for (var i = removeValIndex.length -1; i >= 0; i--){
+					// 	   this.graphData.splice(removeValIndex[i],1);
+					// }
+					this.graphData = this.graphData.filter(function(obj){
+						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_SERVERLESS" 						
+					})
+					this.all_data = this.all_data.filter(function(obj){
+						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_SERVERLESS" 
+					})
 				}
 				if (this.check == "option4"){
-					this.graphData.splice(6,1)
+					// this.graphData.splice(6,1)
+					this.graphData = this.graphData.filter(function(obj){
+						return obj["0"]!=="PL_EMR"
+					})
+					this.all_data = this.all_data.filter(function(obj){
+						return obj["0"]!=="PL_EMR"
+					})
 				}
 				if (this.check == "option5"){
-					var removeValIndex = [0,1,2,3,4,5,7]
-					for (var i = removeValIndex.length -1; i >= 0; i--)   	
-						this.graphData.splice(removeValIndex[i],1);					
+					// var removeValIndex = [0,1,2,3,4,5,7]
+					// for (var i = removeValIndex.length -1; i >= 0; i--) {  	
+					// 	this.graphData.splice(removeValIndex[i],1);		
+					// }
+					this.graphData = this.graphData.filter(function(obj){
+						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_SERVERLESS" 						
+					})
+					this.all_data = this.all_data.filter(function(obj){
+						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_SERVERLESS" 
+					})			
 				}
 				if (this.check == "option6"){
-					var removeValIndex = [5,6]
-					for (var i = removeValIndex.length -1; i >= 0; i--)   	
-						this.graphData.splice(removeValIndex[i],1);					
-				}
-				
-				// console.log(this.graphData)
+					// var removeValIndex = [5,6]
+					// for (var i = removeValIndex.length -1; i >= 0; i--)   {
+					// 	this.graphData.splice(removeValIndex[i],1);			
+					// }
+					this.graphData = this.graphData.filter(function(obj){
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC"
+					})
+					this.all_data = this.all_data.filter(function(obj){
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC"
+					})		
+				}									
 
-
-			if (this.graphData.length > 0) {
+			if (this.graphData.length > 0) {				
 				this.no_result = false;
 				// google.charts.load("current", { packages: ["corechart", "bar"] });
 				// google.charts.setOnLoadCallback(this.drawGraph);
@@ -542,8 +581,7 @@ export default {
 			
 			$("#myChart").click(function(e) {
 				 this.activeBars = myChart.getElementAtEvent(e); 				
-				var find = this.activeBars["0"]._model.label
-				console.log(find)
+				var find = this.activeBars["0"]._model.label				
 				$(".collapse").collapse('show');
 				$("#table-details").DataTable().search(find).draw();
 				
@@ -570,9 +608,7 @@ export default {
 		   }
 		   var start_date = moment(startDateDefault).format("DD/MM/YYYY");
 		   var end_date = moment(endDateDefault).format("DD/MM/YYYY"); 
-
-			console.log(start_date)
-			console.log(end_date)
+			
 
 		var _this = this;
 		var maxDate = moment().format("DD/MM/YYYY");
