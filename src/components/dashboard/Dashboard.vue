@@ -278,7 +278,9 @@ export default {
 			this.$nextTick(function() {
 				
 				$("#table-details").dataTable().fnClearTable();
-				$("#table-details").dataTable().fnAddData(_this.all_data);
+				if (_this.all_data.length != 0){			
+					$("#table-details").dataTable().fnAddData(_this.all_data);
+				}
 				$("#table-details").dataTable().fnDraw();	
 			});
 			

@@ -362,7 +362,7 @@ export default {
 					})		
 				}									
 
-			if (this.graphData.length > 0) {				
+			if (this.graphData.length > 0) {							
 				this.no_result = false;
 				// google.charts.load("current", { packages: ["corechart", "bar"] });
 				// google.charts.setOnLoadCallback(this.drawGraph);
@@ -370,7 +370,9 @@ export default {
 				var _this = this;
 				this.$nextTick(function() {
 				$("#table-details")	.dataTable().fnClearTable();
-				$("#table-details").dataTable().fnAddData(_this.all_data);
+				 if (_this.all_data.length != 0){				 
+					$("#table-details").dataTable().fnAddData(_this.all_data);
+				}
 				$("#table-details").dataTable().fnDraw();
 				// $('#table-details').dataTable().fn
 				});
@@ -633,7 +635,7 @@ export default {
 			responsive: true
 		} );
 		$("#table-details").DataTable({
-		data: _this.all_data,
+		data: _this.all_data,		
 		columns: [{ title: "#" }, { title: "Event" }, { title: "Number of missing events" }],
 		"columnDefs": [
         		{className: "dt-center", "targets": "_all"}
