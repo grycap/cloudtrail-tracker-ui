@@ -79,6 +79,7 @@
 import jwtDecode from "jwt-decode";
 import { AtomSpinner  } from 'epic-spinners'
 import { SemipolarSpinner  } from 'epic-spinners'
+import api from "../../api.js"
 import DashboardInfoWidgets from './DashboardInfoWidgets'
 
 export default {
@@ -117,8 +118,8 @@ export default {
   },
   created() {    		
 		
-		var _this = this;			
-		axios.get("https://api.cursocloudaws.net/tracker/services")
+		var _this = this;		
+		axios.get(api.url.general + "services")
 		.then(function(resp) {			
 			for (var i in resp.data) {
 				_this.all_services[resp.data[i]] = {
@@ -189,38 +190,38 @@ export default {
 					
 				}
 
-				axios.get("https://api.cursocloudaws.net/tracker/scan?from=" +this.start_date +"&to=" +this.end_date)
+				axios.get( api.url.general + "/scan?from=" +this.start_date +"&to=" +this.end_date)
 					.then(function(resp) {
 						_this.search(resp);
 					});
 
 				var generalInfo={};
-					axios.get("https://api.cursocloudaws.net/tracker/scan?from=" +this.start_date +"&to=" +this.end_date + "&count=True")					
+					axios.get(api.url.general+"scan?from=" +this.start_date +"&to=" +this.end_date + "&count=True")					
 					.then(function(resp) {						
 						// _this.search(resp);
 						_this.$eventHub.$emit("generalInfo",{'type': 'total', 'value': resp.data});
 					});
 					//Run Instances en una hora 
-					axios.get("https://api.cursocloudaws.net/tracker/scan?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=RunInstances&count=True")					
+					axios.get(api.url.general+"scan?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=RunInstances&count=True")					
 					.then(function(resp) {						
 						// _this.search(resp);
 						generalInfo["runInstances"]=resp.data;
 						_this.$eventHub.$emit("generalInfo",{'type': 'runInstances', 'value': resp.data})
 					});
 					//CreateDBInstace
-					axios.get("https://api.cursocloudaws.net/tracker/scan?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateDBInstance&count=True&begin_with=True")					
+					axios.get(api.url.general+"scan?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateDBInstance&count=True&begin_with=True")					
 					.then(function(resp) {						
 						// _this.search(resp);
 						generalInfo["createDBInstance"]=resp.data;
 						_this.$eventHub.$emit("generalInfo",{'type': 'createDBInstance', 'value': resp.data})
 					});
-					axios.get("https://api.cursocloudaws.net/tracker/scan?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateFunction&count=True&begin_with=True")					
+					axios.get(api.url.general+"scan?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateFunction&count=True&begin_with=True")					
 					.then(function(resp) {						
 						// _this.search(resp);
 						generalInfo["createFunction"]=resp.data;
 						_this.$eventHub.$emit("generalInfo",{'type': 'createFunction', 'value': resp.data})
 					});
-					axios.get("https://api.cursocloudaws.net/tracker/scan?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateLoadBalancer&count=True")					
+					axios.get(api.url.general+"scan?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateLoadBalancer&count=True")					
 					.then(function(resp) {	
 						generalInfo["createLoadBalancer"]=resp.data;						
 						_this.$eventHub.$emit("generalInfo",{'type': 'createLoadBalancer', 'value': resp.data})					
