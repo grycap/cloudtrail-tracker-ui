@@ -135,6 +135,7 @@
 import jwtDecode from "jwt-decode";
 import vSelect from "vue-select";
 import envprac from "../envprac.js";
+import api from "../api.js";
 import { install } from 'vuex';
 
 export default {
@@ -171,10 +172,11 @@ export default {
 			},
 			initData:[],	
 			referData:[],	
+			
 		};
 		
 	},
-	created() {
+	created() {				
 		var dmy = new Date();
 		   var currDay = dmy.getDay();
            var currMonth = dmy.getMonth();
@@ -206,7 +208,8 @@ export default {
 		//console.log(jwtToken)
 		});
 		var _this = this;
-		axios.get("https://api.cursocloudaws.net/tracker/users")
+		//console.log(api.url)
+		axios.get(api.url.general+ "/users")		
 		.then(function(resp) {
 			var session = JSON.parse(localStorage.getItem("session"))			
 			
@@ -405,12 +408,12 @@ export default {
 				this.processing = true;
 				var _this = this;
 				if (!this.show_dates) {
-				axios.get("https://api.cursocloudaws.net/tracker/users/" +	this.user_name)
+				axios.get(api.url.general  + "users/" + this.user_name)
 					.then(function(resp) {						
 					_this.search_callback(resp);
 					});
 				} else {
-				axios.get("https://api.cursocloudaws.net/tracker/users/" +	this.user_name +"?from=" +this.start_date +	"&to=" +this.end_date)
+				axios.get(api.url.general +	"users/" + this.user_name +"?from=" +this.start_date +	"&to=" +this.end_date)
 					.then(function(resp) {					
 					_this.all_services=[];			
 

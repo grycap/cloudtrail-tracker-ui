@@ -68,6 +68,7 @@
 <script>
 import jwtDecode from "jwt-decode";
 import vSelect from "vue-select";
+import api from "../api.js";
 import DashboardInfoWidgets from './dashboard/DashboardInfoWidgets'
 
 
@@ -157,26 +158,26 @@ export default {
 			var generalInfo={};
 					
 					//Run Instances en una hora 
-					axios.get("https://api.cursocloudaws.net/tracker/users/"+  this.user_name +"?from=" +this.start_date + "&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=RunInstances&count=True")					
+					axios.get(api.url.general+"users/"+  this.user_name +"?from=" +this.start_date + "&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=RunInstances&count=True")					
 					.then(function(resp) {						
 						// _this.search(resp);
 						generalInfo["runInstances"]=resp.data;
 						_this.$eventHub.$emit("generalInfo",{'type': 'runInstances', 'value': resp.data})
 					});
 					//CreateDBInstace
-					axios.get("https://api.cursocloudaws.net/tracker/users/"+ this.user_name + "?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateDBInstance&count=True&begin_with=True")					
+					axios.get(api.url.general+"users/"+ this.user_name + "?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateDBInstance&count=True&begin_with=True")					
 					.then(function(resp) {						
 						// _this.search(resp);
 						generalInfo["createDBInstance"]=resp.data;
 						_this.$eventHub.$emit("generalInfo",{'type': 'createDBInstance', 'value': resp.data})
 					});
-					axios.get("https://api.cursocloudaws.net/tracker/users/"+ this.user_name + "?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateFunction&count=True&begin_with=True")					
+					axios.get(api.url.general+"users/"+ this.user_name + "?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateFunction&count=True&begin_with=True")					
 					.then(function(resp) {						
 						// _this.search(resp);
 						generalInfo["createFunction"]=resp.data;						
 						_this.$eventHub.$emit("generalInfo",{'type': 'createFunction', 'value': resp.data})
 					});
-					axios.get("https://api.cursocloudaws.net/tracker/users/"+ this.user_name + "?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateLoadBalancer&count=True")					
+					axios.get(api.url.general+"users/"+ this.user_name + "?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateLoadBalancer&count=True")					
 					.then(function(resp) {	
 						generalInfo["createLoadBalancer"]=resp.data;
 						_this.$eventHub.$emit("generalInfo",{'type': 'createLoadBalancer', 'value': resp.data})					
@@ -184,12 +185,12 @@ export default {
 					
 
 			if (!this.show_dates) {
-			axios.get("https://api.cursocloudaws.net/tracker/users/" +	this.user_name)
+			axios.get(api.url.general+"users/" +	this.user_name)
 				.then(function(resp) {
 				_this.search_callback(resp);
 				});
 			} else {
-			axios.get("https://api.cursocloudaws.net/tracker/users/" +	this.user_name +"?from=" +this.start_date +	"&to=" +this.end_date)
+			axios.get(api.url.general+"users/" +	this.user_name +"?from=" +this.start_date +	"&to=" +this.end_date)
 				.then(function(resp) {
 				_this.search_callback(resp);
 				});			
@@ -356,7 +357,7 @@ export default {
 		
 		});
 		var _this = this;
-		axios.get("https://api.cursocloudaws.net/tracker/users")
+		axios.get(api.url.general+"users")
 		.then(function(resp) {			
 			var session = JSON.parse(localStorage.getItem("session"))			
 			
@@ -375,7 +376,7 @@ export default {
 			} 			
 			
 		});
-		axios.get("https://api.cursocloudaws.net/tracker/services")
+		axios.get(api.url.general+"services")
 		.then(function(resp) {
 			for (var i in resp.data) {
 			_this.all_services[resp.data[i]] = {
