@@ -199,7 +199,7 @@ export default {
 		
 		var _this = this;
 		//console.log(api.url)
-		axios.get(api.url.general+ "/users")		
+		axios.get(api.url.general+ "users")		
 		.then(function(resp) {
 			var session = JSON.parse(localStorage.getItem("session"))			
 			

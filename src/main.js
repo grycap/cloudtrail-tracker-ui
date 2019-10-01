@@ -23,7 +23,7 @@ window.Helpers = Helpers;
 window.axios.interceptors.request.use(function (config) {
   // Do something before request is sent
   const AUTH_TOKEN = document.getElementsByName("token")["0"].content;
-  // console.log(AUTH_TOKEN);
+  console.log(AUTH_TOKEN);
   if(AUTH_TOKEN){
       config.headers.common['Authorization'] = `Bearer ${AUTH_TOKEN}`
   }
@@ -31,6 +31,17 @@ window.axios.interceptors.request.use(function (config) {
 }, function (error) {
   // Do something with request error
   return Promise.reject(error);
+});
+var _this = this;
+window.axios.interceptors.response.use((response) => {
+  return response
+}, function (error) {
+  const originalRequest = error.config;
+  console.log(error)
+  console.log(error.response.status)
+  if (error.response = "The incoming token has expired"){
+    _this.$router.replace(_this.$route.query.redirect || "/logout");
+  }
 });
 
 Vue.use(VuesticPlugin)
