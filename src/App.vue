@@ -10,6 +10,7 @@
 	import AuthLayout from 'components/layout/AuthLayout'
 	import VuesticPreLoader from 'vuestic-components/vuestic-preloader/VuesticPreLoader.vue'
   import ChartJsPluginDataLabels from 'chartjs-plugin-datalabels';
+  import jwtDecode from "jwt-decode";
  	 export default {
     name: 'app',
     components: {
@@ -29,6 +30,17 @@
     	}
 	},
 	created() {
+    this.$cognitoAuth.getIdToken((err, jwtToken) => {
+		if (err) {
+			console.log("Dashboard: Couldn't get the session:", err, err.stack);
+			return;
+		}
+		this.token = jwtDecode(jwtToken);		
+		this.user = this.$cognitoAuth.getCurrentUser();
+		document.getElementsByName("token")["0"].content = jwtToken;
+		//console.log(jwtToken)
+		});
+
 		this.$cognitoAuth.isAuthenticated((err, loggedIn) => { 
 			if (err) {
 				console.err("App: Couldn't get the session:", err, err.stack);

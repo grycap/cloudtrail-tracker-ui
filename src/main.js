@@ -20,6 +20,19 @@ import VueResource from 'vue-resource'
 window.axios = require('axios')
 window.Helpers = Helpers;
 
+window.axios.interceptors.request.use(function (config) {
+  // Do something before request is sent
+  const AUTH_TOKEN = document.getElementsByName("token")["0"].content;
+  // console.log(AUTH_TOKEN);
+  if(AUTH_TOKEN){
+      config.headers.common['Authorization'] = `Bearer ${AUTH_TOKEN}`
+  }
+  return config;
+}, function (error) {
+  // Do something with request error
+  return Promise.reject(error);
+});
+
 Vue.use(VuesticPlugin)
 Vue.use(YmapPlugin)
 

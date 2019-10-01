@@ -196,17 +196,7 @@ export default {
 		   this.start_date = moment(start).format("YYYY-MM-DD");
 		   this.end_date = moment(end).format("YYYY-MM-DD"); 
 		   
-		this.$cognitoAuth.getIdToken((err, jwtToken) => {
-		if (err) {
-			console.log("Dashboard: Couldn't get the session:", err, err.stack);
-			return;
-		}
-		this.token = jwtDecode(jwtToken);
 		
-		this.user = this.$cognitoAuth.getCurrentUser();
-		document.getElementsByName("token")["0"].content = jwtToken;
-		//console.log(jwtToken)
-		});
 		var _this = this;
 		//console.log(api.url)
 		axios.get(api.url.general+ "/users")		
