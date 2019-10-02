@@ -30,18 +30,7 @@
     	}
 	},
 	created() {
-    this.$cognitoAuth.getIdToken((err, jwtToken) => {
-		if (err) {
-			console.log("Dashboard: Couldn't get the session:", err, err.stack);
-			return;
-		}
-		this.token = jwtDecode(jwtToken);		
-		this.user = this.$cognitoAuth.getCurrentUser();
-		document.getElementsByName("token")["0"].content = jwtToken;
-		//console.log(jwtToken)
-		});
-
-		this.$cognitoAuth.isAuthenticated((err, loggedIn) => { 
+    this.$cognitoAuth.isAuthenticated((err, loggedIn) => { 
 			if (err) {
 				console.err("App: Couldn't get the session:", err, err.stack);
 				return;
