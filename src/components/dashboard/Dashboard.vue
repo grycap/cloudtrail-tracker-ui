@@ -190,7 +190,7 @@ export default {
 					
 				}
 
-				axios.get( api.url.general + "/scan?from=" +this.start_date +"&to=" +this.end_date)
+				axios.get( api.url.general + "scan?from=" +this.start_date +"&to=" +this.end_date)
 					.then(function(resp) {
 						_this.search(resp);
 					});

@@ -20,6 +20,29 @@ import VueResource from 'vue-resource'
 window.axios = require('axios')
 window.Helpers = Helpers;
 
+window.axios.interceptors.request.use(function (config) {
+  // Do something before request is sent
+  const AUTH_TOKEN = document.getElementsByName("token")["0"].content;  
+  if(AUTH_TOKEN){
+      config.headers.common['Authorization'] = `Bearer ${AUTH_TOKEN}`
+  }
+  return config;
+}, function (error) {
+  // Do something with request error
+  return Promise.reject(error);
+});
+
+
+var _this = this;
+window.axios.interceptors.response.use((response) => {
+  return response
+}, function (error) {  
+  // console.log(error)
+  console.log("Entro")
+  alert("Your Session has expired");
+  router.replace("/logout");    
+});
+
 Vue.use(VuesticPlugin)
 Vue.use(YmapPlugin)
 
