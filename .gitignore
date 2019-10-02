@@ -1,6 +1,4 @@
+dist
 node_modules
-dist
-src/env.js
-dist
 package-lock.json
-
+src/env.js
