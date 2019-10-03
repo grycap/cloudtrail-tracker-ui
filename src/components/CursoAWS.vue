@@ -216,6 +216,12 @@ export default {
 				}
 				_this.user_name = _this.all_users[0]
 			} 
+		}).catch(function (error) {
+			if (error.response.status == 401){
+				_this.$router.replace(_this.$route.query.redirect || "/logout");
+				alert("Your Session has expired ");
+			}
+			
 		});	
 		this.initData = envprac.INITDATA;
 		this.referData = envprac.REFERDATA;
