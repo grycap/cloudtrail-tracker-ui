@@ -1,6 +1,6 @@
 // Polyfills
 import 'es6-promise/auto'
-import 'babel-polyfill'
+// import 'babel-polyfill'
 
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
@@ -20,6 +20,8 @@ import VueResource from 'vue-resource'
 window.axios = require('axios')
 window.Helpers = Helpers;
 
+
+
 window.axios.interceptors.request.use(function (config) {
   // Do something before request is sent
   const AUTH_TOKEN = document.getElementsByName("token")["0"].content;  
@@ -29,19 +31,9 @@ window.axios.interceptors.request.use(function (config) {
   return config;
 }, function (error) {
   // Do something with request error
-  return Promise.reject(error);
+  return Promise.reject(error.response);
 });
 
-
-var _this = this;
-window.axios.interceptors.response.use((response) => {
-  return response
-}, function (error) {  
-  // console.log(error)
-  console.log("Entro")
-  alert("Your Session has expired");
-  router.replace("/logout");    
-});
 
 Vue.use(VuesticPlugin)
 Vue.use(YmapPlugin)
