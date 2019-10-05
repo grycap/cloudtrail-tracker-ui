@@ -2,7 +2,7 @@
 
 module.exports = {
     url: {
-        general: "https://api.cursocloudaws.net/tracker/",        
+        general: "https://api00.alu.cursocloudaws.net/tracker/",        
     } 
 }
 
