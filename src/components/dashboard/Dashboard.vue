@@ -96,7 +96,7 @@ export default {
 		all_data: [],
 		all_data_user: [],
 		max: 0,
-		simpleSelectModel:"last hour",
+		simpleSelectModel:"example period",
 		all_services: [],
 		start_date: "",
 		end_date: "",
@@ -108,7 +108,8 @@ export default {
 		table: "",	
 		loading: true,		
 		simpleOptions : [
-			'last hour',
+			"example period",
+			"last hour",
 			"last six hours",			
 			"last day",
 			"last week",
@@ -150,7 +151,13 @@ export default {
 			this.no_result=false;
 			this.showSpinner = true;
 			var _this = this;
-			if(this.simpleSelectModel=="last hour"){
+			var fixedDateForDemoPurposes = "2019-03-15";
+			if(this.simpleSelectModel=="example period"){
+					this.end_date = moment(fixedDateForDemoPurposes).format("YYYY-MM-DD");
+					this.start_date = moment(fixedDateForDemoPurposes).add(-15, "day");
+					this.start_date = this.start_date.format("YYYY-MM-DD");										
+				}	
+			    else if(this.simpleSelectModel=="last hour"){
 				this.end_date = moment().add(-2, "hour");	 
 				this.end_date = this.end_date.format("YYYY-MM-DDTHH:mm:ss[Z]");
 				this.start_date = moment().add(-3, "hour");
