@@ -5,9 +5,3 @@ module.exports = {
         general: "https://api00.alu.cursocloudaws.net/tracker/",        
     } 
 }
-
-
-
-
-
-
