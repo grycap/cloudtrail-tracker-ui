@@ -1,9 +1,9 @@
 module.exports = { 
     COGNITO:{
         region:'us-east-1',
-        ClientId:'xxxxx',
+        ClientId:'CLIENT-ID',
         IdentityPoolId:'us-east-1:xxxxxxxx',
-        UserPoolId:'xxxxxxxx',
+        UserPoolId:'USER-POOL-ID',
     },
 }
    
