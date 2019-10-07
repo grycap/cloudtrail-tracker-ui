@@ -83,6 +83,15 @@
 							v-model="check"						
 							/>										
 					</fieldset>
+					<fieldset style="padding-right:20px;">	
+						<vuestic-radio-button
+							:label="'GII-LPP'"
+							id="radio7"
+							value="option7"
+							:name="'radio'"	
+							v-model="check"						
+							/>										
+					</fieldset>
 																		
 				</div>
 				
@@ -358,6 +367,15 @@ export default {
 					})
 					this.all_data = this.all_data.filter(function(obj){
 						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC"
+					})		
+				}
+				if (this.check == "option7"){
+					
+					this.graphData = this.graphData.filter(function(obj){
+						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_SERVERLESS"  && obj["0"]!=="PL_EMR"					
+					})
+					this.all_data = this.all_data.filter(function(obj){
+						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_SERVERLESS"  && obj["0"]!=="PL_EMR"					
 					})		
 				}									
 
