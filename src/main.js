@@ -24,7 +24,9 @@ window.Helpers = Helpers;
 
 window.axios.interceptors.request.use(function (config) {
   // Do something before request is sent
-  const AUTH_TOKEN = document.getElementsByName("token")["0"].content;  
+  // const AUTH_TOKEN = document.getElementsByName("token")["0"].content;
+  var session = JSON.parse(localStorage.getItem("session"))  
+  const AUTH_TOKEN = session.user.token   
   if(AUTH_TOKEN){
       config.headers.common['Authorization'] = `Bearer ${AUTH_TOKEN}`
   }
