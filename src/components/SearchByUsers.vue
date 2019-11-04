@@ -334,7 +334,7 @@ export default {
            var currYear = dmy.getFullYear();
            var currYearEnd = dmy.getFullYear() + 1;
 		   
-		   if (currMonth == 8){
+		   if (currMonth >= 8){
 			  var  start = new Date(currYear, 8, 1);
 			  var  end = new Date(currYearEnd, 6, 31);
 		   }
@@ -389,7 +389,8 @@ export default {
            var currMonth = d.getMonth();
            var currYear = d.getFullYear();
 		   var currYearEnd = d.getFullYear() + 1;
-		   if (currMonth == 8){
+
+		   if (currMonth >= 8){
 			   var startDateDefault = new Date(currYear, 8, 1);
 			   var endDateDefault = new Date(currYearEnd, 6, 31);
 		   }
@@ -414,11 +415,7 @@ export default {
 			}
 			// autoApply: true
 		},
-		function(start, end, label) {			
-			_this.start_date = start.format("YYYY-MM-DD");
-			_this.end_date = end.format("YYYY-MM-DD");
 		
-		}
 		);
 		
 		$.extend( $.fn.dataTable.defaults, {

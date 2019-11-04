@@ -50,6 +50,7 @@ export default {
 		error: false,
 		error_message_text: "",
 		processing: false,
+		token_auth: "",
 		passwordFieldType: 'password',		
 		mistake: {
 				username: false,
@@ -86,21 +87,22 @@ export default {
 					this.error_message_text = err.message;
 					} else {
 					$(".users-dropdown").text(this.username);
-					localStorage.setItem("session",JSON.stringify({ user: { username: this.username } }));
 					this.$cognitoAuth.getIdToken((err, jwtToken) => {
 						if (err) {
-						console.log(
-							"Dashboard: Couldn't get the session:",
+							console.log(
+								"Dashboard: Couldn't get the session:",
 							err,
 							err.stack
 						);
 						return;
 						}
 						this.token = jwtDecode(jwtToken);
-						this.token2 = jwtToken;
+						this.token_auth = jwtToken;
 						this.user = this.$cognitoAuth.getCurrentUser();
 						document.getElementsByName("token")["0"].content = jwtToken;
+						
 					});
+					localStorage.setItem("session",JSON.stringify({ user: { username: this.username, token: this.token_auth } }));
 					this.$router.replace(this.$route.query.redirect || "/dashboard");
 					}
 				});
