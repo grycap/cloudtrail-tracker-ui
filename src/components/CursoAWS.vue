@@ -262,7 +262,7 @@ export default {
 			}
 			
 			
-			if(this.check == "option4"){							
+			if(this.check == "option4"){						// Opcion 4 VPC after PL_EC2_S3
 				this.referData = envprac.REFERDATA1;
 			}else {
 				this.referData = envprac.REFERDATA;
@@ -318,10 +318,10 @@ export default {
 					// 	   this.graphData.splice(removeValIndex[i],1);
 					// }
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC"
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC"
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 				}
 				if (this.check == "option3"){
@@ -330,19 +330,19 @@ export default {
 					// 	   this.graphData.splice(removeValIndex[i],1);
 					// }
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_SERVERLESS" 						
+						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP" 						
 					})
 					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_SERVERLESS" 
+						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 				}
 				if (this.check == "option4"){
 					// this.graphData.splice(6,1)
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EMR"
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EMR"
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 				}
 				if (this.check == "option5"){
@@ -351,10 +351,10 @@ export default {
 					// 	this.graphData.splice(removeValIndex[i],1);		
 					// }
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_SERVERLESS" 						
+						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP" 						
 					})
 					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_SERVERLESS" 
+						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
 					})			
 				}
 				if (this.check == "option6"){
@@ -363,19 +363,19 @@ export default {
 					// 	this.graphData.splice(removeValIndex[i],1);			
 					// }
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC"
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC"
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
 					})		
 				}
 				if (this.check == "option7"){
 					
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_SERVERLESS"  && obj["0"]!=="PL_EMR"					
+						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"					
 					})
 					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_SERVERLESS"  && obj["0"]!=="PL_EMR"					
+						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"					
 					})		
 				}									
 
