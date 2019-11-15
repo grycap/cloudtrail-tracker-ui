@@ -113,6 +113,13 @@
 					<canvas id="myChart"></canvas>
 				</div>
 			</div>
+
+			<!-- <download-excel
+				:data  = "res"
+				:fields = "json_fields">			
+				Download Data				
+			</download-excel> -->
+			
 		
 			<div v-show="graphData.length > 0" class="row" style="margin-bottom:40px;">
 				<div id="accordion-dashboard" class="col-md-12">
@@ -146,14 +153,29 @@ import vSelect from "vue-select";
 import envprac from "../envprac.js";
 import api from "../api.js";
 import { install } from 'vuex';
+import JsonExcel from 'vue-json-excel';
 
 export default {
 	name: "dashboard",
 	components: {
-		"v-select": vSelect,		
+		"v-select": vSelect,
+		'downloadExcel': JsonExcel,		
 	},
 	data() {
 		return {
+			json_fields: {
+				'alucloud': 'user',
+				'PL_EC2': 'ec2',
+				'PL_EC2_S3': 's3',
+				'PL_RDS': 'rds',
+				'PL_APP': 'app',
+				'PL_CF': 'cf',
+				'PL_VPC': 'vpc',
+				'PL_LAMBDA_SQS': 'sr',
+			},
+			json_data: [],
+			graphData2: [],
+
 			token: "Loading token..",
 			user: {},
 			name1: "Hello",
@@ -181,7 +203,7 @@ export default {
 			},
 			initData:[],	
 			referData:[],	
-			
+			res : []
 		};
 		
 	},
@@ -436,7 +458,107 @@ export default {
 				}
 			} 
 			
+		// 	console.log(this.start_date)
+		// 	console.log(this.end_date)
+		// 	// console.log(this.all_users)
+		// 	var all_users2 = this.all_users
+		// 	all_users2 = all_users2.filter(function(item){
+		// 		return item.indexOf("alucloud") == 0;
+		// 	})
+		// 	console.log(all_users2)
+		// 	this.res = [];
+		// 	//all_users2 = ["alucloud131"]
+		// 	console.log(all_users2.length)
+		// 	for (let z = 0; z < all_users2.length; z++) {
+				
+				
+		// 	// }
+		// 	// for (var z in all_users2){				
 			
+		// axios.get("https://api.cursocloudaws.net/tracker/users/" +	all_users2[z] +"?from=2018-09-01&to=2019-07-31")
+		// 	.then(function(resp) {					
+		// 	// _this.search_callback_dos(resp,all_users2[i]);			
+		// 	_this.all_data = [];			
+		// 	_this.all_services=[];
+			
+		// 	// this.user_search = this.user_name;			
+		// 	for (var i in resp.data) {		
+				
+		// 		var event_data= resp.data[i].eventName
+		// 		if( typeof _this.all_services[event_data] == 'undefined'){
+		// 			_this.all_services[event_data] = 1;					
+		// 		}else{
+		// 			_this.all_services[resp.data[i].eventName] = _this.all_services[resp.data[i].eventName] + 1
+		// 		}							
+		// 	}		
+			
+			
+		// 	var totalref=0
+		// 	for(var i in _this.referData){
+		// 		_this.initData[i]["total"]=0	
+		// 		_this.referData[i]["totalref"]=0	
+								
+		// 		for(var j in _this.referData[i]){					
+		// 			if(typeof _this.all_services[j] != 'undefined' && _this.all_services[j] > 0){						
+		// 				if(_this.all_services[j] >= _this.referData[i][j]){
+		// 					var value = _this.referData[i][j]
+		// 					_this.initData[i][j] = value;
+		// 					_this.all_services[j] = _this.all_services[j] - _this.referData[i][j];
+		// 				}else{
+		// 					_this.initData[i][j] = _this.all_services[j];
+		// 					if(j != "totalref"){							
+		// 						_this.all_data.push([i,j,_this.referData[i][j]-_this.all_services[j]]);
+		// 					}
+		// 					_this.all_services[j] = 0;
+		// 				}
+		// 				_this.initData[i].total = _this.initData[i].total + _this.initData[i][j]
+		// 			}else{
+		// 				if(j != "totalref"){
+		// 					_this.all_data.push([i,j,_this.referData[i][j]]);
+
+		// 				}
+		// 			}
+				
+		// 		totalref = totalref + _this.referData[i][j]				
+		// 		}
+				
+		// 		_this.referData[i]["totalref"]=totalref	
+		// 		_this.graphData2.push([i,((_this.initData[i].total * 100/(_this.referData[i].totalref)).toFixed(2))*1]);
+		// 		totalref = 0
+		// 	}		
+		// 	  //console.log(all_users2[z])	
+		// 	  //console.log(_this.graphData2)
+			
+		// 	_this.json_data.push([all_users2[z],_this.graphData2])
+		// 	_this.graphData2 = []	
+
+		// 	//console.log(_this.json_data) //este es el arreglo donde esta todo la información
+			
+		// 	for(var k in _this.json_data){
+				
+		// 		//for(var m in _this.json_data[k][1]){
+		// 			//console.log(_this.json_data[k][1][m][1]);
+		// 			_this.res[k] = {
+		// 				'user': _this.json_data[k][0],
+		// 				'ec2' : _this.json_data[k][1][0][1],
+		// 				's3' : _this.json_data[k][1][1][1],
+		// 				'rds' : _this.json_data[k][1][2][1],
+		// 				'app' : _this.json_data[k][1][3][1],
+		// 				'cf' : _this.json_data[k][1][4][1],
+		// 				'vpc' : _this.json_data[k][1][5][1],
+		// 				'emr' : _this.json_data[k][1][6][1],
+		// 				'sr' : _this.json_data[k][1][7][1]
+		// 			}
+		// 		//}
+		// 	}
+			
+			
+		// });
+		// 	}
+			
+			
+		// 	console.log(this.res);
+		// 	console.log(this.res.length);	
 		
 			
 		},
@@ -642,6 +764,10 @@ export default {
 			}
 			// autoApply: true
 		},
+		function(start, end, label) {
+			_this.start_date = start.format("YYYY-MM-DD");
+			_this.end_date = end.format("YYYY-MM-DD");
+		}
 		);
 		
 		$.extend( $.fn.dataTable.defaults, {

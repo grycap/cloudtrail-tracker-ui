@@ -415,6 +415,10 @@ export default {
 			}
 			// autoApply: true
 		},
+		function(start, end, label) {
+			_this.start_date = start.format("YYYY-MM-DD");
+			_this.end_date = end.format("YYYY-MM-DD");
+		}
 		
 		);
 		
