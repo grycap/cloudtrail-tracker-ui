@@ -152,9 +152,9 @@ export default {
 			var _this = this;
 			if(this.simpleSelectModel=="last hour"){
 				this.end_date = moment().add(-2, "hour");	 
-				this.end_date = this.end_date.format("YYYY-MM-DDTHH:mm:ss");
+				this.end_date = this.end_date.format("YYYY-MM-DDTHH:mm:ss[Z]");
 				this.start_date = moment().add(-3, "hour");
-				this.start_date = this.start_date.format("YYYY-MM-DDTHH:mm:ss");
+				this.start_date = this.start_date.format("YYYY-MM-DDTHH:mm:ss[Z]");
 					// axios.get("https://api.cursocloudaws.net/tracker/scan?from=" +this.start_date +"&to=" +this.end_date)
 					// // axios.get("https://api.cursocloudaws.net/tracker/scan?from=2018-06-24T19:00:44&to=2018-06-24T19:30:44")
 					// .then(function(resp) {						
@@ -164,9 +164,9 @@ export default {
 
 				}else if(this.simpleSelectModel=="last six hours"){
 				this.end_date = moment().add(-2, "hour");	 
-				this.end_date = this.end_date.format("YYYY-MM-DDTHH:mm:ss");
+				this.end_date = this.end_date.format("YYYY-MM-DDTHH:mm:ss[Z]");
 				this.start_date = moment().add(-10, "hour");
-				this.start_date = this.start_date.format("YYYY-MM-DDTHH:mm:ss");
+				this.start_date = this.start_date.format("YYYY-MM-DDTHH:mm:ss[Z]");
 					// axios.get("https://api.cursocloudaws.net/tracker/scan?from=" +this.start_date +"&to=" +this.end_date)
 					// .then(function(resp) {
 						
