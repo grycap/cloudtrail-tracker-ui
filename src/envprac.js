@@ -45,6 +45,13 @@ module.exports = {
             ModifyDBInstance: 2,
             RebootDBInstance: 1            
         },
+        PL_DYNAMODB :{
+            PutMetricAlarm: 2,
+            CreateTopic: 1,
+            CreateTable: 2,
+            DeleteTable: 2,
+            DeleteAlarms: 1
+        },
         // PL_SDB: {
         //     CreateDomain: 1,
         //     PutAttributes: 2,
@@ -281,6 +288,13 @@ module.exports = {
             ModifyDBInstance: 2,
             RebootDBInstance: 1            
         },
+        PL_DYNAMODB :{
+            PutMetricAlarm: 2,
+            CreateTopic: 1,
+            CreateTable: 2,
+            DeleteTable: 2,
+            DeleteAlarms: 1
+        },
         // PL_SDB: {
         //     CreateDomain: 1,
         //     PutAttributes: 2,
@@ -472,6 +486,13 @@ module.exports = {
             DeleteDBInstance: 0,
             ModifyDBInstance: 0,
             RebootDBInstance: 0  
+        },
+        PL_DYNAMODB :{
+            PutMetricAlarm: 0,
+            CreateTopic: 0,
+            CreateTable: 0,
+            DeleteTable: 0,
+            DeleteAlarms: 0
         },
         // PL_SDB: {
         //     CreateDomain: 0,
