@@ -37,7 +37,6 @@ module.exports = {
             TerminateInstances: 4,
         },
         PL_RDS: {            
-            AddTagsToResource: 1,
             ChangeResourceRecordSets: 2,
             CreateDBInstance: 1,
             CreateDBInstanceReadReplica: 1,
@@ -279,8 +278,7 @@ module.exports = {
             RunInstances: 3,
             TerminateInstances: 1
         },
-        PL_RDS: {            
-            AddTagsToResource: 1,
+        PL_RDS: {                        
             ChangeResourceRecordSets: 2,
             CreateDBInstance: 1,
             CreateDBInstanceReadReplica: 1,
@@ -478,8 +476,7 @@ module.exports = {
             RunInstances: 0,
             TerminateInstances: 0,
         },
-        PL_RDS: {            
-            AddTagsToResource: 0,
+        PL_RDS: {                        
             ChangeResourceRecordSets: 0,
             CreateDBInstance: 0,
             CreateDBInstanceReadReplica: 0,
