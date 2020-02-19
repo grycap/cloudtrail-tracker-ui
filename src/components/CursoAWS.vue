@@ -205,8 +205,7 @@ export default {
 	},
 	created() {	  
 		   	
-		var _this = this;	
-		
+		var _this = this;			
 		axios.get(api.url.general+ "users")		
 		.then(function(resp) {
 			var session = JSON.parse(localStorage.getItem("session"))			
@@ -239,7 +238,31 @@ export default {
 	watch: {
 		"check"(val){
 			if(val != "" ){
-				this.search(true)
+				var dmy = new Date();
+				var currDay = dmy.getDay();
+				var currMonth = dmy.getMonth();
+				var currYear = dmy.getFullYear();
+				var currYearEnd = dmy.getFullYear() + 1;								
+				
+				if (this.check == "option6"){						
+					this.start = new Date(currYear, 1, 1)
+					this.end = new Date (currYear,3,30 )
+										
+				}else {
+				   if (currMonth >= 8){
+					this.start = new Date(this.currYear, 8, 1);
+					this.end = new Date(currYearEnd, 6, 31);
+					}
+					else{
+						this.start = new Date(currYear - 1, 8, 1);
+						this.end = new Date(currYearEnd - 1, 6, 31);
+					}	
+				}		
+				this.start_date = moment(this.start).format("YYYY-MM-DD");
+				this.end_date = moment(this.end).format("YYYY-MM-DD");
+				$('#date-range').data('daterangepicker').setStartDate(moment(this.start).format("DD/MM/YYYY"));
+				$('#date-range').data('daterangepicker').setEndDate(moment(this.end).format("DD/MM/YYYY"));
+				this.search()
 			}
 		}		
 	},
@@ -376,7 +399,7 @@ export default {
 			}
 			this.processing = false;
 		},
-		search(default_date = false) {			
+		search() {			
 			$(".collapse").collapse('hide');
 			this.graphData = [];
 			
@@ -390,7 +413,7 @@ export default {
 			}
 			
 			if (this.user_name == "" || this.user_name == null) {
-				this.errors.username = true;
+				this.errors.username = true;				
 			}else {
 				this.errors.username = false;
 			}
@@ -404,40 +427,13 @@ export default {
 					.then(function(resp) {						
 					_this.search_callback(resp);
 					});
-				} else {
-					if (default_date){
-					var dmy = new Date();
-					var currDay = dmy.getDay();
-					var currMonth = dmy.getMonth();
-					var currYear = dmy.getFullYear();
-					var currYearEnd = dmy.getFullYear() + 1;								
-					
-					if (this.check == "option6"){						
-						this.start = new Date(currYear, 1, 1)
-						this.end = new Date (currYear,3,30 )
-											
-				   }else {
-					   if (currMonth >= 8){
-						this.start = new Date(this.currYear, 8, 1);
-						this.end = new Date(currYearEnd, 6, 31);
-						}
-						else{
-							this.start = new Date(currYear - 1, 8, 1);
-							this.end = new Date(currYearEnd - 1, 6, 31);
-						}	
-				   	}		
-					this.start_date = moment(this.start).format("YYYY-MM-DD");
-					this.end_date = moment(this.end).format("YYYY-MM-DD");
-										
-					$('#date-range').data('daterangepicker').setStartDate(moment(this.start).format("DD/MM/YYYY"));
-					$('#date-range').data('daterangepicker').setEndDate(moment(this.end).format("DD/MM/YYYY"));
-				}  
+				} else {									
 				   
-				axios.get(api.url.general +	"users/" + this.user_name +"?from=" +this.start_date +	"&to=" +this.end_date)
-					.then(function(resp) {					
-					_this.all_services=[];			
+					axios.get(api.url.general +	"users/" + this.user_name +"?from=" +this.start_date +	"&to=" +this.end_date)
+						.then(function(resp) {					
+						_this.all_services=[];			
 
-					_this.search_callback(resp);
+						_this.search_callback(resp);
 					});
 				}
 			}			
