@@ -134,7 +134,7 @@ export default {
 		}).catch(function (error) {
 			if (error.response.status == 401){
 				_this.$router.replace(_this.$route.query.redirect || "/logout");
-				alert("Your Session has expired ");
+				console.log("Your Session has expired ");
 			}
 			
 		});	
@@ -154,40 +154,24 @@ export default {
 				this.end_date = moment().add(-2, "hour");	 
 				this.end_date = this.end_date.format("YYYY-MM-DDTHH:mm:ss[Z]");
 				this.start_date = moment().add(-3, "hour");
-				this.start_date = this.start_date.format("YYYY-MM-DDTHH:mm:ss[Z]");
-					// axios.get("https://api.cursocloudaws.net/tracker/scan?from=" +this.start_date +"&to=" +this.end_date)
-					// // axios.get("https://api.cursocloudaws.net/tracker/scan?from=2018-06-24T19:00:44&to=2018-06-24T19:30:44")
-					// .then(function(resp) {						
-					// 	_this.search(resp);
-					// });
-					//Total en una hora 					
+				this.start_date = this.start_date.format("YYYY-MM-DDTHH:mm:ss[Z]");									
 
 				}else if(this.simpleSelectModel=="last six hours"){
 				this.end_date = moment().add(-2, "hour");	 
 				this.end_date = this.end_date.format("YYYY-MM-DDTHH:mm:ss[Z]");
 				this.start_date = moment().add(-10, "hour");
 				this.start_date = this.start_date.format("YYYY-MM-DDTHH:mm:ss[Z]");
-					// axios.get("https://api.cursocloudaws.net/tracker/scan?from=" +this.start_date +"&to=" +this.end_date)
-					// .then(function(resp) {
-						
-					// 	_this.search(resp);
-					// });
+					
 				}else if(this.simpleSelectModel=="last day"){
 					this.end_date = moment().format("YYYY-MM-DD");
 					this.start_date = moment().add(-1, "day");
 					this.start_date = this.start_date.format("YYYY-MM-DD");
-					// axios.get("https://api.cursocloudaws.net/tracker/scan?from=" +this.start_date +"&to=" +this.end_date)
-					// .then(function(resp) {						
-					// 	_this.search(resp);
-					// });
+					
 				}else if(this.simpleSelectModel=="last week"){
 					this.end_date = moment().format("YYYY-MM-DD");
 					this.start_date = moment().add(-7, "day");
 					this.start_date = this.start_date.format("YYYY-MM-DD");
-					// axios.get("https://api.cursocloudaws.net/tracker/scan?from=" +this.start_date +"&to=" +this.end_date)
-					// .then(function(resp) {
-					// 	_this.search(resp);
-					// });
+					
 				}else if(this.simpleSelectModel=="last fifteen days"){
 					this.end_date = moment().format("YYYY-MM-DD");
 					this.start_date = moment().add(-15, "day");
@@ -203,27 +187,23 @@ export default {
 
 				var generalInfo={};
 					axios.get(api.url.general+"scan?from=" +this.start_date +"&to=" +this.end_date + "&count=True")					
-					.then(function(resp) {						
-						// _this.search(resp);
+					.then(function(resp) {					
 						_this.$eventHub.$emit("generalInfo",{'type': 'total', 'value': resp.data});
 					});
 					//Run Instances en una hora 
 					axios.get(api.url.general+"scan?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=RunInstances&count=True")					
-					.then(function(resp) {						
-						// _this.search(resp);
+					.then(function(resp) {					
 						generalInfo["runInstances"]=resp.data;
 						_this.$eventHub.$emit("generalInfo",{'type': 'runInstances', 'value': resp.data})
 					});
 					//CreateDBInstace
 					axios.get(api.url.general+"scan?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateDBInstance&count=True&begin_with=True")					
 					.then(function(resp) {						
-						// _this.search(resp);
 						generalInfo["createDBInstance"]=resp.data;
 						_this.$eventHub.$emit("generalInfo",{'type': 'createDBInstance', 'value': resp.data})
 					});
 					axios.get(api.url.general+"scan?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateFunction&count=True&begin_with=True")					
-					.then(function(resp) {						
-						// _this.search(resp);
+					.then(function(resp) {					
 						generalInfo["createFunction"]=resp.data;
 						_this.$eventHub.$emit("generalInfo",{'type': 'createFunction', 'value': resp.data})
 					});
@@ -251,7 +231,7 @@ export default {
 					count: 0
 				};					
 		}
-		// console.log(this.all_data_user)
+		
 		for (var i in this.all_services) {
 			this.all_services[i].count = 0;
 		}
@@ -277,8 +257,7 @@ export default {
 		}
 		
 		if (this.graphData.length > 0 && this.graphData_result.length > 0) {
-			this.no_result = false;		
-			// this.showSpinner = true;		
+			this.no_result = false;					
 			this.drawGraph();
 			this.drawGraph_result();
 			var _this = this;
@@ -297,9 +276,7 @@ export default {
 		this.processing = false;
 		this.loading=false;		
 		this.showSpinner = false;
-		// setTimeout(function () {
-		// 		this.loading = false;
-		// },50);
+		
 		
 		},
 		drawGraph() {
@@ -312,8 +289,7 @@ export default {
 			}	
 			
 			$("#canva").append('<canvas id="myChart"></canvas>');
-			// console.log(this.graphData.length)
-			
+						
 			var ctx = $("#myChart");
 			var myChart = new Chart(ctx, {
 				type: "bar",
@@ -339,8 +315,7 @@ export default {
 						display: false
 					},
 					plugins: {
-						datalabels: {
-							// display : false,
+						datalabels: {							
 							display: function(){
 								
 								if ($('#canva').width() < 300){
@@ -378,8 +353,7 @@ export default {
 								display: true,
 								labelString: "# times",
 								fontColor: "#000",
-								fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-								// fontSize: 16
+								fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",								
 							},
 							callback: function(value) {
 								if (Number.isInteger(value)) {
@@ -407,8 +381,7 @@ export default {
 								display: true,
 								labelString: "Services",
 								fontColor: "#000",
-								fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-								// fontSize: 16
+								fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",								
 							},
 							ticks: {
 								callback: function(value, index, values) {									
@@ -417,8 +390,7 @@ export default {
 									}else {
 										return value
 									}
-                    			},
-								//display: true,
+                    			},								
 								autoSkip: false,							
 								fontColor: "#000"
 							},
@@ -508,8 +480,7 @@ export default {
 								display: true,
 								labelString: "# times",
 								fontColor: "#000",
-								fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-								// fontSize: 16
+								fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",								
 							},
 							callback: function(value) {
 								if (Number.isInteger(value)) {
@@ -537,8 +508,7 @@ export default {
 								display: true,
 								labelString: "Users",
 								fontColor: "#000",
-								fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-								// fontSize: 16
+								fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",								
 							},
 							ticks: {
 								callback: function(value, index, values) {									
@@ -568,8 +538,7 @@ export default {
  mounted() {
 	 
 		var _this = this;
-
-		// $("#table-details").DataTable().responsive.recalc();
+		
 		$.extend( $.fn.dataTable.defaults, {
 			responsive: true
 		} );
@@ -586,26 +555,12 @@ export default {
 
 		$('#accordion-dashboard').on('shown.bs.collapse', function(){
 			$("#table-details").DataTable().columns.adjust();
-		});
+		});		
 		
-		
-		// $('#table-details').DataTable().columns.adjust().responsive.recalc();
-		// $(window).trigger('resize');	
-		// $(window).resize(function () {
-        //     $("#table-details").resize();
-		// });
 	}
 };
 </script>
 <style lang="scss" scoped>
 @import "../../sass/_variables.scss";
-// #canva{
-//         width: 100% !important;
-//         max-width: 800px;
-//         height: auto !important;
-//     }
-// table{
-		
-// th.dt-center, td.dt-center { text-align: center; }
-// }
+
 </style>

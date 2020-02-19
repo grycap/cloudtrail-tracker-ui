@@ -112,14 +112,7 @@
 				<div style="position: relative; height:50vh;" id="canva">
 					<canvas id="myChart"></canvas>
 				</div>
-			</div>
-
-			<!-- <download-excel
-				:data  = "res"
-				:fields = "json_fields">			
-				Download Data				
-			</download-excel> -->
-			
+			</div>			
 		
 			<div v-show="graphData.length > 0" class="row" style="margin-bottom:40px;">
 				<div id="accordion-dashboard" class="col-md-12">
@@ -189,6 +182,8 @@ export default {
 			all_services: [],			
 			start_date: "",
 			end_date: "",
+			start: '',
+			end : '',
 			graphData: [],
 			show_dates: true,
 			select_subject: false,
@@ -203,33 +198,15 @@ export default {
 			},
 			initData:[],	
 			referData:[],	
-			res : []
+			res : [],
+			
 		};
 		
 	},
-	created() {				
-		var dmy = new Date();
-		   var currDay = dmy.getDay();
-           var currMonth = dmy.getMonth();
-           var currYear = dmy.getFullYear();
-           var currYearEnd = dmy.getFullYear() + 1;
-		//    var end = new Date(currYearEnd, 6, 31);
-		   
-		   	if (currMonth >= 8){
-			  var  start = new Date(currYear, 8, 1);
-			  var  end = new Date(currYearEnd, 6, 31);
-		   }
-		   else{
-			  var start = new Date(currYear - 1, 8, 1);
-			  var end = new Date(currYearEnd - 1, 6, 31);
-		   }	
-		   
-		   this.start_date = moment(start).format("YYYY-MM-DD");
-		   this.end_date = moment(end).format("YYYY-MM-DD"); 
-		   
+	created() {	  
 		   	
-		var _this = this;
-		//console.log(api.url)
+		var _this = this;	
+		
 		axios.get(api.url.general+ "users")		
 		.then(function(resp) {
 			var session = JSON.parse(localStorage.getItem("session"))			
@@ -250,7 +227,7 @@ export default {
 		}).catch(function (error) {
 			if (error.response.status == 401){
 				_this.$router.replace(_this.$route.query.redirect || "/logout");
-				alert("Your Session has expired ");
+				console.log("Your Session has expired ");
 			}
 			
 		});	
@@ -262,9 +239,9 @@ export default {
 	watch: {
 		"check"(val){
 			if(val != "" ){
-				this.search()
+				this.search(true)
 			}
-		}
+		}		
 	},
 	  
 	methods: {
@@ -281,15 +258,13 @@ export default {
 				}else{
 					this.all_services[resp.data[i].eventName] = this.all_services[resp.data[i].eventName] + 1
 				}							
-			}
-			
+			}			
 			
 			if(this.check == "option4"){						// Opcion 4 VPC after PL_EC2_S3
 				this.referData = envprac.REFERDATA1;
 			}else {
 				this.referData = envprac.REFERDATA;
-			}
-			
+			}			
 			
 			var totalref=0
 			for(var i in this.referData){
@@ -325,8 +300,7 @@ export default {
 				totalref = 0
 			}			
 				
-				if (this.check == "option1"){
-					//  this.graphData.splice(6,1)
+				if (this.check == "option1"){					
 					 this.graphData = this.graphData.filter(function(obj){
 						return obj["0"]!=="PL_EMR"
 					})
@@ -335,10 +309,7 @@ export default {
 					})					
 				}
 				if (this.check == "option2"){
-					//var removeValIndex = [5,6]
-					// for (var i = removeValIndex.length -1; i >= 0; i--){
-					// 	   this.graphData.splice(removeValIndex[i],1);
-					// }
+					
 					this.graphData = this.graphData.filter(function(obj){
 						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
@@ -347,10 +318,7 @@ export default {
 					})
 				}
 				if (this.check == "option3"){
-					var removeValIndex = [0,1,2,3,4,5,7]
-					// for (var i = removeValIndex.length -1; i >= 0; i--){
-					// 	   this.graphData.splice(removeValIndex[i],1);
-					// }
+					var removeValIndex = [0,1,2,3,4,5,7]					
 					this.graphData = this.graphData.filter(function(obj){
 						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP" 						
 					})
@@ -358,8 +326,7 @@ export default {
 						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 				}
-				if (this.check == "option4"){
-					// this.graphData.splice(6,1)
+				if (this.check == "option4"){					
 					this.graphData = this.graphData.filter(function(obj){
 						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
@@ -367,11 +334,7 @@ export default {
 						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 				}
-				if (this.check == "option5"){
-					// var removeValIndex = [0,1,2,3,4,5,7]
-					// for (var i = removeValIndex.length -1; i >= 0; i--) {  	
-					// 	this.graphData.splice(removeValIndex[i],1);		
-					// }
+				if (this.check == "option5"){					
 					this.graphData = this.graphData.filter(function(obj){
 						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP" 						
 					})
@@ -379,11 +342,7 @@ export default {
 						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
 					})			
 				}
-				if (this.check == "option6"){
-					// var removeValIndex = [5,6]
-					// for (var i = removeValIndex.length -1; i >= 0; i--)   {
-					// 	this.graphData.splice(removeValIndex[i],1);			
-					// }
+				if (this.check == "option6"){					
 					this.graphData = this.graphData.filter(function(obj){
 						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
@@ -402,9 +361,7 @@ export default {
 				}									
 
 			if (this.graphData.length > 0) {							
-				this.no_result = false;
-				// google.charts.load("current", { packages: ["corechart", "bar"] });
-				// google.charts.setOnLoadCallback(this.drawGraph);
+				this.no_result = false;				
 				this.drawGraph();
 				var _this = this;
 				this.$nextTick(function() {
@@ -412,15 +369,14 @@ export default {
 				 if (_this.all_data.length != 0){				 
 					$("#table-details").dataTable().fnAddData(_this.all_data);
 				}
-				$("#table-details").dataTable().fnDraw();
-				// $('#table-details').dataTable().fn
+				$("#table-details").dataTable().fnDraw();				
 				});
 			} else {
 				this.no_result = true;
 			}
 			this.processing = false;
 		},
-		search() {			
+		search(default_date = false) {			
 			$(".collapse").collapse('hide');
 			this.graphData = [];
 			
@@ -449,6 +405,34 @@ export default {
 					_this.search_callback(resp);
 					});
 				} else {
+					if (default_date){
+					var dmy = new Date();
+					var currDay = dmy.getDay();
+					var currMonth = dmy.getMonth();
+					var currYear = dmy.getFullYear();
+					var currYearEnd = dmy.getFullYear() + 1;								
+					
+					if (this.check == "option6"){						
+						this.start = new Date(currYear, 1, 1)
+						this.end = new Date (currYear,3,30 )
+											
+				   }else {
+					   if (currMonth >= 8){
+						this.start = new Date(this.currYear, 8, 1);
+						this.end = new Date(currYearEnd, 6, 31);
+						}
+						else{
+							this.start = new Date(currYear - 1, 8, 1);
+							this.end = new Date(currYearEnd - 1, 6, 31);
+						}	
+				   	}		
+					this.start_date = moment(this.start).format("YYYY-MM-DD");
+					this.end_date = moment(this.end).format("YYYY-MM-DD");
+										
+					$('#date-range').data('daterangepicker').setStartDate(moment(this.start).format("DD/MM/YYYY"));
+					$('#date-range').data('daterangepicker').setEndDate(moment(this.end).format("DD/MM/YYYY"));
+				}  
+				   
 				axios.get(api.url.general +	"users/" + this.user_name +"?from=" +this.start_date +	"&to=" +this.end_date)
 					.then(function(resp) {					
 					_this.all_services=[];			
@@ -456,111 +440,7 @@ export default {
 					_this.search_callback(resp);
 					});
 				}
-			} 
-			
-		// 	console.log(this.start_date)
-		// 	console.log(this.end_date)
-		// 	// console.log(this.all_users)
-		// 	var all_users2 = this.all_users
-		// 	all_users2 = all_users2.filter(function(item){
-		// 		return item.indexOf("alucloud") == 0;
-		// 	})
-		// 	console.log(all_users2)
-		// 	this.res = [];
-		// 	//all_users2 = ["alucloud131"]
-		// 	console.log(all_users2.length)
-		// 	for (let z = 0; z < all_users2.length; z++) {
-				
-				
-		// 	// }
-		// 	// for (var z in all_users2){				
-			
-		// axios.get("https://api.cursocloudaws.net/tracker/users/" +	all_users2[z] +"?from=2018-09-01&to=2019-07-31")
-		// 	.then(function(resp) {					
-		// 	// _this.search_callback_dos(resp,all_users2[i]);			
-		// 	_this.all_data = [];			
-		// 	_this.all_services=[];
-			
-		// 	// this.user_search = this.user_name;			
-		// 	for (var i in resp.data) {		
-				
-		// 		var event_data= resp.data[i].eventName
-		// 		if( typeof _this.all_services[event_data] == 'undefined'){
-		// 			_this.all_services[event_data] = 1;					
-		// 		}else{
-		// 			_this.all_services[resp.data[i].eventName] = _this.all_services[resp.data[i].eventName] + 1
-		// 		}							
-		// 	}		
-			
-			
-		// 	var totalref=0
-		// 	for(var i in _this.referData){
-		// 		_this.initData[i]["total"]=0	
-		// 		_this.referData[i]["totalref"]=0	
-								
-		// 		for(var j in _this.referData[i]){					
-		// 			if(typeof _this.all_services[j] != 'undefined' && _this.all_services[j] > 0){						
-		// 				if(_this.all_services[j] >= _this.referData[i][j]){
-		// 					var value = _this.referData[i][j]
-		// 					_this.initData[i][j] = value;
-		// 					_this.all_services[j] = _this.all_services[j] - _this.referData[i][j];
-		// 				}else{
-		// 					_this.initData[i][j] = _this.all_services[j];
-		// 					if(j != "totalref"){							
-		// 						_this.all_data.push([i,j,_this.referData[i][j]-_this.all_services[j]]);
-		// 					}
-		// 					_this.all_services[j] = 0;
-		// 				}
-		// 				_this.initData[i].total = _this.initData[i].total + _this.initData[i][j]
-		// 			}else{
-		// 				if(j != "totalref"){
-		// 					_this.all_data.push([i,j,_this.referData[i][j]]);
-
-		// 				}
-		// 			}
-				
-		// 		totalref = totalref + _this.referData[i][j]				
-		// 		}
-				
-		// 		_this.referData[i]["totalref"]=totalref	
-		// 		_this.graphData2.push([i,((_this.initData[i].total * 100/(_this.referData[i].totalref)).toFixed(2))*1]);
-		// 		totalref = 0
-		// 	}		
-		// 	  //console.log(all_users2[z])	
-		// 	  //console.log(_this.graphData2)
-			
-		// 	_this.json_data.push([all_users2[z],_this.graphData2])
-		// 	_this.graphData2 = []	
-
-		// 	//console.log(_this.json_data) //este es el arreglo donde esta todo la información
-			
-		// 	for(var k in _this.json_data){
-				
-		// 		//for(var m in _this.json_data[k][1]){
-		// 			//console.log(_this.json_data[k][1][m][1]);
-		// 			_this.res[k] = {
-		// 				'user': _this.json_data[k][0],
-		// 				'ec2' : _this.json_data[k][1][0][1],
-		// 				's3' : _this.json_data[k][1][1][1],
-		// 				'rds' : _this.json_data[k][1][2][1],
-		// 				'app' : _this.json_data[k][1][3][1],
-		// 				'cf' : _this.json_data[k][1][4][1],
-		// 				'vpc' : _this.json_data[k][1][5][1],
-		// 				'emr' : _this.json_data[k][1][6][1],
-		// 				'sr' : _this.json_data[k][1][7][1]
-		// 			}
-		// 		//}
-		// 	}
-			
-			
-		// });
-		// 	}
-			
-			
-		// 	console.log(this.res);
-		// 	console.log(this.res.length);	
-		
-			
+			}			
 		},
 		drawGraph() {				
 		
@@ -593,8 +473,7 @@ export default {
 				labels: this.graphData.map(graphData => graphData[0]),
 				datasets: [
 					{
-					label: "%",
-					// backgroundColor: "rgba(74,227,135,0.2)",
+					label: "%",					
 					backgroundColor: myColors,
 					borderColor: borderColor,
 					borderWidth: 1,
@@ -633,8 +512,7 @@ export default {
 						backgroundColor: null,
 						borderColor: null,
 						borderRadius: 4,
-						borderWidth: 1,
-						//color: "black",
+						borderWidth: 1,						
 						color: function(context) {
 							var index = context.dataIndex;
 							var value = context.dataset.data[index];
@@ -648,8 +526,7 @@ export default {
 						padding: 0,
 						formatter: function(value, context) {
    							 return value + '%';
-						}
-						//formatter: Math.round					
+						}											
 						}
 					},
 					
@@ -683,8 +560,7 @@ export default {
 							fontColor: "#000",
 							min: 0,
 							max :this.max
-							//stepSize: Math.ceil(this.max / 4),
-							//max: this.max + Math.ceil(this.max / 4)								
+															
 							}
 					}
 					],
@@ -735,10 +611,7 @@ export default {
 		   var currDay = d.getDay();
            var currMonth = d.getMonth();
            var currYear = d.getFullYear();
-		   var currYearEnd = d.getFullYear() + 1;	
-		   
-			
-
+		   var currYearEnd = d.getFullYear() + 1;
 		   if (currMonth >= 8){
 			  var  startDateDefault = new Date(currYear, 8, 1);
 			  var  endDateDefault = new Date(currYearEnd, 6, 31);
@@ -747,22 +620,20 @@ export default {
 			  var startDateDefault = new Date(currYear -1, 8, 1);
 			  var  endDateDefault = new Date(currYearEnd - 1, 6, 31);
 		   }
-		   var start_date = moment(startDateDefault).format("DD/MM/YYYY");
-		   var end_date = moment(endDateDefault).format("DD/MM/YYYY"); 
-			
+		 
+		   var start_date_default = moment(startDateDefault).format("DD/MM/YYYY");
+		   var end_date_default = moment(endDateDefault).format("DD/MM/YYYY");			
 
 		var _this = this;
 		var maxDate = moment().format("DD/MM/YYYY");
 		$("#date-range").daterangepicker(
 		{
 			opens: "left",
-			startDate: start_date,
-			endDate : end_date,
-			// maxDate: maxDate,
+			startDate: start_date_default,
+			endDate : end_date_default,			
 			locale: {
 			format: "DD/MM/YYYY"
-			}
-			// autoApply: true
+			}			
 		},
 		function(start, end, label) {
 			_this.start_date = start.format("YYYY-MM-DD");
