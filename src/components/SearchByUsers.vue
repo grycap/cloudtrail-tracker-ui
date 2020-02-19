@@ -157,23 +157,20 @@ export default {
 			var _this = this;
 			var generalInfo={};
 					
-					//Run Instances en una hora 
+					//Run Instances 
 					axios.get(api.url.general+"users/"+  this.user_name +"?from=" +this.start_date + "&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=RunInstances&count=True")					
-					.then(function(resp) {						
-						// _this.search(resp);
+					.then(function(resp) {					
 						generalInfo["runInstances"]=resp.data;
 						_this.$eventHub.$emit("generalInfo",{'type': 'runInstances', 'value': resp.data})
 					});
 					//CreateDBInstace
 					axios.get(api.url.general+"users/"+ this.user_name + "?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateDBInstance&count=True&begin_with=True")					
 					.then(function(resp) {						
-						// _this.search(resp);
 						generalInfo["createDBInstance"]=resp.data;
 						_this.$eventHub.$emit("generalInfo",{'type': 'createDBInstance', 'value': resp.data})
 					});
 					axios.get(api.url.general+"users/"+ this.user_name + "?from=" +this.start_date +"&to=" +this.end_date + "&params=['awsRegion']&value=['us-east-1']&eventName=CreateFunction&count=True&begin_with=True")					
 					.then(function(resp) {						
-						// _this.search(resp);
 						generalInfo["createFunction"]=resp.data;						
 						_this.$eventHub.$emit("generalInfo",{'type': 'createFunction', 'value': resp.data})
 					});
@@ -369,7 +366,7 @@ export default {
 		}).catch(function (error) {
 			if (error.response.status == 401){
 				_this.$router.replace(_this.$route.query.redirect || "/logout");
-				alert("Your Session has expired");
+				console.log("Your Session has expired");
 			}
 			
 		});
@@ -408,12 +405,10 @@ export default {
 		{
 			opens: "left",
 			startDate: startdate,
-			endDate : enddate,
-			// maxDate: maxDate,
+			endDate : enddate,			
 			locale: {
 			format: "DD/MM/YYYY"
-			}
-			// autoApply: true
+			}			
 		},
 		function(start, end, label) {
 			_this.start_date = start.format("YYYY-MM-DD");
