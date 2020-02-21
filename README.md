@@ -9,7 +9,7 @@ The dashboard depicts an aggregated view of the AWS services usage in a pre-defi
 It also allows users to know their progress percentage across a set of lab activities. The set of events per lab activities are defined in [envprac.js](src/envprac.js). This is useful when applying this tool for the academic teaching of Cloud Computing with Amazon Web Services:
 ![CloudTrail-Tracker Labs ](doc/img/ctt-labs.jpg)
 
-Clicking on each bar allows the user to know the missing events per lab activity 
+Clicking on each bar allows the user to know the missing events per lab activity: 
 ![CloudTrail-Tracker Labs ](doc/img/ctt-labs-detail.jpg)
 
 An academic publication on the adoption of this tool as a learning dashboard for students is available in:
