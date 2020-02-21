@@ -2,6 +2,20 @@
 
 CloudTrail-Tracker-UI is the web portal based on Vue.js that queries the REST API of [CloudTrail-Tracker](https://github.com/grycap/cloudtrail-tracker) to visually show the high-level aggregate information related to the use of resources in AWS by different users based on the events information.
 
+## Visual Aspect of the Dashboard
+The dashboard depicts an aggregated view of the AWS services usage in a pre-defined time frame: 
+![CloudTrail-Tracker Dashboard ](doc/img/ctt-dashboard.png)
+
+It also allows users to know their progress percentage across a set of lab activities. The set of events per lab activities are defined in [envprac.js](src/envprac.js). This is useful when applying this tool for the academic teaching of Cloud Computing with Amazon Web Services:
+![CloudTrail-Tracker Labs ](doc/img/ctt-labs.jpg)
+
+Clicking on each bar allows the user to know the missing events per lab activity 
+![CloudTrail-Tracker Labs ](doc/img/ctt-labs-detail.jpg)
+
+An academic publication on the adoption of this tool as a learning dashboard for students is available in:
+
+Naranjo, Diana M., José R. Prieto, Germán Moltó, and Amanda Calatrava. 2019. “A Visual Dashboard to Track Learning Analytics for Educational Cloud Computing.” Sensors 19(13): 2952. https://www.mdpi.com/1424-8220/19/13/2952/htm (July 4, 2019).
+
 ## Requirements
 
 * An existing [Cognito User Pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools.html) to store the  users, created in your AWS account.
