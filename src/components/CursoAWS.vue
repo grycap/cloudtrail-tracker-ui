@@ -367,10 +367,10 @@ export default {
 				}
 				if (this.check == "option6"){					
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_EMR"  && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
 					})		
 				}
 				if (this.check == "option7"){
