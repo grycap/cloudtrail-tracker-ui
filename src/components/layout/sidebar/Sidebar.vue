@@ -10,7 +10,10 @@
 			</li>
 			<li>
 				<router-link class="sidebar-link" to="/cursoaws"><i class="sidebar-menu-item-icon fas fa-graduation-cap"></i>Search By Course</router-link>
-			</li>	
+			</li>
+      <li>
+				<router-link class="sidebar-link" to="/oteador"><i class="sidebar-menu-item-icon vuestic-icon vuestic-icon-dashboard"></i>Oteador</router-link>
+			</li>
 		
 		</ul>
 		</vuestic-scrollbar>
