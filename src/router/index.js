@@ -11,7 +11,7 @@ import PasswordChange from '@/components/auth/changepass/PasswordChange.vue'
 import SearchByUser from '@/components/SearchByUsers.vue'
 import CursoAWS from '@/components/CursoAWS.vue'
 
-
+import Oteador from '@/components/Oteador.vue'
 
 
 import menuModule from 'vuex-store/modules/menu'
@@ -47,6 +47,7 @@ export default new Router({
     { path: '/confirmpassreset', component: PasswordResetConfirm },    
     { path: '/search_by_user', component: SearchByUser , beforeEnter: requireAuth },
     { path: '/cursoaws', component: CursoAWS , beforeEnter: requireAuth },
+    { path: '/oteador', component: Oteador , beforeEnter: requireAuth },
     
     // { path: '/curso_cloud_aws', component: Cursocloudaws },
      { path: '/logout',
