@@ -250,8 +250,20 @@ export default {
             $("#numberOf").text("Number of Auto Scalling Groups");
             break;
           case this.all_services[5]:
-            this.all_data.push([i, response[i], "-", "-", "-"]);
-            this.graphData.push(["0", 0]);
+            this.all_data.push([i, response[i]["PublicIp"], "-", "-", "-"]);
+            
+            var start = false;
+            for (var j in this.graphData) {
+              if (this.graphData[j][0] == "Elastic IPs") {
+                var count = this.graphData[j][1];
+                this.graphData[j][1] = count + 1;
+              }
+              start = true;
+            }
+            if (start == false) this.graphData.push(["Elastic IPs", 1]);
+            $("#numberOf").text("Number of Elastic IPs");
+
+
             break;          
 
           default:
