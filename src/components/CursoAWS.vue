@@ -246,7 +246,7 @@ export default {
 				
 				if (this.check == "option6"){						
 					this.start = new Date(currYear, 1, 1)
-					this.end = new Date (currYear,3,30 )
+					this.end = new Date (currYear,6, 1)
 										
 				}else {
 				   if (currMonth >= 8){
