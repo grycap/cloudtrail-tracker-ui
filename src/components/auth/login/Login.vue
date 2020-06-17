@@ -103,7 +103,7 @@ export default {
 						
 					});
 					localStorage.setItem("session",JSON.stringify({ user: { username: this.username, token: this.token_auth } }));
-					this.$router.replace(this.$route.query.redirect || "/dashboard");
+					this.$router.replace(this.$route.query.redirect || "/oteador");
 					}
 				});
 			}		
