@@ -10,8 +10,7 @@ import Confirm from '@/components/auth/confirm/Confirm.vue'
 import PasswordChange from '@/components/auth/changepass/PasswordChange.vue'
 import SearchByUser from '@/components/SearchByUsers.vue'
 import CursoAWS from '@/components/CursoAWS.vue'
-
-import Oteador from '@/components/Oteador.vue'
+import Oteador from '@/components/Oteador/Oteador.vue'
 
 
 import menuModule from 'vuex-store/modules/menu'
@@ -37,7 +36,7 @@ export default new Router({
   // mode: 'history',
   base: __dirname,
   routes: [
-    { path: '/', component: Dashboard, beforeEnter: requireAuth  },
+    { path: '/', component: Oteador, beforeEnter: requireAuth  },
     { path: '/dashboard', component: Dashboard, beforeEnter: requireAuth },
     { path: '/login', component: Login},
     { path: '/signup', component: Signup},
