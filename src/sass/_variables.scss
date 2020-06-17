@@ -19,10 +19,13 @@ $theme-orange: #f7cc36;
 $theme-blue: #4ab2e3;
 $theme-violet: #db76df;
 $theme-pale: #d9d9d9;
+$theme-green: $vue-green;
 $brand-primary: $vue-green !default;
 $brand-danger: $theme-red;
 $brand-warning: $theme-orange;
 $brand-info: $theme-blue;
+$brand-info2: #a7da97;
+$brand-info3: #a491b9;
 $brand-success: $vue-green;
 $light-gray2: #eff4f5;
 $dark-gray: #282828;
@@ -35,6 +38,8 @@ $colors-map: (
   brand-danger: $brand-danger,
   brand-primary: $brand-primary,
   brand-info: $brand-info,
+  brand-info2: $brand-info2,
+  brand-info3: $brand-info3,
   brand-success: $brand-success,
   brand-warning: $brand-warning,
   black: black,
@@ -47,6 +52,8 @@ $theme-colors: (
   "secondary": $white,
   "success": $light-green,
   "info": $brand-info,
+  "info2": $brand-info2,
+  "info3": $brand-info3,
   "warning": $brand-warning,
   "danger": $brand-danger,
   "light": $light-gray2,
@@ -190,6 +197,7 @@ $widget-body-no-header-height: 100%;
 $widget-body-with-header-height: calc(100% - #{$widget-header-height});
 $widget-mb: 1.875rem;
 $info-widget-border: 0.5rem solid $brand-primary;
+$info2-widget-border: 0.5rem solid $brand-danger;
 
 // Links
 $link-color: $brand-primary;
@@ -260,7 +268,7 @@ $modal-header-height: $widget-header-height;
 $modal-header-border: $widget-header-border;
 $modal-content-border-width: 0;
 $modal-content-border-radius: 0;
-$modal-inner-padding: 1.5625rem;
+$modal-inner-padding: 25px;
 $modal-footer-btns-padding-bottom: 20px;
 $modal-footer-btns-margin-x: 10px;
 $modal-md: 650px;
