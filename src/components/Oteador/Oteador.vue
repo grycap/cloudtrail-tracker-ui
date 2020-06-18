@@ -312,7 +312,8 @@ export default {
           resp.data[i].code_service,
           resp.data[i].memory_service,
           timeStart,
-          timeModified
+          timeModified,
+          resp.data[i].private_address
         ]);
 
       }
@@ -321,30 +322,47 @@ export default {
         this._all_services[i].count = 0;
       }
 
-      if (
-        this.simpleSelectModel_service == this.simpleOptions_service[0] ||
-        this.simpleSelectModel_service == this.simpleOptions_service[1]
-      ) {
-      } else {
-      }
-      var states = {};
-      for (var i in resp.data) {
-        var service = resp.data[i].name_service;
-        var state = resp.data[i].state_service;
+      if (this.simpleSelectModel_service == this.simpleOptions_service[5]) {
+        var types = {};
+        for (var i in resp.data) {
+          var service = resp.data[i].name_service;
+          var type = resp.data[i].type_service;
+      
+          if (type in types) {
+            types[type] = types[type] + 1;
+          } else {
+            types[type] = 1;
+          }
 
-        if (state in states) {
-          states[state] = states[state] + 1;
-        } else {
-          states[state] = 1;
+          this._all_services[service].count = this._all_services[service].count + 1;
+        }
+          for (var i in types) {
+            if (types[i] > 0) {
+              this.graphDataServices.push([i, types[i]]);
+            }
+          }
+
+      } else {
+      
+        var states = {};
+        for (var i in resp.data) {
+          var service = resp.data[i].name_service;
+          var state = resp.data[i].state_service;
+
+          if (state in states) {
+            states[state] = states[state] + 1;
+          } else {
+            states[state] = 1;
+          }
+
+          this._all_services[service].count = this._all_services[service].count + 1;
         }
 
-        this._all_services[service].count = this._all_services[service].count + 1;
-      }
-
-      
-      for (var i in states) {
-        if (states[i] > 0) {
-          this.graphDataServices.push([i, states[i]]);
+        
+        for (var i in states) {
+          if (states[i] > 0) {
+            this.graphDataServices.push([i, states[i]]);
+          }
         }
       }
       
@@ -392,7 +410,7 @@ export default {
                 break;
               case _this.simpleOptions_service[3]:
                 _this.myTable.columns([2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12]).visible(false);
-                _this.myTable.columns([1]).visible(true);
+                _this.myTable.columns([2,1,13]).visible(true);
                 break;
               case _this.simpleOptions_service[4]:
                 _this.myTable.columns([2]).visible(true);
@@ -427,6 +445,9 @@ export default {
       }
 
       $("#canva").append('<canvas id="myChart"></canvas>');
+
+      var xLabel = "States";
+      if (this.simpleSelectModel_service == this.simpleOptions_service[5]) xLabel = "Types"; 
 
       var ctx = $("#myChart");
       var myChart = new Chart(ctx, {
@@ -519,7 +540,7 @@ export default {
                 gridLines: { display: false },
                 scaleLabel: {
                   display: true,
-                  labelString: "States",
+                  labelString: xLabel,
                   fontColor: "#000",
                   fontFamily:
                     "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
@@ -546,6 +567,7 @@ export default {
           }
         }
       });
+      
       $("#myChart").click(function(e) {
         this.activeBars = myChart.getElementAtEvent(e);
         
@@ -587,7 +609,8 @@ export default {
                 ip_service: "",
                 code_service: "",
                 memory_service: "",
-                timemodified_service: ""
+                timemodified_service: "",
+                private_address: ""
               };
               data.push(aux);
             }
@@ -621,7 +644,8 @@ export default {
                 ip_service: "",
                 code_service: "",
                 memory_service: "",
-                timemodified_service: ""
+                timemodified_service: "",
+                private_address: ""
               };
               data.push(aux);
             }
@@ -656,7 +680,8 @@ export default {
                 ip_service: "",
                 code_service: "",
                 memory_service: "",
-                timemodified_service: ""
+                timemodified_service: "",
+                private_address: ""
               };
               data.push(aux);
             }
@@ -687,10 +712,11 @@ export default {
                 desired_service: "",
                 min_service: "",
                 max_service: "",
-                id_service: "",
+                id_service: resp.data[i]["InstanceId"],
                 code_service: "",
                 memory_service: "",
-                timemodified_service: ""
+                timemodified_service: "",
+                private_address: resp.data[i]["PrivateIpAddress"],
               };
               data.push(aux);
             }
@@ -724,7 +750,8 @@ export default {
                 ip_service: "",
                 code_service: "",
                 memory_service: "",
-                timemodified_service: ""
+                timemodified_service: "",
+                private_address: ""
               };
               data.push(aux);
             }
@@ -759,7 +786,8 @@ export default {
                 ip_service: "",
                 code_service: "",
                 memory_service: "",
-                timemodified_service: ""
+                timemodified_service: "",
+                private_address: ""
               };
               data.push(aux);
             }
@@ -794,7 +822,8 @@ export default {
                 max_service: "",
                 ip_service: "",
                 code_service: resp.data[i]["CodeSize"],
-                memory_service: resp.data[i]["MemorySize"]
+                memory_service: resp.data[i]["MemorySize"],
+                private_address: ""
               };
               data.push(aux);
             }
@@ -1037,7 +1066,7 @@ export default {
       var _this = this;
       return new Promise(function(resolve, reject) {
         
-        var token = JSON.parse(localStorage.getItem("session")).user.token;
+        var token = JSON.parse(window.localStorage.getItem("session")).user.token;
         var logins = {};
         var login_id = 'cognito-idp.' + _this.$cognitoAuth.options.region + '.amazonaws.com/' + _this.$cognitoAuth.options.UserPoolId;
         logins[login_id] = token;
@@ -1125,7 +1154,7 @@ export default {
       var _this = this;
       return new Promise(function(resolve, reject) {
         
-        var token = JSON.parse(localStorage.getItem("session")).user.token;
+        var token = JSON.parse(window.localStorage.getItem("session")).user.token;
         var logins = {};
         var login_id = 'cognito-idp.' + _this.$cognitoAuth.options.region + '.amazonaws.com/' + _this.$cognitoAuth.options.UserPoolId;
         logins[login_id] = token;
@@ -1194,7 +1223,7 @@ export default {
       var _this = this;
       return new Promise(function(resolve, reject) {
         
-        var token = JSON.parse(localStorage.getItem("session")).user.token;
+        var token = JSON.parse(window.localStorage.getItem("session")).user.token;
         var logins = {};
         var login_id = 'cognito-idp.' + _this.$cognitoAuth.options.region + '.amazonaws.com/' + _this.$cognitoAuth.options.UserPoolId;
         logins[login_id] = token;
@@ -1285,7 +1314,7 @@ export default {
       var _this = this;
       return new Promise(function(resolve, reject) {
         
-        var token = JSON.parse(localStorage.getItem("session")).user.token;
+        var token = JSON.parse(window.localStorage.getItem("session")).user.token;
         var logins = {};
         var login_id = 'cognito-idp.' + _this.$cognitoAuth.options.region + '.amazonaws.com/' + _this.$cognitoAuth.options.UserPoolId;
         logins[login_id] = token;
@@ -1352,7 +1381,7 @@ export default {
       return new Promise(function(resolve, reject) {
         
 
-        var token = JSON.parse(localStorage.getItem("session")).user.token;
+        var token = JSON.parse(window.localStorage.getItem("session")).user.token;
         var logins = {};
         var login_id = 'cognito-idp.' + _this.$cognitoAuth.options.region + '.amazonaws.com/' + _this.$cognitoAuth.options.UserPoolId;
         logins[login_id] = token;
@@ -1389,7 +1418,7 @@ export default {
       var _this = this;
       return new Promise(function(resolve, reject) {
 
-        var token = JSON.parse(localStorage.getItem("session")).user.token;
+        var token = JSON.parse(window.localStorage.getItem("session")).user.token;
         var logins = {};
         var login_id = 'cognito-idp.' + _this.$cognitoAuth.options.region + '.amazonaws.com/' + _this.$cognitoAuth.options.UserPoolId;
         logins[login_id] = token;
@@ -1444,7 +1473,8 @@ export default {
         { title: "Code Size"},
         { title: "Memory Size"},
         { title: "Timestamp (UTC)" },
-        { title: "Last Modified"}
+        { title: "Last Modified"},
+        { title: "Private address"}
       ]
     });
 
