@@ -398,31 +398,31 @@ export default {
             switch (_this.simpleSelectModel_service) {
               case _this.simpleOptions_service[0]:
                 _this.myTable.columns([2, 6, 7, 8, 11]).visible(true);
-                _this.myTable.columns([1, 3, 4, 5, 9, 10,12]).visible(false);
+                _this.myTable.columns([1, 3, 4, 5, 9, 10,12,13]).visible(false);
                 break;
               case _this.simpleOptions_service[1]:
                 _this.myTable.columns([2, 6, 7, 8, 11]).visible(true);
-                _this.myTable.columns([1, 3, 4, 5, 9, 10,12]).visible(false);
+                _this.myTable.columns([1, 3, 4, 5, 9, 10,12,13]).visible(false);
                 break;
               case _this.simpleOptions_service[2]:
                 _this.myTable.columns([2, 3, 4, 5, 11]).visible(true);
-                _this.myTable.columns([1, 6, 7, 8, 9, 10,12]).visible(false);
+                _this.myTable.columns([1, 6, 7, 8, 9, 10,12,13]).visible(false);
                 break;
               case _this.simpleOptions_service[3]:
-                _this.myTable.columns([2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12]).visible(false);
-                _this.myTable.columns([2,1,13]).visible(true);
+                _this.myTable.columns([3, 4, 5, 6, 7, 8, 9, 10, 11,12]).visible(false);
+                _this.myTable.columns([1,2,13]).visible(true);
                 break;
               case _this.simpleOptions_service[4]:
+                _this.myTable.columns([1, 3, 4, 5, 6, 7, 8, 9, 10, 11,12,13]).visible(false);
                 _this.myTable.columns([2]).visible(true);
-                _this.myTable.columns([3, 4, 5, 6, 7, 8, 9, 10, 11,12]).visible(false);
                 break;
               case _this.simpleOptions_service[5]:
                 _this.myTable.columns([2, 7, 8, 11]).visible(true);
-                _this.myTable.columns([1, 3, 4, 5, 6, 9, 10,12]).visible(false);
+                _this.myTable.columns([1, 3, 4, 5, 6, 9, 10,12,13]).visible(false);
                 break;
               case _this.simpleOptions_service[6]:
                 _this.myTable.columns([2, 7, 9, 10, 12]).visible(true);
-                _this.myTable.columns([1, 3, 4, 5, 6, 8,11]).visible(false);
+                _this.myTable.columns([1, 3, 4, 5, 6, 8,11,13]).visible(false);
                 break;
             }
           });
@@ -447,7 +447,10 @@ export default {
       $("#canva").append('<canvas id="myChart"></canvas>');
 
       var xLabel = "States";
-      if (this.simpleSelectModel_service == this.simpleOptions_service[5]) xLabel = "Types"; 
+      if (this.simpleSelectModel_service == this.simpleOptions_service[5]) xLabel = "Types";
+      else if (this.simpleSelectModel_service == this.simpleOptions_service[2] || 
+      this.simpleSelectModel_service == this.simpleOptions_service[3] ||
+      this.simpleSelectModel_service == this.simpleOptions_service[4]) xLabel = "Number";
 
       var ctx = $("#myChart");
       var myChart = new Chart(ctx, {
@@ -617,7 +620,7 @@ export default {
             var response = { data };
             _this.search(response);
           }).catch(function (error) {
-            if (error.response.status == 401){
+            if (error.response == undefined || error.response.status == 401){
               _this.$router.replace(_this.$route.query.redirect || "/logout");
               alert("Your Session has expired ");
             }
@@ -652,7 +655,7 @@ export default {
             var response = { data };
             _this.search(response);
           }).catch(function (error) {
-            if (error.response.status == 401){
+            if (error.response == undefined || error.response.status == 401){
               _this.$router.replace(_this.$route.query.redirect || "/logout");
               alert("Your Session has expired ");
             }
@@ -688,7 +691,7 @@ export default {
             var response = { data };
             _this.search(response);
           }).catch(function (error) {
-            if (error.response.status == 401){
+            if (error.response == undefined || error.response.status == 401){
               _this.$router.replace(_this.$route.query.redirect || "/logout");
               alert("Your Session has expired ");
             }
@@ -723,7 +726,7 @@ export default {
             var response = { data };
             _this.search(response);
           }).catch(function (error) {
-            if (error.response.status == 401){
+            if (error.response == undefined || error.response.status == 401){
               _this.$router.replace(_this.$route.query.redirect || "/logout");
               alert("Your Session has expired ");
             }
@@ -758,7 +761,7 @@ export default {
             var response = { data };
             _this.search(response);
           }).catch(function (error) {
-            if (error.response.status == 401){
+            if (error.response == undefined || error.response.status == 401){
               _this.$router.replace(_this.$route.query.redirect || "/logout");
               alert("Your Session has expired ");
             }
@@ -794,7 +797,7 @@ export default {
             var response = { data };
             _this.search(response);
           }).catch(function (error) {
-            if (error.response.status == 401){
+            if (error.response == undefined || error.response.status == 401){
               _this.$router.replace(_this.$route.query.redirect || "/logout");
               alert("Your Session has expired ");
             }
@@ -830,7 +833,7 @@ export default {
             var response = { data };
             _this.search(response);
           }).catch(function (error) {
-            if (error.response.status == 401){
+            if (error.response == undefined || error.response.status == 401){
               _this.$router.replace(_this.$route.query.redirect || "/logout");
               alert("Your Session has expired ");
             }
@@ -881,6 +884,7 @@ export default {
           api.url.oteador + "services/region/" + this.simpleSelectModel_region
         )
         .then(function(resp2) {
+          console.log(resp2)
           let promises = [];
 
           for (var service in resp2.data) {
@@ -1055,8 +1059,7 @@ export default {
           }
         })
         .catch(function(error) {
-          console.log(error);
-          if (error.response.status == 401) {
+          if (error.response == undefined || error.response.status == 401) {
             _this.$router.replace(_this.$route.query.redirect || "/logout");
             alert("Your Session has expired ");
           }
