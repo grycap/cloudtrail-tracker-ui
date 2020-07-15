@@ -596,7 +596,6 @@ export default {
           specificUrl =
             "services/AllInstancesEC2/region/" + this.simpleSelectModel_region;
           axios.get(api.url.oteador + specificUrl).then(function(resp) {
-            console.log(resp);
             var data = [];
             for (var i in resp.data) {
               var aux = {
@@ -631,7 +630,6 @@ export default {
           specificUrl =
             "services/AllInstancesRDS/region/" + this.simpleSelectModel_region;
           axios.get(api.url.oteador + specificUrl).then(function(resp) {
-            console.log(resp);
             var data = [];
             for (var i in resp.data) {
               var aux = {
@@ -667,7 +665,6 @@ export default {
             "services/AutoScalingGroups/region/" +
             this.simpleSelectModel_region;
           axios.get(api.url.oteador + specificUrl).then(function(resp) {
-            console.log(resp);
             var data = [];
             for (var i in resp.data) {
               var aux = {
@@ -702,7 +699,6 @@ export default {
           specificUrl =
             "services/ElasticIP/region/" + this.simpleSelectModel_region;
           axios.get(api.url.oteador + specificUrl).then(function(resp) {
-            console.log(resp);
             var data = [];
             for (var i in resp.data) {
               var aux = {
@@ -737,7 +733,6 @@ export default {
           specificUrl =
             "services/AllBuckets/region/" + this.simpleSelectModel_region;
           axios.get(api.url.oteador + specificUrl).then(function(resp) {
-            console.log(resp);
             var data = [];
             for (var i in resp.data) {
               var aux = {
@@ -773,7 +768,6 @@ export default {
             "services/ElasticLoadBalancing/region/" +
             this.simpleSelectModel_region;
           axios.get(api.url.oteador + specificUrl).then(function(resp) {
-            console.log(resp);
             var data = [];
             for (var i in resp.data) {
               var aux = {
@@ -809,7 +803,6 @@ export default {
             "services/Lambda/region/" +
             this.simpleSelectModel_region;
           axios.get(api.url.oteador + specificUrl).then(function(resp) {
-            console.log(resp);
             var data = [];
             for (var i in resp.data) {
               var aux = {
@@ -884,7 +877,6 @@ export default {
           api.url.oteador + "services/region/" + this.simpleSelectModel_region
         )
         .then(function(resp2) {
-          console.log(resp2)
           let promises = [];
 
           for (var service in resp2.data) {
