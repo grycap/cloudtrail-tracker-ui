@@ -56,6 +56,18 @@
       box-shadow: $widget-info-shadow;
     }
 
+    &.brand-info2 {
+      background-color: $brand-info2;
+      color: $white;
+      box-shadow: $widget-info-shadow;
+    }
+
+    &.brand-info3 {
+      background-color: $brand-info3;
+      color: $white;
+      box-shadow: $widget-info-shadow;
+    }
+
     &.brand-danger {
       background-color: $brand-danger;
       color: $white;
@@ -72,6 +84,14 @@
       &.brand-danger {
         border-top-color: $brand-danger;
       }
+
+      &.brand-info2 {
+        border-top-color: $brand-info2;
+      }
+
+      &.brand-info3 {
+        border-top-color: $brand-info3;
+      }
     }
 
     .widget-body {
@@ -81,7 +101,7 @@
 
     .widget-header {
       height: $widget-header-height;
-      padding: 0 $widget-padding;
+      padding: $widget-padding;
       border-bottom: $widget-header-border;
       font-size: $font-size-larger;
       font-weight: 600;
