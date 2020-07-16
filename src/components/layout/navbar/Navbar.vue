@@ -115,8 +115,8 @@
 
 @media (min-width: 576px) { 
   h2 {
-    font-size: 24px;
-    margin-top: 30px;
+    padding-top:2rem;
+    font-size: 2rem!important;
     color: #4ae387;
   } 
   }
@@ -124,8 +124,8 @@
 // Medium devices (tablets, 768px and up)
 @media (min-width: 768px) { 
   h2 {
-    font-size: 26px;
-    margin-top: 30px;
+    padding-top:2rem;
+    font-size: 2rem!important;
     color: #4ae387;
   }  
   }
@@ -133,16 +133,16 @@
 // Large devices (desktops, 992px and up)
 @media (min-width: 992px) { 
   h2 {
-    font-size: 28px;
-    margin-top: 30px;
+    padding-top:2rem;
+    font-size: 2rem;
     color: #4ae387;
   }  
   }
 
   @media (max-width: 575.98px) { 
     h2 {
-      font-size: 22px;
-      margin-top: 30px;  
+      padding-top:2rem;
+      font-size: 1.5rem!important ;
       color: #4ae387;    
     }
   }
