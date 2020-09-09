@@ -2,32 +2,32 @@
 	<div class="dashboard">
 		<vuestic-widget class="no-padding no-v-padding">
 			<div class="row" style="padding-top:40px;">
-				<div class="col-12 col-md-5 col-lg-4" style="margin-top:10px;">      
+				<div class="col-12 col-md-5 col-lg-4" style="margin-top:10px;">
 					<v-select  v-model="user_name" ref="select" label="first_name" :options="all_users" placeholder="Users" v-bind:class="{'is-invalid' : errors.username}"></v-select>
 					<span v-show="errors.username" style="color: #cc3300; font-size: 12px;"><b>Please, select a username.</b></span>
 				</div>
-				<div v-show="show_dates" class="col-12 col-md-4 col-lg-4" style="margin-top:10px;"> 
+				<div v-show="show_dates" class="col-12 col-md-4 col-lg-4" style="margin-top:10px;">
 					<div class="input-group mb-3">
 						<div class="input-group-prepend">
 							<span class="input-group-text" id="basic-addon1"><i class="fas fa-calendar-alt"></i></span>
 						</div>
 						<input id="date-range" type="text" class="form-control text-center" aria-label="dates" aria-describedby="basic-addon1"
 						style="border: 1px solid rgba(60,60,60,.26);">
-					</div>   
+					</div>
 				</div>
 				<div class="col-12 col-md-3 col-lg-4">
 					<fieldset style="display:inline-block;padding-right:10px;">
 					<vuestic-checkbox
 						label="Dates"
 						:id="'checkbox4'"
-						v-model="show_dates"/>					
+						v-model="show_dates"/>
 					</fieldset>
 					<button class="btn btn-primary" @click="search()" :disabled="processing == true" style="padding: 0.8rem 1.0rem!important;letter-spacing: normal;">
-					<i v-if="processing" class="fas fa-spinner fa-pulse"></i><i v-if="!processing" class="fas fa-search d-lg-none" ></i><span v-if="!processing" class="d-none d-lg-block">Search</span></button>				
+					<i v-if="processing" class="fas fa-spinner fa-pulse"></i><i v-if="!processing" class="fas fa-search d-lg-none" ></i><span v-if="!processing" class="d-none d-lg-block">Search</span></button>
 				</div>
-				
+
 				<div class="row" style="padding-left:40px;" >
-					
+
 					<fieldset style="padding-right:20px;display:inline-block">
 						 <vuestic-radio-button
 							:label="'CursoCloudAWS'"
@@ -36,84 +36,84 @@
 							:name="'radio'"
 							v-model="check"
 							/>
-							
-					</fieldset>						
+
+					</fieldset>
 					<fieldset style="padding-right:20px;">
 						<vuestic-radio-button
 							:label="'MBDA-CGDNGB'"
 							id="radio2"
 							:value="'option2'"
-							:name="'radio'"		
-							v-model="check"					
-							/>						
-					</fieldset>		
+							:name="'radio'"
+							v-model="check"
+							/>
+					</fieldset>
 					<fieldset style="padding-right:20px;">
 						<vuestic-radio-button
 							:label="'MBDA-MEGBD'"
 							id="radio3"
 							value="option3"
-							:name="'radio'"	
-							v-model="check"						
-							/>						
-					</fieldset>		
-					<fieldset style="padding-right:20px;">	
+							:name="'radio'"
+							v-model="check"
+							/>
+					</fieldset>
+					<fieldset style="padding-right:20px;">
 						<vuestic-radio-button
 							:label="'MUCPD-ICP'"
 							id="radio4"
-							value="option4"	
-							:name="'radio'"	
-							v-model="check"					
-							/>							
-					</fieldset>		
+							value="option4"
+							:name="'radio'"
+							v-model="check"
+							/>
+					</fieldset>
 					<fieldset style="padding-right:20px;">
 						<vuestic-radio-button
 							:label="'MUCPD-CBD'"
 							id="radio5"
-							value="option5"	
-							:name="'radio'"	
-							v-model="check"					
-							/>								
-					</fieldset>		
-					<fieldset style="padding-right:20px;">	
+							value="option5"
+							:name="'radio'"
+							v-model="check"
+							/>
+					</fieldset>
+					<fieldset style="padding-right:20px;">
 						<vuestic-radio-button
 							:label="'MUGI-SEN'"
 							id="radio6"
 							value="option6"
-							:name="'radio'"	
-							v-model="check"						
-							/>										
+							:name="'radio'"
+							v-model="check"
+							/>
 					</fieldset>
-					<fieldset style="padding-right:20px;">	
+					<fieldset style="padding-right:20px;">
 						<vuestic-radio-button
 							:label="'GII-LPP'"
 							id="radio7"
 							value="option7"
-							:name="'radio'"	
-							v-model="check"						
-							/>										
+							:name="'radio'"
+							v-model="check"
+							/>
 					</fieldset>
-																		
+
 				</div>
-				
-			</div> 
+
+			</div>
 			<div class="row" style=" padding-bottom:40px;">
-				<fieldset style = "width: 500px; margin:  0px auto;">					 				
+				<fieldset style = "width: 500px; margin:  0px auto;">
 					<span v-show="select_subject" style="color: #cc3300; font-size: 12px;"><b>Please, select the subject that it belongs to</b></span>
 				</fieldset>
 			</div>
-				
-			 
+
+
 			<div v-if="no_result" class="col-12 text-center">
 				<h3>{{user_search}} has not used any service.</h3>
 			</div>
-		
+
 			<div v-show="graphData.length > 0" class="col-12" style="margin-top:20px;padding-left:0;padding-right:0;">
 				<h3>Percentage of compliance with the laboratory practices of the {{user_search}}</h3>
 				<div style="position: relative; height:50vh;" id="canva">
 					<canvas id="myChart"></canvas>
 				</div>
-			</div>			
-		
+			</div>
+
 			<div v-show="graphData.length > 0" class="row" style="margin-bottom:40px;">
 				<div id="accordion-dashboard" class="col-md-12">
 					<div>
@@ -136,7 +136,7 @@
 					</div>
 				</div>
 			</div>
-        </vuestic-widget> 
+        </vuestic-widget>
 	</div>
 </template>
 
@@ -152,7 +152,7 @@ export default {
 	name: "dashboard",
 	components: {
 		"v-select": vSelect,
-		'downloadExcel': JsonExcel,		
+		'downloadExcel': JsonExcel,
 	},
 	data() {
 		return {
@@ -174,12 +174,12 @@ export default {
 			name1: "Hello",
 			options: [],
 			all_users: [],
-			all_data: [],			
+			all_data: [],
 			max: 0,
 			array: [],
 			user_name: "",
 			user_search: "",
-			all_services: [],			
+			all_services: [],
 			start_date: "",
 			end_date: "",
 			start: '',
@@ -196,43 +196,43 @@ export default {
 			datepicker:{
 				range:''
 			},
-			initData:[],	
-			referData:[],	
+			initData:[],
+			referData:[],
 			res : [],
-			
+
 		};
-		
+
 	},
-	created() {	  
-		   	
-		var _this = this;			
-		axios.get(api.url.general+ "users")		
+	created() {
+
+		var _this = this;
+		axios.get(api.url.general+ "users")
 		.then(function(resp) {
-			var session = JSON.parse(localStorage.getItem("session"))			
-			
+			var session = JSON.parse(localStorage.getItem("session"))
+
 			if (session.user.username == "gmolto" || session.user.username == "admin"){
 				_this.all_users = resp.data;
 				_this.user_name = "";
-					
+
 			}else {
 				_this.all_users = [];
-				for (var i in resp.data){					
+				for (var i in resp.data){
 					if (session.user.username == resp.data[i]){
 						_this.all_users.push(resp.data[i])
-					}		
+					}
 				}
 				_this.user_name = _this.all_users[0]
-			} 
+			}
 		}).catch(function (error) {
 			if (error.response.status == 401){
 				_this.$router.replace(_this.$route.query.redirect || "/logout");
 				console.log("Your Session has expired ");
 			}
-			
-		});	
+
+		});
 		this.initData = envprac.INITDATA;
 		this.referData = envprac.REFERDATA;
-		
+
 	},
 
 	watch: {
@@ -242,67 +242,67 @@ export default {
 				var currDay = dmy.getDay();
 				var currMonth = dmy.getMonth();
 				var currYear = dmy.getFullYear();
-				var currYearEnd = dmy.getFullYear() + 1;								
-				
-				if (this.check == "option6"){						
+        var currYearEnd = dmy.getFullYear() + 1;
+
+				if (this.check == "option6"){
 					this.start = new Date(currYear, 1, 1)
 					this.end = new Date (currYear,6, 1)
-										
+
 				}else {
 				   if (currMonth >= 8){
-					this.start = new Date(this.currYear, 8, 1);
+					this.start = new Date(currYear, 8, 1);
 					this.end = new Date(currYearEnd, 6, 31);
 					}
 					else{
 						this.start = new Date(currYear - 1, 8, 1);
 						this.end = new Date(currYearEnd - 1, 6, 31);
-					}	
-				}		
+					}
+        }
 				this.start_date = moment(this.start).format("YYYY-MM-DD");
 				this.end_date = moment(this.end).format("YYYY-MM-DD");
 				$('#date-range').data('daterangepicker').setStartDate(moment(this.start).format("DD/MM/YYYY"));
-				$('#date-range').data('daterangepicker').setEndDate(moment(this.end).format("DD/MM/YYYY"));
+        $('#date-range').data('daterangepicker').setEndDate(moment(this.end).format("DD/MM/YYYY"));
 				this.search()
 			}
-		}		
+		}
 	},
-	  
+
 	methods: {
 		search_callback(resp) {
-			
-			this.all_data = []			
-			
-			this.user_search = this.user_name;			
-			for (var i in resp.data) {		
-				
+
+			this.all_data = []
+
+			this.user_search = this.user_name;
+			for (var i in resp.data) {
+
 				var event_data= resp.data[i].eventName
 				if( typeof this.all_services[event_data] == 'undefined'){
-					this.all_services[event_data] = 1;					
+					this.all_services[event_data] = 1;
 				}else{
 					this.all_services[resp.data[i].eventName] = this.all_services[resp.data[i].eventName] + 1
-				}							
-			}			
-			
+				}
+			}
+
 			if(this.check == "option4"){						// Opcion 4 VPC after PL_EC2_S3
 				this.referData = envprac.REFERDATA1;
 			}else {
 				this.referData = envprac.REFERDATA;
-			}			
-			
+			}
+
 			var totalref=0
 			for(var i in this.referData){
-				this.initData[i]["total"]=0	
-				this.referData[i]["totalref"]=0	
-								
-				for(var j in this.referData[i]){					
-					if(typeof this.all_services[j] != 'undefined' && this.all_services[j] > 0){						
+				this.initData[i]["total"]=0
+				this.referData[i]["totalref"]=0
+
+				for(var j in this.referData[i]){
+					if(typeof this.all_services[j] != 'undefined' && this.all_services[j] > 0){
 						if(this.all_services[j] >= this.referData[i][j]){
 							var value = this.referData[i][j]
 							this.initData[i][j] = value;
 							this.all_services[j] = this.all_services[j] - this.referData[i][j];
 						}else{
 							this.initData[i][j] = this.all_services[j];
-							if(j != "totalref"){							
+							if(j != "totalref"){
 								this.all_data.push([i,j,this.referData[i][j]-this.all_services[j]]);
 							}
 							this.all_services[j] = 0;
@@ -314,25 +314,25 @@ export default {
 
 						}
 					}
-				
-				totalref = totalref + this.referData[i][j]				
+
+				totalref = totalref + this.referData[i][j]
 				}
-				
-				this.referData[i]["totalref"]=totalref	
+
+				this.referData[i]["totalref"]=totalref
 				this.graphData.push([i,((this.initData[i].total * 100/(this.referData[i].totalref)).toFixed(2))*1]);
 				totalref = 0
-			}			
-				
-				if (this.check == "option1"){					
+			}
+
+				if (this.check == "option1"){
 					 this.graphData = this.graphData.filter(function(obj){
 						return obj["0"]!=="PL_EMR"
 					})
 					 this.all_data = this.all_data.filter(function(obj){
 						return obj["0"]!=="PL_EMR"
-					})					
+					})
 				}
 				if (this.check == "option2"){
-					
+
 					this.graphData = this.graphData.filter(function(obj){
 						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
@@ -341,15 +341,15 @@ export default {
 					})
 				}
 				if (this.check == "option3"){
-					var removeValIndex = [0,1,2,3,4,5,7]					
+					var removeValIndex = [0,1,2,3,4,5,7]
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP" 						
+						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 					this.all_data = this.all_data.filter(function(obj){
 						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 				}
-				if (this.check == "option4"){					
+				if (this.check == "option4"){
 					this.graphData = this.graphData.filter(function(obj){
 						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
@@ -357,63 +357,63 @@ export default {
 						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 				}
-				if (this.check == "option5"){					
+				if (this.check == "option5"){
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP" 						
+						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 					this.all_data = this.all_data.filter(function(obj){
 						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
-					})			
+					})
 				}
-				if (this.check == "option6"){					
+				if (this.check == "option6"){
 					this.graphData = this.graphData.filter(function(obj){
 						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 					this.all_data = this.all_data.filter(function(obj){
 						return obj["0"]!=="PL_EMR"  && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
-					})		
+					})
 				}
 				if (this.check == "option7"){
-					
+
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"					
+						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"					
-					})		
-				}									
+						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+					})
+				}
 
-			if (this.graphData.length > 0) {							
-				this.no_result = false;				
+			if (this.graphData.length > 0) {
+				this.no_result = false;
 				this.drawGraph();
 				var _this = this;
 				this.$nextTick(function() {
 				$("#table-details")	.dataTable().fnClearTable();
-				 if (_this.all_data.length != 0){				 
+				 if (_this.all_data.length != 0){
 					$("#table-details").dataTable().fnAddData(_this.all_data);
 				}
-				$("#table-details").dataTable().fnDraw();				
+				$("#table-details").dataTable().fnDraw();
 				});
 			} else {
 				this.no_result = true;
 			}
 			this.processing = false;
 		},
-		search() {			
+		search() {
 			$(".collapse").collapse('hide');
 			this.graphData = [];
-			
+
 			var checkboxchecked = $("#radio1")
 			if ($("input[name='radio']:checked").is(':checked')){
-				
+
 				this.select_subject = false
 			}else {
 				this.select_subject = true
-				
+
 			}
-			
+
 			if (this.user_name == "" || this.user_name == null) {
-				this.errors.username = true;				
+				this.errors.username = true;
 			}else {
 				this.errors.username = false;
 			}
@@ -424,28 +424,28 @@ export default {
 				var _this = this;
 				if (!this.show_dates) {
 				axios.get(api.url.general  + "users/" + this.user_name)
-					.then(function(resp) {						
+					.then(function(resp) {
 					_this.search_callback(resp);
 					});
-				} else {									
-				   
+				} else {
+
 					axios.get(api.url.general +	"users/" + this.user_name +"?from=" +this.start_date +	"&to=" +this.end_date)
-						.then(function(resp) {					
-						_this.all_services=[];			
+						.then(function(resp) {
+						_this.all_services=[];
 
 						_this.search_callback(resp);
 					});
 				}
-			}			
+			}
 		},
-		drawGraph() {				
-		
-		this.max = 100;		
-		
+		drawGraph() {
+
+		this.max = 100;
+
 		var myColors = []
 		var borderColor = []
-		
-		for (var i in this.graphData){					
+
+		for (var i in this.graphData){
 			if(50 < this.graphData[i][1] <= 100 ){
 				myColors[i]="rgba(74,227,135,0.2)"
 				borderColor[i]="rgba(0,102,0,5)"
@@ -456,10 +456,10 @@ export default {
 				myColors[i]="rgba(255,51,0,0.2)"
 				borderColor[i]="rgba(255, 51, 0,1)"
 			}
-		
-		}		
 
-		
+		}
+
+
 		$("#myChart").remove();
 		$("#canva").append('<canvas id="myChart"></canvas>');
 		var ctx = $("#myChart");
@@ -469,7 +469,7 @@ export default {
 				labels: this.graphData.map(graphData => graphData[0]),
 				datasets: [
 					{
-					label: "%",					
+					label: "%",
 					backgroundColor: myColors,
 					borderColor: borderColor,
 					borderWidth: 1,
@@ -486,33 +486,33 @@ export default {
 					display: false
 				},
 				plugins: {
-					datalabels: {	
+					datalabels: {
 						display: function(){
-								
+
 							if ($('#canva').width() < 350){
 								return false
 							}else{
 								return true
 							}
-						},		
-						align : function (context){							
-							
+						},
+						align : function (context){
+
 							var index = context.dataIndex;
-							var value = context.dataset.data[index];							
+							var value = context.dataset.data[index];
 							return value > 90 ? 'bottom' : 'top'
 
-							
-						},		
-						
+
+						},
+
 						anchor: "end",
 						backgroundColor: null,
 						borderColor: null,
 						borderRadius: 4,
-						borderWidth: 1,						
+						borderWidth: 1,
 						color: function(context) {
 							var index = context.dataIndex;
 							var value = context.dataset.data[index];
-							return value < 50 ? 'red' :  "black" // draw negative values in red								
+							return value < 50 ? 'red' :  "black" // draw negative values in red
 						},
 						font: {
 							size: 12,
@@ -522,10 +522,10 @@ export default {
 						padding: 0,
 						formatter: function(value, context) {
    							 return value + '%';
-						}											
+						}
 						}
 					},
-					
+
 				tooltips: {
 					position: "nearest",
 					titleFontSize: 14,
@@ -552,11 +552,11 @@ export default {
 							color: "rgba(220,227,241,1)"
 						},
 						ticks: {
-							beginAtZero: true,								
+							beginAtZero: true,
 							fontColor: "#000",
 							min: 0,
 							max :this.max
-															
+
 							}
 					}
 					],
@@ -572,14 +572,14 @@ export default {
 							fontSize: 16
 						},
 						ticks: {
-							callback: function(value, index, values) {									
-								if ($('#canva').width() < 300){									
+							callback: function(value, index, values) {
+								if ($('#canva').width() < 300){
 									return null
 								}else {
 									return value
 								}
                     		},
-							autoSkip: false,								
+							autoSkip: false,
 							fontColor: "#000"
 						},
 						maxBarThickness: 50
@@ -591,16 +591,16 @@ export default {
 					}
 				}
 			});
-			
+
 			$("#myChart").click(function(e) {
-				 this.activeBars = myChart.getElementAtEvent(e); 				
-				var find = this.activeBars["0"]._model.label				
+				 this.activeBars = myChart.getElementAtEvent(e);
+				var find = this.activeBars["0"]._model.label
 				$(".collapse").collapse('show');
 				$("#table-details").DataTable().search(find).draw();
-				
+
 			});
 		},
-		
+
 	},
 	mounted() {
 		var d = new Date();
@@ -616,9 +616,9 @@ export default {
 			  var startDateDefault = new Date(currYear -1, 8, 1);
 			  var  endDateDefault = new Date(currYearEnd - 1, 6, 31);
 		   }
-		 
+
 		   var start_date_default = moment(startDateDefault).format("DD/MM/YYYY");
-		   var end_date_default = moment(endDateDefault).format("DD/MM/YYYY");			
+		   var end_date_default = moment(endDateDefault).format("DD/MM/YYYY");
 
 		var _this = this;
 		var maxDate = moment().format("DD/MM/YYYY");
@@ -626,22 +626,22 @@ export default {
 		{
 			opens: "left",
 			startDate: start_date_default,
-			endDate : end_date_default,			
+			endDate : end_date_default,
 			locale: {
 			format: "DD/MM/YYYY"
-			}			
+			}
 		},
 		function(start, end, label) {
 			_this.start_date = start.format("YYYY-MM-DD");
 			_this.end_date = end.format("YYYY-MM-DD");
 		}
 		);
-		
+
 		$.extend( $.fn.dataTable.defaults, {
 			responsive: true
 		} );
 		$("#table-details").DataTable({
-		data: _this.all_data,		
+		data: _this.all_data,
 		columns: [{ title: "#" }, { title: "Event" }, { title: "Number of missing events" }],
 		"columnDefs": [
         		{className: "dt-center", "targets": "_all"}
@@ -650,7 +650,7 @@ export default {
 		$('#accordion-dashboard').on('shown.bs.collapse', function(){
 			$("#table-details").DataTable().columns.adjust();
 		});
-	}	
+	}
 }
 </script>
 <style lang="scss" scoped>
