@@ -15,87 +15,105 @@
 						style="border: 1px solid rgba(60,60,60,.26);">
 					</div>
 				</div>
-				<div class="col-12 col-md-3 col-lg-4">
-					<fieldset style="display:inline-block;padding-right:10px;">
-					<vuestic-checkbox
-						label="Dates"
-						:id="'checkbox4'"
-						v-model="show_dates"/>
+				<div class="row col-12 col-md-3 col-lg-4">
+					<fieldset class="col-6" style="padding-top:15px;">
+            <vuestic-checkbox
+              label="Dates"
+              :id="'checkbox4'"
+              v-model="show_dates"/>
 					</fieldset>
-					<button class="btn btn-primary" @click="search()" :disabled="processing == true" style="padding: 0.8rem 1.0rem!important;letter-spacing: normal;">
-					<i v-if="processing" class="fas fa-spinner fa-pulse"></i><i v-if="!processing" class="fas fa-search d-lg-none" ></i><span v-if="!processing" class="d-none d-lg-block">Search</span></button>
+
+          <div class="col-6" style="padding-top:5px;">
+            <button class="btn btn-primary" @click="search()" :disabled="processing == true" style="padding: 0.8rem 1.0rem!important;letter-spacing: normal;">
+            <i v-if="processing" class="fas fa-spinner fa-pulse"></i><i v-if="!processing" class="fas fa-search d-lg-none" ></i><span v-if="!processing" class="d-none d-lg-block">Search</span></button>
+
+          </div>
 				</div>
+      </div>
 
-				<div class="row" style="padding-left:40px;" >
+      <div class="row" style="padding-left:40px;" >
 
-					<fieldset style="padding-right:20px;display:inline-block">
-						 <vuestic-radio-button
-							:label="'CursoCloudAWS'"
-							id="radio1"
-							value="option1"
-							:name="'radio'"
-							v-model="check"
-							/>
+        <fieldset class="col-12 col-md-3" style="padding-right:20px;display:inline-block">
+            <vuestic-radio-button
+            :label="'CursoCloudAWS'"
+            id="radio1"
+            value="option1"
+            :name="'radio'"
+            v-model="check"
+            />
 
-					</fieldset>
-					<fieldset style="padding-right:20px;">
-						<vuestic-radio-button
-							:label="'MBDA-CGDNGB'"
-							id="radio2"
-							:value="'option2'"
-							:name="'radio'"
-							v-model="check"
-							/>
-					</fieldset>
-					<fieldset style="padding-right:20px;">
-						<vuestic-radio-button
-							:label="'MBDA-MEGBD'"
-							id="radio3"
-							value="option3"
-							:name="'radio'"
-							v-model="check"
-							/>
-					</fieldset>
-					<fieldset style="padding-right:20px;">
-						<vuestic-radio-button
-							:label="'MUCPD-ICP'"
-							id="radio4"
-							value="option4"
-							:name="'radio'"
-							v-model="check"
-							/>
-					</fieldset>
-					<fieldset style="padding-right:20px;">
-						<vuestic-radio-button
-							:label="'MUCPD-CBD'"
-							id="radio5"
-							value="option5"
-							:name="'radio'"
-							v-model="check"
-							/>
-					</fieldset>
-					<fieldset style="padding-right:20px;">
-						<vuestic-radio-button
-							:label="'MUGI-SEN'"
-							id="radio6"
-							value="option6"
-							:name="'radio'"
-							v-model="check"
-							/>
-					</fieldset>
-					<fieldset style="padding-right:20px;">
-						<vuestic-radio-button
-							:label="'GII-LPP'"
-							id="radio7"
-							value="option7"
-							:name="'radio'"
-							v-model="check"
-							/>
-					</fieldset>
+        </fieldset>
+        <fieldset class="col-12 col-md-3" style="padding-right:20px;">
+          <vuestic-radio-button
+            :label="'MBDA-CGDNGB'"
+            id="radio2"
+            :value="'option2'"
+            :name="'radio'"
+            v-model="check"
+            />
+        </fieldset>
+        <fieldset class="col-12 col-md-3" style="padding-right:20px;">
+          <vuestic-radio-button
+            :label="'MBDA-MEGBD'"
+            id="radio3"
+            value="option3"
+            :name="'radio'"
+            v-model="check"
+            />
+        </fieldset>
 
-				</div>
+        <fieldset class="col-12 col-md-3" style="padding-right:20px;">
+          <vuestic-radio-button
+            :label="'MUCPD-ICP'"
+            id="radio4"
+            value="option4"
+            :name="'radio'"
+            v-model="check"
+            />
+        </fieldset>
+      </div>
 
-			</div>
+      <div class="row" style="padding-left:40px;" >
+        <fieldset class="col-12 col-md-3" style="padding-right:20px;">
+          <vuestic-radio-button
+            :label="'MUCPD-CBD'"
+            id="radio5"
+            value="option5"
+            :name="'radio'"
+            v-model="check"
+            />
+        </fieldset>
+        <fieldset class="col-12 col-md-3" style="padding-right:20px;">
+          <vuestic-radio-button
+            :label="'MUGI-SEN'"
+            id="radio6"
+            value="option6"
+            :name="'radio'"
+            v-model="check"
+            />
+        </fieldset>
+        <fieldset class="col-12 col-md-3" style="padding-right:20px;">
+          <vuestic-radio-button
+            :label="'GII-LPP'"
+            id="radio7"
+            value="option7"
+            :name="'radio'"
+            v-model="check"
+            />
+        </fieldset>
+        <fieldset class="col-12 col-md-3" style="padding-right:20px;">
+          <vuestic-radio-button
+            :label="'GCD-IPD'"
+            id="radio8"
+            value="option8"
+            :name="'radio'"
+            v-model="check"
+            />
+        </fieldset>
+
+      </div>
+
+
 			<div class="row" style=" padding-bottom:40px;">
 				<fieldset style = "width: 500px; margin:  0px auto;">
 					<span v-show="select_subject" style="color: #cc3300; font-size: 12px;"><b>Please, select the subject that it belongs to</b></span>
@@ -117,7 +135,7 @@
 			<div v-show="graphData.length > 0" class="row" style="margin-bottom:40px;">
 				<div id="accordion-dashboard" class="col-md-12">
 					<div>
-						<div id="headingOne">
+						<div id="headingOne" style="padding-bottom:20px;">
 							<h5 class="mb-0">
 							<button id="openbtn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"
 							style="padding: 0.8rem 1.0rem!important;letter-spacing: normal;">
@@ -381,6 +399,15 @@ export default {
 					this.all_data = this.all_data.filter(function(obj){
 						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
+        }
+        if (this.check == "option8"){
+
+					this.graphData = this.graphData.filter(function(obj){
+						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+					})
+					this.all_data = this.all_data.filter(function(obj){
+						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+					})
 				}
 
 			if (this.graphData.length > 0) {
@@ -437,7 +464,10 @@ export default {
 					});
 				}
 			}
-		},
+    },
+    isMobileDevice(){
+    return ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    },
 		drawGraph() {
 
 		this.max = 100;
@@ -552,6 +582,14 @@ export default {
 							color: "rgba(220,227,241,1)"
 						},
 						ticks: {
+              // display: !this.isMobileDevice(),
+              callback: function(value, index, values) {
+								if ($('#canva').width() < 300){
+									return null
+								}else {
+									return value
+								}
+              },
 							beginAtZero: true,
 							fontColor: "#000",
 							min: 0,
@@ -578,7 +616,7 @@ export default {
 								}else {
 									return value
 								}
-                    		},
+              },
 							autoSkip: false,
 							fontColor: "#000"
 						},
@@ -603,6 +641,7 @@ export default {
 
 	},
 	mounted() {
+    console.log(!this.isMobileDevice())
 		var d = new Date();
 		   var currDay = d.getDay();
            var currMonth = d.getMonth();
