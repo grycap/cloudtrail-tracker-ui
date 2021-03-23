@@ -64,7 +64,7 @@
 
         <fieldset class="col-12 col-md-3" style="padding-right:20px;">
           <vuestic-radio-button
-            :label="'MUCPD-ICP'"
+            :label="'MUCNAP-ICP'"
             id="radio4"
             value="option4"
             :name="'radio'"
@@ -76,7 +76,7 @@
       <div class="row" style="padding-left:40px;" >
         <fieldset class="col-12 col-md-3" style="padding-right:20px;">
           <vuestic-radio-button
-            :label="'MUCPD-CBD'"
+            :label="'MUCNAP-CBD'"
             id="radio5"
             value="option5"
             :name="'radio'"
@@ -380,10 +380,10 @@ export default {
 				}
 				if (this.check == "option4"){
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 				}
 				if (this.check == "option5"){
