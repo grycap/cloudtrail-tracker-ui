@@ -112,6 +112,17 @@
         </fieldset>
 
       </div>
+      <div class="row" style="padding-left:40px;" >
+        <fieldset class="col-12 col-md-3" style="padding-right:20px;">
+          <vuestic-radio-button
+            :label="'MUCC-DDS'"
+            id="radio9"
+            value="option9"
+            :name="'radio'"
+            v-model="check"
+            />
+        </fieldset>
+      </div>
 
 
 			<div class="row" style=" padding-bottom:40px;">
@@ -407,6 +418,15 @@ export default {
 					})
 					this.all_data = this.all_data.filter(function(obj){
 						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+					})
+				}
+        if (this.check == "option9"){
+
+					this.graphData = this.graphData.filter(function(obj){
+						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+					})
+					this.all_data = this.all_data.filter(function(obj){
+						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 				}
 
