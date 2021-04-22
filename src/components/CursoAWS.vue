@@ -312,7 +312,7 @@ export default {
 				}
 			}
 
-			if(this.check == "option4"){						// Opcion 4 VPC after PL_EC2_S3
+			if(this.check == "option4" || this.check == "option9"){						// Opcion 4 and 9 VPC after PL_EC2_S3
 				this.referData = envprac.REFERDATA1;
 			}else {
 				this.referData = envprac.REFERDATA;
@@ -423,10 +423,10 @@ export default {
         if (this.check == "option9"){
 
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 				}
 
