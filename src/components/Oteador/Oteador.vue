@@ -64,7 +64,7 @@
           class="col-12"
           style="margin-top:20px;"
         >
-          
+
           <h3>States in the {{ simpleSelectModel_service }}</h3>
           <div style="position: relative; height:50vh;" id="canva">
             <canvas id="myChart"></canvas>
@@ -74,7 +74,7 @@
 
       <div class="row" style="margin-bottom:40px;" v-show="graphDataServices.length > 0 && !showSpinner">
         <div id="accordion-dashboard" class="col-md-12">
-          <div> 
+          <div>
             <div id="headingOne">
               <h5 class="mb-0">
                 <button
@@ -163,7 +163,7 @@ export default {
   },
   created() {
     var _this = this;
-    
+
     $.extend($.fn.dataTable.defaults, {
       responsive: true
     });
@@ -185,14 +185,14 @@ export default {
       var lambda = { name: "lambda", count: 0, state: "" };
 
       this._all_services = { ec2, rds, s3, autoscaling, elasticIP, elb, lambda };
-    
+
       this.cargaInicial = true;
 
       if (_this.myLoop == "") {
         _this.myLoop = setInterval(function() {
           if (_this.lastService != _this.simpleSelectModel_service)
             _this.lastFind = "";
-            _this.lastService = _this.simpleSelectModel_service        
+            _this.lastService = _this.simpleSelectModel_service
           _this.getInformationService();
           _this.getInformationRegions();
           _this.getInformationWidgets();
@@ -202,7 +202,7 @@ export default {
     search(resp) {
       this.graphDataServices = [];
       this.all_data_services = [];
-      
+
       for (var i in resp.data) {
         var datatime = resp.data[i].timestart_service;
         var timeStart = "";
@@ -210,7 +210,7 @@ export default {
           timeStart = moment(datatime, "YYYY-MM-DDTHH:mm:ssZ").format(
             "DD-MM-YYYY HH:mm:ss"
           );
-          
+
         }
         var datatime2 = resp.data[i].timemodified_service;
         var timeModified = "";
@@ -218,7 +218,7 @@ export default {
           timeModified = moment(datatime2, "YYYY-MM-DDTHH:mm:ssZ").format(
             "DD-MM-YYYY HH:mm:ss"
           );
-          
+
         }
 
         var urlEC2 =
@@ -290,7 +290,7 @@ export default {
             url = urlELB;
             break;
         }
-        
+
         this.all_data_services.push([
           i,
           "<a href=" +
@@ -327,7 +327,7 @@ export default {
         for (var i in resp.data) {
           var service = resp.data[i].name_service;
           var type = resp.data[i].type_service;
-      
+
           if (type in types) {
             types[type] = types[type] + 1;
           } else {
@@ -343,7 +343,7 @@ export default {
           }
 
       } else {
-      
+
         var states = {};
         for (var i in resp.data) {
           var service = resp.data[i].name_service;
@@ -358,14 +358,14 @@ export default {
           this._all_services[service].count = this._all_services[service].count + 1;
         }
 
-        
+
         for (var i in states) {
           if (states[i] > 0) {
             this.graphDataServices.push([i, states[i]]);
           }
         }
       }
-      
+
       var noDraw = false;
       if (!this.cargaInicial && JSON.stringify(this.graphDataServices) === JSON.stringify(this.graphDataServicesPrev)) {
         noDraw = true;
@@ -448,7 +448,7 @@ export default {
 
       var xLabel = "States";
       if (this.simpleSelectModel_service == this.simpleOptions_service[5]) xLabel = "Types";
-      else if (this.simpleSelectModel_service == this.simpleOptions_service[2] || 
+      else if (this.simpleSelectModel_service == this.simpleOptions_service[2] ||
       this.simpleSelectModel_service == this.simpleOptions_service[3] ||
       this.simpleSelectModel_service == this.simpleOptions_service[4]) xLabel = "Number";
 
@@ -570,10 +570,10 @@ export default {
           }
         }
       });
-      
+
       $("#myChart").click(function(e) {
         this.activeBars = myChart.getElementAtEvent(e);
-        
+
         var find = this.activeBars["0"]._model.label;
         $(".collapse").collapse("show");
         _this.lastFind = find;
@@ -586,7 +586,7 @@ export default {
         .DataTable()
         .search(_this.lastFind)
         .draw();
-      
+
     },
     getInformationService() {
       var specificUrl = "";
@@ -621,9 +621,9 @@ export default {
           }).catch(function (error) {
             if (error.response == undefined || error.response.status == 401){
               _this.$router.replace(_this.$route.query.redirect || "/logout");
-              alert("Your Session has expired ");
+              // alert("Your Session has expired ");
             }
-            
+
           });
           break;
         case this.simpleOptions_service[1]:
@@ -655,9 +655,9 @@ export default {
           }).catch(function (error) {
             if (error.response == undefined || error.response.status == 401){
               _this.$router.replace(_this.$route.query.redirect || "/logout");
-              alert("Your Session has expired ");
+              // alert("Your Session has expired ");
             }
-            
+
           });
           break;
         case this.simpleOptions_service[2]:
@@ -690,9 +690,9 @@ export default {
           }).catch(function (error) {
             if (error.response == undefined || error.response.status == 401){
               _this.$router.replace(_this.$route.query.redirect || "/logout");
-              alert("Your Session has expired ");
+              // alert("Your Session has expired ");
             }
-            
+
           });
           break;
         case this.simpleOptions_service[3]:
@@ -724,9 +724,9 @@ export default {
           }).catch(function (error) {
             if (error.response == undefined || error.response.status == 401){
               _this.$router.replace(_this.$route.query.redirect || "/logout");
-              alert("Your Session has expired ");
+              // alert("Your Session has expired ");
             }
-            
+
           });
           break;
         case this.simpleOptions_service[4]:
@@ -758,9 +758,9 @@ export default {
           }).catch(function (error) {
             if (error.response == undefined || error.response.status == 401){
               _this.$router.replace(_this.$route.query.redirect || "/logout");
-              alert("Your Session has expired ");
+              // alert("Your Session has expired ");
             }
-            
+
           });
           break;
         case this.simpleOptions_service[5]:
@@ -793,9 +793,9 @@ export default {
           }).catch(function (error) {
             if (error.response == undefined || error.response.status == 401){
               _this.$router.replace(_this.$route.query.redirect || "/logout");
-              alert("Your Session has expired ");
+              // alert("Your Session has expired ");
             }
-            
+
           });
           break;
         case this.simpleOptions_service[6]:
@@ -828,9 +828,9 @@ export default {
           }).catch(function (error) {
             if (error.response == undefined || error.response.status == 401){
               _this.$router.replace(_this.$route.query.redirect || "/logout");
-              alert("Your Session has expired ");
+              // alert("Your Session has expired ");
             }
-            
+
           });
           break;
         default:
@@ -1032,7 +1032,7 @@ export default {
               case "elasticIP":
                 break;
             }
-            
+
             Promise.all(promises).then(results => {
               for (var i in results) {
                 _this.sumPrices[results[i][0]] =
@@ -1053,19 +1053,19 @@ export default {
         .catch(function(error) {
           if (error.response == undefined || error.response.status == 401) {
             _this.$router.replace(_this.$route.query.redirect || "/logout");
-            alert("Your Session has expired ");
+            // alert("Your Session has expired ");
           }
         });
     },
     getPriceEC2(service, type_service, locationDescription, numberInstances) {
       var _this = this;
       return new Promise(function(resolve, reject) {
-        
+
         var token = JSON.parse(window.localStorage.getItem("session")).user.token;
         var logins = {};
         var login_id = 'cognito-idp.' + _this.$cognitoAuth.options.region + '.amazonaws.com/' + _this.$cognitoAuth.options.UserPoolId;
         logins[login_id] = token;
-        
+
         AWS.config.region = 'us-east-1';
 
         AWS.config.credentials = new CognitoIdentityCredentials({
@@ -1073,7 +1073,7 @@ export default {
           Logins: logins,
           LoginId: login_id
         })
-        
+
         var Pricing = require("aws-sdk/clients/pricing");
 
         var pricing = new Pricing({
@@ -1148,12 +1148,12 @@ export default {
     getPriceRDS(service, type_service, locationDescription, numberInstances) {
       var _this = this;
       return new Promise(function(resolve, reject) {
-        
+
         var token = JSON.parse(window.localStorage.getItem("session")).user.token;
         var logins = {};
         var login_id = 'cognito-idp.' + _this.$cognitoAuth.options.region + '.amazonaws.com/' + _this.$cognitoAuth.options.UserPoolId;
         logins[login_id] = token;
-        
+
         AWS.config.credentials = new CognitoIdentityCredentials({
           IdentityPoolId: _this.$cognitoAuth.options.IdentityPoolId,
           Logins: logins,
@@ -1217,12 +1217,12 @@ export default {
     getPriceELB(service, type_service, locationDescription) {
       var _this = this;
       return new Promise(function(resolve, reject) {
-        
+
         var token = JSON.parse(window.localStorage.getItem("session")).user.token;
         var logins = {};
         var login_id = 'cognito-idp.' + _this.$cognitoAuth.options.region + '.amazonaws.com/' + _this.$cognitoAuth.options.UserPoolId;
         logins[login_id] = token;
-        
+
         AWS.config.credentials = new CognitoIdentityCredentials({
           IdentityPoolId: _this.$cognitoAuth.options.IdentityPoolId,
           Logins: logins,
@@ -1308,12 +1308,12 @@ export default {
     getPriceLambda(service, locationDescription, memorySize, numberInstances) {
       var _this = this;
       return new Promise(function(resolve, reject) {
-        
+
         var token = JSON.parse(window.localStorage.getItem("session")).user.token;
         var logins = {};
         var login_id = 'cognito-idp.' + _this.$cognitoAuth.options.region + '.amazonaws.com/' + _this.$cognitoAuth.options.UserPoolId;
         logins[login_id] = token;
-        
+
         AWS.config.credentials = new CognitoIdentityCredentials({
           IdentityPoolId: _this.$cognitoAuth.options.IdentityPoolId,
           Logins: logins,
@@ -1374,7 +1374,7 @@ export default {
     getRegionsEC2 () {
       var _this = this;
       return new Promise(function(resolve, reject) {
-        
+
 
         var token = JSON.parse(window.localStorage.getItem("session")).user.token;
         var logins = {};
@@ -1404,7 +1404,7 @@ export default {
               regions.push(regionsArray[i]['RegionName'])
             };
             resolve(regions);
-          }    
+          }
         });
       });
 
@@ -1440,7 +1440,7 @@ export default {
               regions.push(regionsArray[i]['RegionName'])
             };
             resolve(regions);
-          }    
+          }
         });
       });
 
@@ -1449,7 +1449,7 @@ export default {
   mounted() {
     var _this = this;
     this.lastFind = "";
-    
+
     $.extend($.fn.dataTable.defaults, {
       responsive: true
     });
