@@ -580,7 +580,6 @@ module.exports = {
             PutTargets: 0,
             SetQueueAttributes: 0,
             TestEventPattern: 0
-
         },
         PL_SERVERLESS_APP: {
             ChangeResourceRecordSets:  0,
