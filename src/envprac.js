@@ -45,11 +45,9 @@ module.exports = {
             RebootDBInstance: 1
         },
         PL_DYNAMODB :{
-            PutMetricAlarm: 2,
             CreateTopic: 1,
             CreateTable: 2,
             DeleteTable: 2,
-            DeleteAlarms: 1
         },
         // PL_SDB: {
         //     CreateDomain: 1,
@@ -81,9 +79,6 @@ module.exports = {
             DeleteDBInstance: 1,
             DeregisterImage: 1,
             DeleteTargetGroup: 1,
-            DeleteSecurityGroup: 1,
-
-
         },
         PL_CF : {
             AttachVolume: 2,
@@ -284,11 +279,9 @@ module.exports = {
             RebootDBInstance: 1
         },
         PL_DYNAMODB :{
-            PutMetricAlarm: 2,
             CreateTopic: 1,
             CreateTable: 2,
             DeleteTable: 2,
-            DeleteAlarms: 1
         },
         // PL_SDB: {
         //     CreateDomain: 1,
@@ -320,9 +313,6 @@ module.exports = {
             DeleteDBInstance: 1,
             DeregisterImage: 1,
             DeleteTargetGroup: 1,
-            DeleteSecurityGroup: 1,
-
-
         },
         PL_CF : {
             AttachVolume: 2,
@@ -479,11 +469,9 @@ module.exports = {
             RebootDBInstance: 0
         },
         PL_DYNAMODB :{
-            PutMetricAlarm: 0,
             CreateTopic: 0,
             CreateTable: 0,
             DeleteTable: 0,
-            DeleteAlarms: 0
         },
         // PL_SDB: {
         //     CreateDomain: 0,
@@ -515,8 +503,6 @@ module.exports = {
             DeleteDBInstance: 0,
             DeregisterImage: 0,
             DeleteTargetGroup: 0,
-            DeleteSecurityGroup: 0,
-
         },
         PL_CF : {
             AttachVolume: 0,
