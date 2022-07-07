@@ -123,15 +123,11 @@
             />
         </fieldset>
       </div>
-
-
 			<div class="row" style=" padding-bottom:40px;">
 				<fieldset style = "width: 500px; margin:  0px auto;">
 					<span v-show="select_subject" style="color: #cc3300; font-size: 12px;"><b>Please, select the subject that it belongs to</b></span>
 				</fieldset>
 			</div>
-
-
 			<div v-if="no_result" class="col-12 text-center">
 				<h3>{{user_search}} has not used any service.</h3>
 			</div>
@@ -163,6 +159,13 @@
 							</div>
 						</div>
 					</div>
+				</div>
+			</div>
+
+			<div v-show="graphData.length > 0" class="col-12" style="margin-top:20px;padding-left:0;padding-right:0;">
+				<h3>Percentage of compliance with the laboratory practices of the {{user_search}}</h3>
+				<div style="position: relative; height:50vh;" id="canva">
+					<canvas id="myTracingChart"></canvas>
 				</div>
 			</div>
         </vuestic-widget>
@@ -204,7 +207,10 @@ export default {
 			options: [],
 			all_users: [],
 			all_data: [],
+			tracing_data: [],
+			practices_percentage: 0,
 			max: 0,
+			tracingMax: 0,
 			array: [],
 			user_name: "",
 			user_search: "",
@@ -214,6 +220,7 @@ export default {
 			start: '',
 			end : '',
 			graphData: [],
+			tracingGraphData: [],
 			show_dates: true,
 			select_subject: false,
 			no_result: false,
@@ -300,6 +307,34 @@ export default {
 	},
 
 	methods: {
+		//Calcular semana respecto al inicio del curso
+		calculate_week(fecha){
+			var date = new Date(fecha);
+			var d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+			d.setUTCDate(d.getUTCDate() + 1 - (d.getUTCDay()||7));
+			var fecha_ini = new Date(this.start_date);
+			var inicio_curso = new Date(Date.UTC(fecha_ini.getUTCFullYear(),fecha_ini.getMonth(),fecha_ini.getDate()));
+			var weekNo = Math.ceil(( ( (d - inicio_curso) / 86400000) + 1)/7);
+			return weekNo
+		},
+		//Obtener indice
+		getIndex(key){
+			for (let i = 0; i < this.tracingGraphData.length; i++){
+				if (key == this.tracingGraphData[i].week){
+					return i;
+				}
+			}
+			return -1;
+		},
+		//Verificar que existe
+		exists(key){
+			for (let i = 0; i < this.tracingGraphData.length; i++){
+				if (key == this.tracingGraphData[i].week){
+					return this.tracingGraphData[i].week;
+				}
+			}
+			return -1;
+		},
 		search_callback(resp) {
 
 			this.all_data = []
@@ -355,75 +390,75 @@ export default {
 				totalref = 0
 			}
 
-				if (this.check == "option1"){
-					 this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EMR"
-					})
-					 this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EMR"
-					})
-				}
-				if (this.check == "option2"){
+			if (this.check == "option1"){
+					this.graphData = this.graphData.filter(function(obj){
+					return obj["0"]!=="PL_EMR"
+				})
+					this.all_data = this.all_data.filter(function(obj){
+					return obj["0"]!=="PL_EMR"
+				})
+			}
+			if (this.check == "option2"){
+
+				this.graphData = this.graphData.filter(function(obj){
+					return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
+				})
+				this.all_data = this.all_data.filter(function(obj){
+					return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
+				})
+			}
+			if (this.check == "option3"){
+				var removeValIndex = [0,1,2,3,4,5,7]
+				this.graphData = this.graphData.filter(function(obj){
+					return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
+				})
+				this.all_data = this.all_data.filter(function(obj){
+					return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
+				})
+			}
+			if (this.check == "option4"){
+				this.graphData = this.graphData.filter(function(obj){
+					return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+				})
+				this.all_data = this.all_data.filter(function(obj){
+					return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+				})
+			}
+			if (this.check == "option5"){
+				this.graphData = this.graphData.filter(function(obj){
+					return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
+				})
+				this.all_data = this.all_data.filter(function(obj){
+					return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
+				})
+			}
+			if (this.check == "option6"){
+				this.graphData = this.graphData.filter(function(obj){
+					return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
+				})
+				this.all_data = this.all_data.filter(function(obj){
+					return obj["0"]!=="PL_EMR"  && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
+				})
+			}
+			if (this.check == "option7"){
+
+				this.graphData = this.graphData.filter(function(obj){
+					return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+				})
+				this.all_data = this.all_data.filter(function(obj){
+					return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+				})
+			}
+			if (this.check == "option8"){
 
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
-					})
-					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
-					})
-				}
-				if (this.check == "option3"){
-					var removeValIndex = [0,1,2,3,4,5,7]
-					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
-					})
-					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
-					})
-				}
-				if (this.check == "option4"){
-					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
-					})
-					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
-					})
-				}
-				if (this.check == "option5"){
-					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
-					})
-					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
-					})
-				}
-				if (this.check == "option6"){
-					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
-					})
-					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EMR"  && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
-					})
-				}
-				if (this.check == "option7"){
-
-					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
-					})
-					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
-					})
-        }
-        if (this.check == "option8"){
-
-					this.graphData = this.graphData.filter(function(obj){
 						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 					this.all_data = this.all_data.filter(function(obj){
 						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 				}
-        if (this.check == "option9"){
+			if (this.check == "option9"){
 
 					this.graphData = this.graphData.filter(function(obj){
 						return obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
@@ -432,6 +467,33 @@ export default {
 						return obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 				}
+
+			//Recoger datos
+			for (var i in resp.data) {
+				var datatime = resp.data[i].eventTime;
+				this.tracing_data.push([this.calculate_week(datatime), resp.data[i].eventName]);
+			}
+			//Inicializar contador de eventos para cada semana
+			var fin = this.calculate_week(this.end_date);
+			for(let i = 0; i <= fin; i++) { 
+				let event = {week:'Week '+i, eventNum:0};
+				this.tracingGraphData.push(event);      
+			}
+			//Agrupar eventos por semanas y ordenar
+			for(let i = 0; i < this.tracing_data.length; i++) {
+				let key = 'Week ' + this.tracing_data[i][0]; 
+				if(key == this.exists(key)){
+					this.tracingGraphData[this.getIndex(key)].eventNum++;    
+				}
+			}
+			this.tracingGraphData.sort(((a, b)=>a.week-b.week));
+
+			//Calcular media
+			for (let i=0; i < this.graphData.length;i++){
+				this.practices_percentage+=this.graphData[i][1];
+			}
+			this.practices_percentage = this.practices_percentage / this.graphData.length;
+			console.log(this.practices_percentage);
 
 			if (this.graphData.length > 0) {
 				this.no_result = false;
@@ -439,232 +501,360 @@ export default {
 				var _this = this;
 				this.$nextTick(function() {
 				$("#table-details")	.dataTable().fnClearTable();
-				 if (_this.all_data.length != 0){
+				if (_this.all_data.length != 0){
 					$("#table-details").dataTable().fnAddData(_this.all_data);
 				}
 				$("#table-details").dataTable().fnDraw();
 				});
+
+				this.drawTracingGraph();
 			} else {
 				this.no_result = true;
 			}
 			this.processing = false;
 		},
 		search() {
-			$(".collapse").collapse('hide');
-			this.graphData = [];
+				$(".collapse").collapse('hide');
+				this.graphData = [];
 
-			var checkboxchecked = $("#radio1")
-			if ($("input[name='radio']:checked").is(':checked')){
+				var checkboxchecked = $("#radio1")
+				if ($("input[name='radio']:checked").is(':checked')){
 
-				this.select_subject = false
-			}else {
-				this.select_subject = true
+					this.select_subject = false
+				}else {
+					this.select_subject = true
 
-			}
-
-			if (this.user_name == "" || this.user_name == null) {
-				this.errors.username = true;
-			}else {
-				this.errors.username = false;
-			}
-
-			if (this.user_name != "" && this.user_name != null && this.select_subject == false) {
-				this.errors.username = false;
-				this.processing = true;
-				var _this = this;
-				if (!this.show_dates) {
-				axios.get(api.url.general  + "users/" + this.user_name)
-					.then(function(resp) {
-					_this.search_callback(resp);
-					});
-				} else {
-
-					axios.get(api.url.general +	"users/" + this.user_name +"?from=" +this.start_date +	"&to=" +this.end_date)
-						.then(function(resp) {
-						_this.all_services=[];
-
-						_this.search_callback(resp);
-					});
 				}
-			}
-    },
-    isMobileDevice(){
-    return ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-    },
+
+				if (this.user_name == "" || this.user_name == null) {
+					this.errors.username = true;
+				}else {
+					this.errors.username = false;
+				}
+
+				if (this.user_name != "" && this.user_name != null && this.select_subject == false) {
+					this.errors.username = false;
+					this.processing = true;
+					var _this = this;
+					if (!this.show_dates) {
+					axios.get(api.url.general  + "users/" + this.user_name)
+						.then(function(resp) {
+						_this.search_callback(resp);
+						});
+					} else {
+
+						axios.get(api.url.general +	"users/" + this.user_name +"?from=" +this.start_date +	"&to=" +this.end_date)
+							.then(function(resp) {
+							_this.all_services=[];
+
+							_this.search_callback(resp);
+						});
+					}
+				}
+		},
+		isMobileDevice(){
+			return ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+		},
 		drawGraph() {
 
-		this.max = 100;
+			this.max = 100;
 
-		var myColors = []
-		var borderColor = []
+			var myColors = []
+			var borderColor = []
 
-		for (var i in this.graphData){
-			if(50 < this.graphData[i][1] <= 100 ){
-				myColors[i]="rgba(74,227,135,0.2)"
-				borderColor[i]="rgba(0,102,0,5)"
-			}if(this.graphData[i][1] == 50){
-				myColors[i]="rgba(204,255,51,0.5)"
-				borderColor[i]="rgba(255, 102, 0,1)"
-			}if(this.graphData[i][1] < 50){
-				myColors[i]="rgba(255,51,0,0.2)"
-				borderColor[i]="rgba(255, 51, 0,1)"
+			for (var i in this.graphData){
+				if(50 < this.graphData[i][1] <= 100 ){
+					myColors[i]="rgba(74,227,135,0.2)"
+					borderColor[i]="rgba(0,102,0,5)"
+				}if(this.graphData[i][1] == 50){
+					myColors[i]="rgba(204,255,51,0.5)"
+					borderColor[i]="rgba(255, 102, 0,1)"
+				}if(this.graphData[i][1] < 50){
+					myColors[i]="rgba(255,51,0,0.2)"
+					borderColor[i]="rgba(255, 51, 0,1)"
+				}
+
 			}
 
-		}
 
-
-		$("#myChart").remove();
-		$("#canva").append('<canvas id="myChart"></canvas>');
-		var ctx = $("#myChart");
-		var myChart = new Chart(ctx, {
-			type: "bar",
-			data: {
-				labels: this.graphData.map(graphData => graphData[0]),
-				datasets: [
-					{
-					label: "%",
-					backgroundColor: myColors,
-					borderColor: borderColor,
-					borderWidth: 1,
-					hoverBackgroundColor: "rgba(0, 153, 255,0.5)",
-					hoverBorderColor: "rgba(0,255,255,1)",
-					data: this.graphData.map(graphData => graphData[1])
-					}
-				]
-			},
-			options: {
-				responsive: true,
-				maintainAspectRatio: false,
-				legend: {
-					display: false
-				},
-				plugins: {
-					datalabels: {
-						display: function(){
-
-							if ($('#canva').width() < 350){
-								return false
-							}else{
-								return true
-							}
-						},
-						align : function (context){
-
-							var index = context.dataIndex;
-							var value = context.dataset.data[index];
-							return value > 90 ? 'bottom' : 'top'
-
-
-						},
-
-						anchor: "end",
-						backgroundColor: null,
-						borderColor: null,
-						borderRadius: 4,
-						borderWidth: 1,
-						color: function(context) {
-							var index = context.dataIndex;
-							var value = context.dataset.data[index];
-							return value < 50 ? 'red' :  "black" // draw negative values in red
-						},
-						font: {
-							size: 12,
-							weight: "bold"
-						},
-						offset: 4,
-						padding: 0,
-						formatter: function(value, context) {
-   							 return value + '%';
-						}
-						}
-					},
-
-				tooltips: {
-					position: "nearest",
-					titleFontSize: 14,
-					bodyFontSize: 14
-				},
-				scales: {
-					yAxes: [
-					{
-						display: true,
-						scaleLabel: {
-						display: true,
-						labelString: "%",
-						fontColor: "#000",
-						fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-						fontSize: 16
-						},
-						callback: function(value) {
-							if (Number.isInteger(value)) {
-								return value;
-							}
-						},
-						gridLines: {
-							display: true,
-							color: "rgba(220,227,241,1)"
-						},
-						ticks: {
-              // display: !this.isMobileDevice(),
-              callback: function(value, index, values) {
-								if ($('#canva').width() < 300){
-									return null
-								}else {
-									return value
-								}
-              },
-							beginAtZero: true,
-							fontColor: "#000",
-							min: 0,
-							max :this.max
-
-							}
-					}
-					],
-					xAxes: [
+			$("#myChart").remove();
+			$("#canva").append('<canvas id="myChart"></canvas>');
+			var ctx = $("#myChart");
+			var myChart = new Chart(ctx, {
+				type: "bar",
+				data: {
+					labels: this.graphData.map(graphData => graphData[0]),
+					datasets: [
 						{
-						display: true,
-						gridLines: { display: false },
-						scaleLabel: {
+						label: "%",
+						backgroundColor: myColors,
+						borderColor: borderColor,
+						borderWidth: 1,
+						hoverBackgroundColor: "rgba(0, 153, 255,0.5)",
+						hoverBorderColor: "rgba(0,255,255,1)",
+						data: this.graphData.map(graphData => graphData[1])
+						}
+					]
+				},
+				options: {
+					responsive: true,
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					},
+					plugins: {
+						datalabels: {
+							display: function(){
+
+								if ($('#canva').width() < 350){
+									return false
+								}else{
+									return true
+								}
+							},
+							align : function (context){
+
+								var index = context.dataIndex;
+								var value = context.dataset.data[index];
+								return value > 90 ? 'bottom' : 'top'
+
+
+							},
+
+							anchor: "end",
+							backgroundColor: null,
+							borderColor: null,
+							borderRadius: 4,
+							borderWidth: 1,
+							color: function(context) {
+								var index = context.dataIndex;
+								var value = context.dataset.data[index];
+								return value < 50 ? 'red' :  "black" // draw negative values in red
+							},
+							font: {
+								size: 12,
+								weight: "bold"
+							},
+							offset: 4,
+							padding: 0,
+							formatter: function(value, context) {
+								return value + '%';
+							}
+							}
+						},
+
+					tooltips: {
+						position: "nearest",
+						titleFontSize: 14,
+						bodyFontSize: 14
+					},
+					scales: {
+						yAxes: [
+						{
 							display: true,
-							labelString: "Laboratory practices",
+							scaleLabel: {
+							display: true,
+							labelString: "%",
 							fontColor: "#000",
 							fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
 							fontSize: 16
-						},
-						ticks: {
-							callback: function(value, index, values) {
-								if ($('#canva').width() < 300){
-									return null
-								}else {
-									return value
+							},
+							callback: function(value) {
+								if (Number.isInteger(value)) {
+									return value;
 								}
-              },
-							autoSkip: false,
-							fontColor: "#000"
-						},
-						maxBarThickness: 50
+							},
+							gridLines: {
+								display: true,
+								color: "rgba(220,227,241,1)"
+							},
+							ticks: {
+				// display: !this.isMobileDevice(),
+				callback: function(value, index, values) {
+									if ($('#canva').width() < 300){
+										return null
+									}else {
+										return value
+									}
+				},
+								beginAtZero: true,
+								fontColor: "#000",
+								min: 0,
+								max :this.max
+
+								}
 						}
-					],
-						hover: {
-							intersect: false
+						],
+						xAxes: [
+							{
+							display: true,
+							gridLines: { display: false },
+							scaleLabel: {
+								display: true,
+								labelString: "Laboratory practices",
+								fontColor: "#000",
+								fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+								fontSize: 16
+							},
+							ticks: {
+								callback: function(value, index, values) {
+									if ($('#canva').width() < 300){
+										return null
+									}else {
+										return value
+									}
+				},
+								autoSkip: false,
+								fontColor: "#000"
+							},
+							maxBarThickness: 50
+							}
+						],
+							hover: {
+								intersect: false
+							}
 						}
 					}
-				}
-			});
+				});
 
-			$("#myChart").click(function(e) {
-				 this.activeBars = myChart.getElementAtEvent(e);
-				var find = this.activeBars["0"]._model.label
-				$(".collapse").collapse('show');
-				$("#table-details").DataTable().search(find).draw();
+				$("#myChart").click(function(e) {
+					this.activeBars = myChart.getElementAtEvent(e);
+					var find = this.activeBars["0"]._model.label
+					$(".collapse").collapse('show');
+					$("#table-details").DataTable().search(find).draw();
 
-			});
+				});
 		},
+		drawTracingGraph() {
+			///finding max value of array
+			this.tracingMax = 0;
+			for (var i in this.tracingGraphData) {
+				if (this.tracingMax < this.tracingGraphData[i].eventNum) {
+					this.tracingMax = this.tracingGraphData[i].eventNum;
+				}
+			}
 
+			$("#myTracingChart").remove();
+			$("#canva").append('<canvas id="myTracingChart"></canvas>');
+			var ctx = $("#myTracingChart");
+			var myTracingChart = new Chart(ctx, {
+				type: "bar",
+				data: {
+					labels: this.tracingGraphData.map(tracingGraphData => tracingGraphData.week),
+					datasets: [
+						{
+							label: "Events",
+							backgroundColor: "rgba(74,227,135,0.2)",
+							borderColor: "rgba(0,102,0,1)",
+							borderWidth: 1,
+							hoverBackgroundColor: "rgba(204, 255, 51,0.5)",
+							hoverBorderColor: "rgba(0,102,0,1)",
+							data: this.tracingGraphData.map(tracingGraphData => tracingGraphData.eventNum)
+						}
+					]
+				},
+				options: {
+					responsive: true,
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					},
+					plugins: {
+						datalabels: {
+							display: function(){
+
+									if ($('#canva').width() < 300){
+										return false
+									}else{
+										return true
+									}
+								},
+								align: "top",
+								anchor: "end",
+								backgroundColor: null,
+								borderColor: null,
+								borderRadius: 4,
+								borderWidth: 1,
+								color: "black",
+								font: {
+									//size: 14,
+									weight: "bold"
+								},
+								offset: 4,
+								padding: 0,
+								formatter: Math.round
+							}
+						},
+
+					tooltips: {
+						position: "nearest",
+						titleFontSize: 14,
+						bodyFontSize: 14
+					},
+					scales: {
+						yAxes: [
+						{
+							display: true,
+							scaleLabel: {
+							display: true,
+							labelString: "# Completed Event Number",
+							fontColor: "#000",
+							fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+							fontSize: 16
+							},
+							callback: function(value) {
+								if (Number.isInteger(value)) {
+									return value;
+								}
+							},
+							gridLines: {
+								display: true,
+								color: "rgba(220,227,241,1)"
+							},
+							ticks: {
+								beginAtZero: true,
+								fontColor: "#000",
+								min: 0,
+								stepSize: Math.ceil(this.tracingMax / 4),
+								max: this.tracingMax + Math.ceil(this.tracingMax / 4)
+							}
+						}
+						],
+						xAxes: [
+							{
+							display: true,
+							gridLines: { display: false },
+							scaleLabel: {
+								display: true,
+								labelString: "Weeks",
+								fontColor: "#000",
+								fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+								fontSize: 16
+							},
+							ticks: {
+								callback: function(value, index, values) {
+									if ($('#canva').width() < 300){
+										return null
+									}else {
+										return value
+									}
+								},
+								autoSkip: false,
+								fontColor: "#000"
+							},
+							maxBarThickness: 50
+							}
+						],
+							hover: {
+								intersect: false
+							}
+						}
+					}
+				});
+		}
 	},
 	mounted() {
-    console.log(!this.isMobileDevice())
+    	console.log(!this.isMobileDevice())
 		var d = new Date();
 		   var currDay = d.getDay();
            var currMonth = d.getMonth();
