@@ -67,32 +67,10 @@
 
 			<div v-show="graphData.length > 0" class="" style="margin-top:20px;">
 				<h3>{{user_search}}'s tracing during the course</h3>
-				<div style="position: relative; height:50vh;" id="canva">
+				<div style="position: relative; height:50vh;" id="canva2">
 					<canvas id="myTracingChart"></canvas>
 				</div>
 			</div>
-
-			<!-- <div v-show="graphData.length > 0" class="row" style="margin-bottom:40px;">
-				<div id="#tracing-accordion-search" class="col-md-12">
-					<div>
-						<div id="headingOne" style="padding-bottom:20px;">
-							<h5 class="mb-0">
-							<button class="btn btn-primary" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"
-							style="padding: 0.8rem 1.0rem!important;letter-spacing: normal;">
-								Details
-							</button>
-							</h5>
-						</div>
-
-						<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="##tracing-accordion-search">
-							<div class="card-body col-12">
-								<table id="#tracing-table-details" class="stripe" style="width:100%">
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div> -->
         </vuestic-widget>
 	</div>
 </template>
@@ -170,6 +148,7 @@ export default {
     },
     search_callback(resp) {
 		this.all_data = [];
+		this.tracing_data = [];
 		this.user_search = this.user_name;
 		for (var i in resp.data) {
 			var datatime = resp.data[i].eventTime;
@@ -188,6 +167,7 @@ export default {
 		}
 
 		//Inicializar contador de eventos para cada semana
+		this.tracingGraphData.splice(0);
 		var fin = this.calculate_week(this.end_date);
 		for(let i = 0; i <= fin; i++) { 
 			let event = {week:'Week '+i, eventNum:0};
@@ -417,8 +397,8 @@ export default {
 						}
 					}
 				}
-			});
-	},
+			});	
+	} ,
 	drawTracingGraph() {
 		///finding max value of array
 		this.tracingMax = 0;
@@ -429,9 +409,9 @@ export default {
 		}
 
 		$("#myTracingChart").remove();
-		$("#canva").append('<canvas id="myTracingChart"></canvas>');
-		var ctx = $("#myTracingChart");
-		var myTracingChart = new Chart(ctx, {
+		$("#canva2").append('<canvas id="myTracingChart"></canvas>');
+		var ctx2 = $("#myTracingChart");
+		var myTracingChart = new Chart(ctx2, {
 			type: "bar",
 			data: {
 				labels: this.tracingGraphData.map(tracingGraphData => tracingGraphData.week),
@@ -545,7 +525,7 @@ export default {
 					}
 				}
 			});
-		}
+		} 
 	},
 	created() {
 		var dmy = new Date();

@@ -162,9 +162,9 @@
 				</div>
 			</div>
 
-			<div v-show="graphData.length > 0" class="col-12" style="margin-top:20px;padding-left:0;padding-right:0;">
-				<h3>Percentage of compliance with the laboratory practices of the {{user_search}}</h3>
-				<div style="position: relative; height:50vh;" id="canva">
+			<div v-show="graphData.length > 0" class="" style="margin-top:20px;">
+				<h3>{{user_search}}'s tracing during the course</h3>
+				<div style="position: relative; height:50vh;" id="canva2">
 					<canvas id="myTracingChart"></canvas>
 				</div>
 			</div>
@@ -336,9 +336,8 @@ export default {
 			return -1;
 		},
 		search_callback(resp) {
-
 			this.all_data = []
-
+			this.tracing_data = [];
 			this.user_search = this.user_name;
 			for (var i in resp.data) {
 
@@ -474,6 +473,7 @@ export default {
 				this.tracing_data.push([this.calculate_week(datatime), resp.data[i].eventName]);
 			}
 			//Inicializar contador de eventos para cada semana
+			this.tracingGraphData.splice(0);
 			var fin = this.calculate_week(this.end_date);
 			for(let i = 0; i <= fin; i++) { 
 				let event = {week:'Week '+i, eventNum:0};
@@ -727,130 +727,130 @@ export default {
 		},
 		drawTracingGraph() {
 			///finding max value of array
-			this.tracingMax = 0;
-			for (var i in this.tracingGraphData) {
-				if (this.tracingMax < this.tracingGraphData[i].eventNum) {
-					this.tracingMax = this.tracingGraphData[i].eventNum;
-				}
+		this.tracingMax = 0;
+		for (var i in this.tracingGraphData) {
+			if (this.tracingMax < this.tracingGraphData[i].eventNum) {
+				this.tracingMax = this.tracingGraphData[i].eventNum;
 			}
+		}
 
-			$("#myTracingChart").remove();
-			$("#canva").append('<canvas id="myTracingChart"></canvas>');
-			var ctx = $("#myTracingChart");
-			var myTracingChart = new Chart(ctx, {
-				type: "bar",
-				data: {
-					labels: this.tracingGraphData.map(tracingGraphData => tracingGraphData.week),
-					datasets: [
-						{
-							label: "Events",
-							backgroundColor: "rgba(74,227,135,0.2)",
-							borderColor: "rgba(0,102,0,1)",
-							borderWidth: 1,
-							hoverBackgroundColor: "rgba(204, 255, 51,0.5)",
-							hoverBorderColor: "rgba(0,102,0,1)",
-							data: this.tracingGraphData.map(tracingGraphData => tracingGraphData.eventNum)
-						}
-					]
+		$("#myTracingChart").remove();
+		$("#canva2").append('<canvas id="myTracingChart"></canvas>');
+		var ctx2 = $("#myTracingChart");
+		var myTracingChart = new Chart(ctx2, {
+			type: "bar",
+			data: {
+				labels: this.tracingGraphData.map(tracingGraphData => tracingGraphData.week),
+				datasets: [
+					{
+						label: "Events",
+						backgroundColor: "rgba(74,227,135,0.2)",
+						borderColor: "rgba(0,102,0,1)",
+						borderWidth: 1,
+						hoverBackgroundColor: "rgba(204, 255, 51,0.5)",
+						hoverBorderColor: "rgba(0,102,0,1)",
+						data: this.tracingGraphData.map(tracingGraphData => tracingGraphData.eventNum)
+					}
+				]
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				legend: {
+					display: false
 				},
-				options: {
-					responsive: true,
-					maintainAspectRatio: false,
-					legend: {
-						display: false
-					},
-					plugins: {
-						datalabels: {
-							display: function(){
+				plugins: {
+					datalabels: {
+						display: function(){
 
-									if ($('#canva').width() < 300){
-										return false
-									}else{
-										return true
-									}
-								},
-								align: "top",
-								anchor: "end",
-								backgroundColor: null,
-								borderColor: null,
-								borderRadius: 4,
-								borderWidth: 1,
-								color: "black",
-								font: {
-									//size: 14,
-									weight: "bold"
-								},
-								offset: 4,
-								padding: 0,
-								formatter: Math.round
+								if ($('#canva').width() < 300){
+									return false
+								}else{
+									return true
+								}
+							},
+							align: "top",
+							anchor: "end",
+							backgroundColor: null,
+							borderColor: null,
+							borderRadius: 4,
+							borderWidth: 1,
+							color: "black",
+							font: {
+								//size: 14,
+								weight: "bold"
+							},
+							offset: 4,
+							padding: 0,
+							formatter: Math.round
+						}
+					},
+
+				tooltips: {
+					position: "nearest",
+					titleFontSize: 14,
+					bodyFontSize: 14
+				},
+				scales: {
+					yAxes: [
+					{
+						display: true,
+						scaleLabel: {
+						display: true,
+						labelString: "# Completed Event Number",
+						fontColor: "#000",
+						fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
+						fontSize: 16
+						},
+						callback: function(value) {
+							if (Number.isInteger(value)) {
+								return value;
 							}
 						},
-
-					tooltips: {
-						position: "nearest",
-						titleFontSize: 14,
-						bodyFontSize: 14
-					},
-					scales: {
-						yAxes: [
+						gridLines: {
+							display: true,
+							color: "rgba(220,227,241,1)"
+						},
+						ticks: {
+							beginAtZero: true,
+							fontColor: "#000",
+							min: 0,
+							stepSize: Math.ceil(this.tracingMax / 4),
+							max: this.tracingMax + Math.ceil(this.tracingMax / 4)
+						}
+					}
+					],
+					xAxes: [
 						{
+						display: true,
+						gridLines: { display: false },
+						scaleLabel: {
 							display: true,
-							scaleLabel: {
-							display: true,
-							labelString: "# Completed Event Number",
+							labelString: "Weeks",
 							fontColor: "#000",
 							fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
 							fontSize: 16
-							},
-							callback: function(value) {
-								if (Number.isInteger(value)) {
-									return value;
+						},
+						ticks: {
+							callback: function(value, index, values) {
+								if ($('#canva').width() < 300){
+									return null
+								}else {
+									return value
 								}
-							},
-							gridLines: {
-								display: true,
-								color: "rgba(220,227,241,1)"
-							},
-							ticks: {
-								beginAtZero: true,
-								fontColor: "#000",
-								min: 0,
-								stepSize: Math.ceil(this.tracingMax / 4),
-								max: this.tracingMax + Math.ceil(this.tracingMax / 4)
-							}
+                    		},
+							autoSkip: false,
+							fontColor: "#000"
+						},
+						maxBarThickness: 50
 						}
-						],
-						xAxes: [
-							{
-							display: true,
-							gridLines: { display: false },
-							scaleLabel: {
-								display: true,
-								labelString: "Weeks",
-								fontColor: "#000",
-								fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-								fontSize: 16
-							},
-							ticks: {
-								callback: function(value, index, values) {
-									if ($('#canva').width() < 300){
-										return null
-									}else {
-										return value
-									}
-								},
-								autoSkip: false,
-								fontColor: "#000"
-							},
-							maxBarThickness: 50
-							}
-						],
-							hover: {
-								intersect: false
-							}
+					],
+						hover: {
+							intersect: false
 						}
 					}
-				});
+				}
+			});
 		}
 	},
 	mounted() {
