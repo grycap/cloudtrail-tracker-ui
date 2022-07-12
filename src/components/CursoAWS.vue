@@ -134,6 +134,7 @@
 
 			<div v-show="graphData.length > 0" class="col-12" style="margin-top:20px;padding-left:0;padding-right:0;">
 				<h3>Percentage of compliance with the laboratory practices of the {{user_search}}</h3>
+				<h3 id="percentage" style="max-width: 20%; margin: 0.5rem; padding: 0.5rem; border: 1px solid black; border-radius: 0.5rem; text-align:center">{{practices_percentage}}</h3>
 				<div style="position: relative; height:50vh;" id="canva">
 					<canvas id="myChart"></canvas>
 				</div>
@@ -489,11 +490,12 @@ export default {
 			this.tracingGraphData.sort(((a, b)=>a.week-b.week));
 
 			//Calcular media
+			this.practices_percentage = 0;
 			for (let i=0; i < this.graphData.length;i++){
 				this.practices_percentage+=this.graphData[i][1];
 			}
 			this.practices_percentage = this.practices_percentage / this.graphData.length;
-			console.log(this.practices_percentage);
+			this.practices_percentage = this.practices_percentage.toFixed(2);
 
 			if (this.graphData.length > 0) {
 				this.no_result = false;
@@ -851,6 +853,14 @@ export default {
 					}
 				}
 			});
+
+			if (this.practices_percentage <= 20){
+				$("#percentage").css("background-color", "#e46161");
+			}else if (this.practices_percentage > 20 && this.practices_percentage < 85){
+				$("#percentage").css("background-color", "#f1b963");
+			}else{
+				$("#percentage").css("background-color", "#cbf078");
+			}
 		}
 	},
 	mounted() {
