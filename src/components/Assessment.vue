@@ -3,8 +3,8 @@
 		<vuestic-widget class="no-padding no-v-padding">
 			<div class="row" style="padding-top:40px;">
 				<div class="col-12 col-md-5 col-lg-4" style="margin-top:10px;">
-					<v-select  v-model="user_name" ref="select" label="first_name" :options="all_users" placeholder="Users" v-bind:class="{'is-invalid' : errors.username}"></v-select>
-					<span v-show="errors.username" style="color: #cc3300; font-size: 12px;"><b>Please, select a username.</b></span>
+					<v-select  v-model="selected_users" multiple persistent-hint ref="select" label="first_name" :options="all_users" placeholder="Users" v-bind:class="{'is-invalid' : errors.selected_users}"></v-select>
+					<span v-show="errors.selected_users" style="color: #cc3300; font-size: 12px;"><b>Please, select a username at least.</b></span>
 				</div>
 				<div v-show="show_dates" class="col-12 col-md-4 col-lg-4" style="margin-top:10px;">
 					<div class="input-group mb-3">
@@ -16,20 +16,12 @@
 					</div>
 				</div>
 				<div class="row col-12 col-md-3 col-lg-4">
-					<fieldset class="col-6" style="padding-top:15px;">
-            <vuestic-checkbox
-              label="Dates"
-              :id="'checkbox4'"
-              v-model="show_dates"/>
-					</fieldset>
-
-          <div class="col-6" style="padding-top:5px;">
-            <button class="btn btn-primary" @click="search()" :disabled="processing == true" style="padding: 0.8rem 1.0rem!important;letter-spacing: normal;">
-            <i v-if="processing" class="fas fa-spinner fa-pulse"></i><i v-if="!processing" class="fas fa-search d-lg-none" ></i><span v-if="!processing" class="d-none d-lg-block">Search</span></button>
-
-          </div>
+					<div class="col-6" style="padding-top:5px;">
+						<button class="btn btn-primary" @click="search()" :disabled="processing == true" style="padding: 0.8rem 1.0rem!important;letter-spacing: normal;">
+						<i v-if="processing" class="fas fa-spinner fa-pulse"></i><i v-if="!processing" class="fas fa-search d-lg-none" ></i><span v-if="!processing" class="d-none d-lg-block">Download</span></button>
+					</div>
 				</div>
-      </div>
+      		</div>
 
       <div class="row" style="padding-left:40px;" >
 
@@ -131,44 +123,6 @@
 			<div v-if="no_result" class="col-12 text-center">
 				<h3>{{user_search}} has not used any service.</h3>
 			</div>
-
-			<div v-show="graphData.length > 0" class="col-12" style="margin-top:20px;padding-left:0;padding-right:0;">
-				<h3>Percentage of compliance with the laboratory practices of the {{user_search}}</h3>
-				<h3 id="percentage" style="max-width: 20%; margin: 0.5rem; padding: 0.5rem; border: 1px solid black; border-radius: 0.5rem; text-align:center">{{practices_percentage}}</h3>
-				<div style="position: relative; height:50vh;" id="canva">
-					<canvas id="myChart"></canvas>
-				</div>
-			</div>
-
-			<div v-show="graphData.length > 0" class="row" style="margin-bottom:40px;">
-				<div id="accordion-dashboard" class="col-md-12">
-					<div>
-						<div id="headingOne" style="padding-bottom:20px;">
-							<h5 class="mb-0">
-							<button id="openbtn" class="btn btn-primary" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"
-							style="padding: 0.8rem 1.0rem!important;letter-spacing: normal;">
-								Details
-							</button>
-							</h5>
-						</div>
-
-						<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion-dashboard">
-							<div class="card-body">
-								<table id="table-details" class="stripe" style="width:100%">
-								</table>
-								<span style="color: #cc3300; display:block; text-align:center;font-size: 12px; width:100%; height:100%; margin: 0 auto;">For further information about each event go to: <a id="docs" target="_blank" href="https://docs.aws.amazon.com/">https://docs.aws.amazon.com/</a></span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div v-show="graphData.length > 0" class="" style="margin-top:20px;">
-				<h3>{{user_search}}'s tracing during the course</h3>
-				<div style="position: relative; height:50vh;" id="canva2">
-					<canvas id="myTracingChart"></canvas>
-				</div>
-			</div>
         </vuestic-widget>
 	</div>
 </template>
@@ -180,6 +134,7 @@ import envprac from "../envprac.js";
 import api from "../api.js";
 import { install } from 'vuex';
 import JsonExcel from 'vue-json-excel';
+import { jsPDF } from "jspdf"; 
 
 export default {
 	name: "dashboard",
@@ -208,12 +163,13 @@ export default {
 			options: [],
 			all_users: [],
 			all_data: [],
-			tracing_data: [],
-			practices_percentage: 0,
+			all_practices_percentage: [],
+			pdf_data: [],
+			selected_subject: "",
 			max: 0,
-			tracingMax: 0,
 			array: [],
 			user_name: "",
+			selected_users: [],
 			user_search: "",
 			all_services: [],
 			start_date: "",
@@ -221,7 +177,6 @@ export default {
 			start: '',
 			end : '',
 			graphData: [],
-			tracingGraphData: [],
 			show_dates: true,
 			select_subject: false,
 			no_result: false,
@@ -247,10 +202,9 @@ export default {
 		.then(function(resp) {
 			var session = JSON.parse(localStorage.getItem("session"))
 
-			if (session.user.username == "gmolto" || session.user.username == "admin"){
+			if (session.user.username == "gmolto" || session.user.username == "admin" || session.user.username=="alucloud187"){
 				_this.all_users = resp.data;
 				_this.user_name = "";
-
 			}else {
 				_this.all_users = [];
 				for (var i in resp.data){
@@ -269,7 +223,6 @@ export default {
 		});
 		this.initData = envprac.INITDATA;
 		this.referData = envprac.REFERDATA;
-
 	},
 
 	watch: {
@@ -308,37 +261,9 @@ export default {
 	},
 
 	methods: {
-		//Calcular semana respecto al inicio del curso
-		calculate_week(fecha){
-			var date = new Date(fecha);
-			var d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-			d.setUTCDate(d.getUTCDate() + 1 - (d.getUTCDay()||7));
-			var fecha_ini = new Date(this.start_date);
-			var inicio_curso = new Date(Date.UTC(fecha_ini.getUTCFullYear(),fecha_ini.getMonth(),fecha_ini.getDate()));
-			var weekNo = Math.ceil(( ( (d - inicio_curso) / 86400000) + 1)/7);
-			return weekNo
-		},
-		//Obtener indice
-		getIndex(key){
-			for (let i = 0; i < this.tracingGraphData.length; i++){
-				if (key == this.tracingGraphData[i].week){
-					return i;
-				}
-			}
-			return -1;
-		},
-		//Verificar que existe
-		exists(key){
-			for (let i = 0; i < this.tracingGraphData.length; i++){
-				if (key == this.tracingGraphData[i].week){
-					return this.tracingGraphData[i].week;
-				}
-			}
-			return -1;
-		},
 		search_callback(resp) {
 			this.all_data = []
-			this.tracing_data = [];
+			this.graphData = [];
 			this.user_search = this.user_name;
 			for (var i in resp.data) {
 
@@ -451,422 +376,127 @@ export default {
 			}
 			if (this.check == "option8"){
 
-					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
-					})
-					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
-					})
-				}
+				this.graphData = this.graphData.filter(function(obj){
+					return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+				})
+				this.all_data = this.all_data.filter(function(obj){
+					return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+				})
+			}
 			if (this.check == "option9"){
 
-					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
-					})
-					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
-					})
-				}
-
-			if(!($('#checkbox4').prop('checked'))){
-				var d = new Date();
-				this.start_date = moment(d).format("YYYY-MM-DD");
-				console.log(this.start_date);
+				this.graphData = this.graphData.filter(function(obj){
+					return obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+				})
+				this.all_data = this.all_data.filter(function(obj){
+					return obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+				})
 			}
-
-			//Recoger datos
-			for (var i in resp.data) {
-				var datatime = resp.data[i].eventTime;
-				this.tracing_data.push([this.calculate_week(datatime), resp.data[i].eventName]);
-			}
-			//Inicializar contador de eventos para cada semana
-			this.tracingGraphData.splice(0);
-			var fin = this.calculate_week(this.end_date);
-			for(let i = 0; i <= fin; i++) { 
-				let event = {week:'Week '+i, eventNum:0};
-				this.tracingGraphData.push(event);      
-			}
-			//Agrupar eventos por semanas y ordenar
-			for(let i = 0; i < this.tracing_data.length; i++) {
-				let key = 'Week ' + this.tracing_data[i][0]; 
-				if(key == this.exists(key)){
-					this.tracingGraphData[this.getIndex(key)].eventNum++;    
-				}
-			}
-			this.tracingGraphData.sort(((a, b)=>a.week-b.week));
 
 			//Calcular media
-			this.practices_percentage = 0;
+			var practices_percentage = 0;
 			for (let i=0; i < this.graphData.length;i++){
-				this.practices_percentage+=this.graphData[i][1];
+				practices_percentage+=this.graphData[i][1];
 			}
-			this.practices_percentage = this.practices_percentage / this.graphData.length;
-			this.practices_percentage = this.practices_percentage.toFixed(2);
+			practices_percentage = practices_percentage / this.graphData.length;
+			practices_percentage = practices_percentage.toFixed(2);
+			let percentage = {idAlumno:this.user_name, percentage: practices_percentage};
+			this.all_practices_percentage.push(percentage);	
 
 			if (this.graphData.length > 0) {
-				this.no_result = false;
-				this.drawGraph();
+				this.no_result = false;	
 				var _this = this;
-				this.$nextTick(function() {
-				$("#table-details")	.dataTable().fnClearTable();
-				if (_this.all_data.length != 0){
-					$("#table-details").dataTable().fnAddData(_this.all_data);
-				}
-				$("#table-details").dataTable().fnDraw();
-				});
-
-				this.drawTracingGraph();
 			} else {
 				this.no_result = true;
 			}
 			this.processing = false;
 		},
-		search() {
+		async search() {
 				$(".collapse").collapse('hide');
-				this.graphData = [];
-
+				this.all_practices_percentage = [];
 				var checkboxchecked = $("#radio1")
 				if ($("input[name='radio']:checked").is(':checked')){
 
 					this.select_subject = false
 				}else {
 					this.select_subject = true
-
 				}
 
-				if (this.user_name == "" || this.user_name == null) {
-					this.errors.username = true;
+				if (this.selected_users == "" || this.selected_users == null) {
+					this.errors.selected_users = true;
 				}else {
-					this.errors.username = false;
+					this.errors.selected_users = false;
 				}
 
-				if (this.user_name != "" && this.user_name != null && this.select_subject == false) {
-					this.errors.username = false;
+				if (this.selected_users != "" && this.selected_users != null && this.select_subject == false) {
+					this.errors.selected_users = false;
 					this.processing = true;
 					var _this = this;
-					if (!this.show_dates) {
-					axios.get(api.url.general  + "users/" + this.user_name)
-						.then(function(resp) {
-						_this.search_callback(resp);
-						});
-					} else {
-
-						axios.get(api.url.general +	"users/" + this.user_name +"?from=" +this.start_date +	"&to=" +this.end_date)
+					for (let i = 0; i < this.selected_users.length;i++){
+						this.user_name = this.selected_users[i];
+						await axios.get(api.url.general +	"users/" + this.user_name +"?from=" +this.start_date +	"&to=" +this.end_date)
 							.then(function(resp) {
 							_this.all_services=[];
 
 							_this.search_callback(resp);
 						});
 					}
+					this.downloadFile();
 				}
 		},
 		isMobileDevice(){
 			return ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
 		},
-		drawGraph() {
+		downloadFile(){
+			this.pdf_data = [];
 
-			this.max = 100;
-
-			var myColors = []
-			var borderColor = []
-
-			for (var i in this.graphData){
-				if(50 < this.graphData[i][1] <= 100 ){
-					myColors[i]="rgba(74,227,135,0.2)"
-					borderColor[i]="rgba(0,102,0,5)"
-				}if(this.graphData[i][1] == 50){
-					myColors[i]="rgba(204,255,51,0.5)"
-					borderColor[i]="rgba(255, 102, 0,1)"
-				}if(this.graphData[i][1] < 50){
-					myColors[i]="rgba(255,51,0,0.2)"
-					borderColor[i]="rgba(255, 51, 0,1)"
-				}
-
+			if (this.check == "option1"){
+				this.selected_subject = "CursoCloudAWS";
+			}
+			if (this.check == "option2"){
+				this.selected_subject = "MBDA-CGDNGB";
+			}
+			if (this.check == "option3"){
+				this.selected_subject = "MBDA-MEGBD";
+			}
+			if (this.check == "option4"){
+				this.selected_subject = "MUCNAP-ICP";
+			}
+			if (this.check == "option5"){
+				this.selected_subject = "MUCNAP-CBD";
+			}
+			if (this.check == "option6"){
+				this.selected_subject = "MUGI-SEN";
+			}
+			if (this.check == "option7"){
+				this.selected_subject = "GII-LPP";
+			}
+			if (this.check == "option8"){
+				this.selected_subject = "GCD-IPD";
+			}
+			if (this.check == "option9"){
+				this.selected_subject = "MUCC-DDS";
 			}
 
+			this.pdf_data = {
+				subject: this.selected_subject,
+				start_date: this.start_date,
+				end_date: this.end_date,
+				students: this.all_practices_percentage
+			};
 
-			$("#myChart").remove();
-			$("#canva").append('<canvas id="myChart"></canvas>');
-			var ctx = $("#myChart");
-			var myChart = new Chart(ctx, {
-				type: "bar",
-				data: {
-					labels: this.graphData.map(graphData => graphData[0]),
-					datasets: [
-						{
-						label: "%",
-						backgroundColor: myColors,
-						borderColor: borderColor,
-						borderWidth: 1,
-						hoverBackgroundColor: "rgba(0, 153, 255,0.5)",
-						hoverBorderColor: "rgba(0,255,255,1)",
-						data: this.graphData.map(graphData => graphData[1])
-						}
-					]
-				},
-				options: {
-					responsive: true,
-					maintainAspectRatio: false,
-					legend: {
-						display: false
-					},
-					plugins: {
-						datalabels: {
-							display: function(){
-
-								if ($('#canva').width() < 350){
-									return false
-								}else{
-									return true
-								}
-							},
-							align : function (context){
-
-								var index = context.dataIndex;
-								var value = context.dataset.data[index];
-								return value > 90 ? 'bottom' : 'top'
-
-
-							},
-
-							anchor: "end",
-							backgroundColor: null,
-							borderColor: null,
-							borderRadius: 4,
-							borderWidth: 1,
-							color: function(context) {
-								var index = context.dataIndex;
-								var value = context.dataset.data[index];
-								return value < 50 ? 'red' :  "black" // draw negative values in red
-							},
-							font: {
-								size: 12,
-								weight: "bold"
-							},
-							offset: 4,
-							padding: 0,
-							formatter: function(value, context) {
-								return value + '%';
-							}
-							}
-						},
-
-					tooltips: {
-						position: "nearest",
-						titleFontSize: 14,
-						bodyFontSize: 14
-					},
-					scales: {
-						yAxes: [
-						{
-							display: true,
-							scaleLabel: {
-							display: true,
-							labelString: "%",
-							fontColor: "#000",
-							fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-							fontSize: 16
-							},
-							callback: function(value) {
-								if (Number.isInteger(value)) {
-									return value;
-								}
-							},
-							gridLines: {
-								display: true,
-								color: "rgba(220,227,241,1)"
-							},
-							ticks: {
-				// display: !this.isMobileDevice(),
-				callback: function(value, index, values) {
-									if ($('#canva').width() < 300){
-										return null
-									}else {
-										return value
-									}
-				},
-								beginAtZero: true,
-								fontColor: "#000",
-								min: 0,
-								max :this.max
-
-								}
-						}
-						],
-						xAxes: [
-							{
-							display: true,
-							gridLines: { display: false },
-							scaleLabel: {
-								display: true,
-								labelString: "Laboratory practices",
-								fontColor: "#000",
-								fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-								fontSize: 16
-							},
-							ticks: {
-								callback: function(value, index, values) {
-									if ($('#canva').width() < 300){
-										return null
-									}else {
-										return value
-									}
-				},
-								autoSkip: false,
-								fontColor: "#000"
-							},
-							maxBarThickness: 50
-							}
-						],
-							hover: {
-								intersect: false
-							}
-						}
-					}
-				});
-
-				$("#myChart").click(function(e) {
-					this.activeBars = myChart.getElementAtEvent(e);
-					var find = this.activeBars["0"]._model.label
-					$(".collapse").collapse('show');
-					$("#table-details").DataTable().search(find).draw();
-
-				});
-		},
-		drawTracingGraph() {
-			///finding max value of array
-		this.tracingMax = 0;
-		for (var i in this.tracingGraphData) {
-			if (this.tracingMax < this.tracingGraphData[i].eventNum) {
-				this.tracingMax = this.tracingGraphData[i].eventNum;
+			var text = this.pdf_data.subject + ": " + this.pdf_data.start_date + " / " + this.pdf_data.end_date + "\n\nID\t\tPercentage\n";
+			for (let i=0; i < this.pdf_data.students.length;i++){
+				text = text + this.pdf_data.students[i].idAlumno + "\t" + this.pdf_data.students[i].percentage + "\n";
 			}
-		}
 
-		$("#myTracingChart").remove();
-		$("#canva2").append('<canvas id="myTracingChart"></canvas>');
-		var ctx2 = $("#myTracingChart");
-		var myTracingChart = new Chart(ctx2, {
-			type: "bar",
-			data: {
-				labels: this.tracingGraphData.map(tracingGraphData => tracingGraphData.week),
-				datasets: [
-					{
-						label: "Events",
-						backgroundColor: "rgba(74,227,135,0.2)",
-						borderColor: "rgba(0,102,0,1)",
-						borderWidth: 1,
-						hoverBackgroundColor: "rgba(204, 255, 51,0.5)",
-						hoverBorderColor: "rgba(0,102,0,1)",
-						data: this.tracingGraphData.map(tracingGraphData => tracingGraphData.eventNum)
-					}
-				]
-			},
-			options: {
-				responsive: true,
-				maintainAspectRatio: false,
-				legend: {
-					display: false
-				},
-				plugins: {
-					datalabels: {
-						display: function(){
+			console.log(text);
 
-								if ($('#canva').width() < 300){
-									return false
-								}else{
-									return true
-								}
-							},
-							align: "top",
-							anchor: "end",
-							backgroundColor: null,
-							borderColor: null,
-							borderRadius: 4,
-							borderWidth: 1,
-							color: "black",
-							font: {
-								//size: 14,
-								weight: "bold"
-							},
-							offset: 4,
-							padding: 0,
-							formatter: Math.round
-						}
-					},
+			var doc = new jsPDF();
+			doc.text(text, 10, 10);
+			doc.save("alu_data.pdf");
 
-				tooltips: {
-					position: "nearest",
-					titleFontSize: 14,
-					bodyFontSize: 14
-				},
-				scales: {
-					yAxes: [
-					{
-						display: true,
-						scaleLabel: {
-						display: true,
-						labelString: "# Completed Event Number",
-						fontColor: "#000",
-						fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-						fontSize: 16
-						},
-						callback: function(value) {
-							if (Number.isInteger(value)) {
-								return value;
-							}
-						},
-						gridLines: {
-							display: true,
-							color: "rgba(220,227,241,1)"
-						},
-						ticks: {
-							beginAtZero: true,
-							fontColor: "#000",
-							min: 0,
-							stepSize: Math.ceil(this.tracingMax / 4),
-							max: this.tracingMax + Math.ceil(this.tracingMax / 4)
-						}
-					}
-					],
-					xAxes: [
-						{
-						display: true,
-						gridLines: { display: false },
-						scaleLabel: {
-							display: true,
-							labelString: "Weeks",
-							fontColor: "#000",
-							fontFamily:"'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",
-							fontSize: 16
-						},
-						ticks: {
-							callback: function(value, index, values) {
-								if ($('#canva').width() < 300){
-									return null
-								}else {
-									return value
-								}
-                    		},
-							autoSkip: false,
-							fontColor: "#000"
-						},
-						maxBarThickness: 50
-						}
-					],
-						hover: {
-							intersect: false
-						}
-					}
-				}
-			});
-
-			if (this.practices_percentage <= 20){
-				$("#percentage").css("background-color", "#e46161");
-			}else if (this.practices_percentage > 20 && this.practices_percentage < 85){
-				$("#percentage").css("background-color", "#f1b963");
-			}else{
-				$("#percentage").css("background-color", "#cbf078");
-			}
+			console.log(this.pdf_data);
 		}
 	},
 	mounted() {

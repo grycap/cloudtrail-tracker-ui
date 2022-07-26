@@ -14,7 +14,9 @@
       <li>
 				<router-link class="sidebar-link" to="/oteador"><i class="sidebar-menu-item-icon vuestic-icon vuestic-icon-dashboard"></i>Oteador</router-link>
 			</li>
-		
+      <li>
+        <router-link class="sidebar-link" to="/assessment "><i class="sidebar-menu-item-icon fas fa-users"></i>Assessment</router-link>
+      </li>
 		</ul>
 		</vuestic-scrollbar>
 

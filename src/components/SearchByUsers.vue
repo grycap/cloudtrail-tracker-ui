@@ -156,6 +156,13 @@ export default {
 			this.all_data.push([i,resp.data[i].eventName,time]);
 		}
 
+		//Deshabilitar fecha
+		if(!($('#checkbox4').prop('checked'))){
+			var d = new Date();
+			this.start_date = moment(d).format("YYYY-MM-DD");
+			console.log(this.start_date);
+		}
+
 		//Recoger datos
 		for (var i in resp.data) {
 			var datatime = resp.data[i].eventTime;
