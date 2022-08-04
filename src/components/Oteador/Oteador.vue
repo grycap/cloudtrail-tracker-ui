@@ -595,6 +595,7 @@ export default {
         case this.simpleOptions_service[0]:
           specificUrl =
             "services/AllInstancesEC2/region/" + this.simpleSelectModel_region;
+            console.log(api.url.oteador+specificUrl);
           axios.get(api.url.oteador + specificUrl).then(function(resp) {
             var data = [];
             for (var i in resp.data) {

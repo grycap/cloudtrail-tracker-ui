@@ -202,7 +202,7 @@ export default {
 		.then(function(resp) {
 			var session = JSON.parse(localStorage.getItem("session"))
 
-			if (session.user.username == "gmolto" || session.user.username == "admin" || session.user.username=="alucloud187"){
+			if (session.user.username == "gmolto" || session.user.username == "admin"){
 				_this.all_users = resp.data;
 				_this.user_name = "";
 			}else {
@@ -490,13 +490,9 @@ export default {
 				text = text + this.pdf_data.students[i].idAlumno + "\t" + this.pdf_data.students[i].percentage + "\n";
 			}
 
-			console.log(text);
-
 			var doc = new jsPDF();
 			doc.text(text, 10, 10);
 			doc.save("alu_data.pdf");
-
-			console.log(this.pdf_data);
 		}
 	},
 	mounted() {
