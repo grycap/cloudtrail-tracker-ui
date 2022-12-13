@@ -45,7 +45,6 @@ module.exports = {
             RebootDBInstance: 1
         },
         PL_DYNAMODB :{
-            CreateTopic: 1,
             CreateTable: 2,
             DeleteTable: 2,
         },
