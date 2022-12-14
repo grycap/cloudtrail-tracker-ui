@@ -239,7 +239,7 @@ module.exports = {
             DeregisterTargets: 1,
             DetachVolume: 1,
             PutBucketWebsite: 1,
-            PutMetricAlarm: 2,
+            PutMetricAlarm: 1,
             PutScalingPolicy: 1,
             RegisterTargets: 1,
             RunInstances: 4,
@@ -276,8 +276,7 @@ module.exports = {
             ModifyDBInstance: 2,
             RebootDBInstance: 1
         },
-        PL_DYNAMODB :{
-            CreateTopic: 1,
+        PL_DYNAMODB :{            
             CreateTable: 2,
             DeleteTable: 2,
         },
@@ -466,7 +465,6 @@ module.exports = {
             RebootDBInstance: 0
         },
         PL_DYNAMODB :{
-            CreateTopic: 0,
             CreateTable: 0,
             DeleteTable: 0,
         },
