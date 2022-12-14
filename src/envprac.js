@@ -30,7 +30,7 @@ module.exports = {
             DeregisterTargets: 1,
             DetachVolume: 1,
             PutBucketWebsite: 1,
-            PutMetricAlarm: 2,
+            PutMetricAlarm: 1,
             PutScalingPolicy: 1,
             RegisterTargets: 1,
             RunInstances: 4,
