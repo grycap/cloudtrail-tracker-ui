@@ -26,7 +26,7 @@ Naranjo, Diana M., José R. Prieto, Germán Moltó, and Amanda Calatrava. 2019. 
 
 This is a static web application (HTML + CSS + JavaScript) and, therefore, it is expected to be deployed in an S3 bucket as this is the most secure, scalable and cost-effective approach.
 
-1. Create a file named `src/env.js` (see example in `src/env_example.js`) specifying the corresponding values (obtained from the Cognito User Pool). IdentityPoolId is not necesary.
+1. Create a file named `src/env.js` (see example in `src/env_example.js`) specifying the corresponding values (obtained from the Cognito User Pool). IdentityPoolId is not necessary.
 
     ``` js
     module.exports = { 
