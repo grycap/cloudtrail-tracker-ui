@@ -26,14 +26,33 @@ Naranjo, Diana M., José R. Prieto, Germán Moltó, and Amanda Calatrava. 2019. 
 
 This is a static web application (HTML + CSS + JavaScript) and, therefore, it is expected to be deployed in an S3 bucket as this is the most secure, scalable and cost-effective approach.
 
-1. Create a file named `src/env.js` (see example in `src/env_example.js`) specifying the corresponding values (obtained from the Cognito User Pool).
+1. Create a file named `src/env.js` (see example in `src/env_example.js`) specifying the corresponding values (obtained from the Cognito User Pool). IdentityPoolId is not necesary.
+
+    ``` js
+    module.exports = { 
+        COGNITO:{
+            region:'us-east-1',
+            ClientId:'XXXXX',
+            UserPoolId:'us-east-1YYYYYYYY',
+        },
+    }
+    ```
   
 1. Modify the file `src/api.js` to define the API Gateway endpoint on which CloudTrail-Tracker is exposing its REST API.
 
 1. Start a local server to verify the web application:
-    ```sh
-    npm run dev
-    ```
+    1. Install the dependencies:
+
+        ```sh
+        npm install --legacy-peer-deps node@12.22.12 npm@6.14.16 vue@2.5.2
+        ```
+
+    1. Run the server in localhost
+
+        ```sh
+        npm run dev
+        ```
+
     The web application will be available in `http://localhost:8080`
 
 1. Create the static web site by issuing: 

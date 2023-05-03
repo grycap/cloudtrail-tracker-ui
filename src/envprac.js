@@ -288,7 +288,7 @@ module.exports = {
 
         // },
         PL_APP: {
-            AddTagsToResource: 1,
+            //AddTagsToResource: 1,
             AllocateAddress: 1,
             AuthorizeSecurityGroupIngress: 1,
             CreateAutoScalingGroup: 1,
@@ -317,7 +317,7 @@ module.exports = {
             AuthorizeSecurityGroupIngress: 5,
             CreateAutoScalingGroup: 1,
             CreateChangeSet: 1,
-            CreateLaunchConfiguration: 1,
+            //CreateLaunchConfiguration: 1,
             CreateListener: 1,
             CreateLoadBalancer: 1,
             CreateSecurityGroup: 3,
@@ -327,7 +327,7 @@ module.exports = {
             DeleteAlarms: 2,
             DeleteAutoScalingGroup: 1,
             DeleteDBInstance: 2,
-            DeleteLaunchConfiguration: 1,
+            //DeleteLaunchConfiguration: 1,
             DeleteListener: 1,
             DeleteLoadBalancer: 1,
             DeletePolicy: 2,
@@ -336,7 +336,7 @@ module.exports = {
             DeleteTargetGroup: 1,
             DeleteVolume: 2,
             DetachVolume: 2,
-            EstimateTemplateCost: 3,
+            //EstimateTemplateCost: 3,
             ModifyDBInstance: 2,
             ModifyInstanceAttribute: 2,
             ModifyVolumeAttribute: 2,
@@ -354,7 +354,7 @@ module.exports = {
             RunJobFlow: 1
         },
         PL_LAMBDA_SQS: {
-            AddPermission20150331v2: 1,
+            //AddPermission20150331v2: 1,
             CreateFunction20150331: 1,
             CreateQueue: 1,
             DeleteFunction20150331: 1,
@@ -476,7 +476,7 @@ module.exports = {
 
         // },
         PL_APP: {
-            AddTagsToResource: 0,
+            //AddTagsToResource: 0,
             AllocateAddress: 0,
             AuthorizeSecurityGroupIngress: 0,
             CreateAutoScalingGroup: 0,
@@ -505,7 +505,7 @@ module.exports = {
             AuthorizeSecurityGroupIngress: 0,
             CreateAutoScalingGroup: 0,
             CreateChangeSet: 0,
-            CreateLaunchConfiguration: 0,
+            //CreateLaunchConfiguration: 0,
             CreateListener: 0,
             CreateLoadBalancer: 0,
             CreateSecurityGroup: 0,
@@ -515,7 +515,7 @@ module.exports = {
             DeleteAlarms: 0,
             DeleteAutoScalingGroup: 0,
             DeleteDBInstance: 0,
-            DeleteLaunchConfiguration: 0,
+            //DeleteLaunchConfiguration: 0,
             DeleteListener: 0,
             DeleteLoadBalancer: 0,
             DeletePolicy: 0,
@@ -524,7 +524,7 @@ module.exports = {
             DeleteTargetGroup: 0,
             DeleteVolume: 0,
             DetachVolume: 0,
-            EstimateTemplateCost: 0,
+            //EstimateTemplateCost: 0,
             ModifyDBInstance: 0,
             ModifyInstanceAttribute: 0,
             ModifyVolumeAttribute: 0,
@@ -564,7 +564,7 @@ module.exports = {
             RunJobFlow: 0
         },
         PL_LAMBDA_SQS: {
-            AddPermission20150331v2: 0,
+            //AddPermission20150331v2: 0,
             CreateFunction20150331: 0,
             CreateQueue: 0,
             DeleteFunction20150331: 0,
