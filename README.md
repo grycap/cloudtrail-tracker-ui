@@ -44,7 +44,7 @@ This is a static web application (HTML + CSS + JavaScript) and, therefore, it is
     1. Install the dependencies:
 
         ```sh
-        npm install --legacy-peer-deps node@12.22.12 npm@6.14.16 vue@2.5.2
+        npm install --legacy-peer-deps
         ```
 
     1. Run the server in localhost
@@ -57,7 +57,7 @@ This is a static web application (HTML + CSS + JavaScript) and, therefore, it is
 
 1. Create the static web site by issuing: 
     ```sh
-    npm install
+    npm install --legacy-peer-deps
     npm run build
     ```
     The static web site will be available in the `dist` folder.
