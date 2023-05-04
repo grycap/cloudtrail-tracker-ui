@@ -311,7 +311,7 @@ export default {
 				if( typeof this.all_services[event_data] == 'undefined'){
 					this.all_services[event_data] = 1;
 				}else{
-					this.all_services[resp.data[i].eventName] = this.all_services[resp.data[i].eventName] + 1
+					this.all_services[event_data] = this.all_services[event_data] + 1
 				}
 			}
 
@@ -413,8 +413,8 @@ export default {
 					this.all_data = this.all_data.filter(function(obj){
 						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
-        }
-        if (this.check == "option8"){
+				}
+				if (this.check == "option8"){
 
 					this.graphData = this.graphData.filter(function(obj){
 						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
@@ -423,7 +423,7 @@ export default {
 						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
 					})
 				}
-        if (this.check == "option9"){
+        		if (this.check == "option9"){
 
 					this.graphData = this.graphData.filter(function(obj){
 						return obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
