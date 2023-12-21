@@ -353,6 +353,7 @@ module.exports = {
         PL_EMR : {
             RunJobFlow: 1
         },
+        
         PL_LAMBDA_SQS: {
             //AddPermission20150331v2: 1,
             CreateFunction20150331: 1,
