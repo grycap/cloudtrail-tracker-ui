@@ -366,10 +366,10 @@ export default {
 				if (this.check == "option2"){
 
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_CF"
 					})
 					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_CF"
 					})
 				}
 				if (this.check == "option3"){
