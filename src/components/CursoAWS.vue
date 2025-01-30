@@ -122,6 +122,15 @@
             v-model="check"
             />
         </fieldset>
+		<fieldset class="col-12 col-md-3" style="padding-right:20px;">
+          <vuestic-radio-button
+            :label="'MUIS-DOS'"
+            id="radio10"
+            value="option10"
+            :name="'radio'"
+            v-model="check"
+            />
+        </fieldset>
       </div>
 
 
@@ -430,6 +439,26 @@ export default {
 					})
 					this.all_data = this.all_data.filter(function(obj){
 						return obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+					})
+				}
+				if (this.check == "option10"){
+					this.graphData = this.graphData.filter(function(obj){
+						return obj["0"]!=="PL_DYNAMODB" 
+							&& obj["0"]!=="PL_EMR" 
+							&& obj["0"]!=="PL_SERVERLESS_APP" 
+							&& obj["0"]!=="PL_EC2_S3"
+							&& obj["0"]!=="PL_RDS"
+							&& obj["0"]!=="PL_APP"
+							&& obj["0"]!=="PL_VPC"
+					})
+					this.all_data = this.all_data.filter(function(obj){
+						return obj["0"]!=="PL_DYNAMODB" 
+							&& obj["0"]!=="PL_EMR" 
+							&& obj["0"]!=="PL_SERVERLESS_APP"  
+							&& obj["0"]!=="PL_EC2_S3"
+							&& obj["0"]!=="PL_RDS"
+							&& obj["0"]!=="PL_APP"
+							&& obj["0"]!=="PL_VPC"
 					})
 				}
 
