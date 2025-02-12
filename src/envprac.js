@@ -136,7 +136,7 @@ module.exports = {
             DeleteVpc: 1,
             DetachInternetGateway: 1,
             ModifyInstanceAttribute: 1,
-            ModifyVpcAttribute: 2,
+            ModifyVpcAttribute: 1,
             RunInstances: 3,
             TerminateInstances: 1
         },
@@ -153,7 +153,7 @@ module.exports = {
             PutRule: 1,
             PutTargets: 1,
             SetQueueAttributes: 1,
-            TestEventPattern: 1
+            //TestEventPattern: 1
         },
         PL_SERVERLESS_APP: {
             ChangeResourceRecordSets:  2,
@@ -264,7 +264,7 @@ module.exports = {
             DeleteVpc: 1,
             DetachInternetGateway: 1,
             ModifyInstanceAttribute: 1,
-            ModifyVpcAttribute: 2,
+            ModifyVpcAttribute: 1,
             RunInstances: 3,
             TerminateInstances: 1
         },
@@ -364,7 +364,7 @@ module.exports = {
             PutRule: 1,
             PutTargets: 1,
             SetQueueAttributes: 1,
-            TestEventPattern: 1
+            //TestEventPattern: 1
         },
         PL_SERVERLESS_APP: {
             ChangeResourceRecordSets:  2,
@@ -574,7 +574,7 @@ module.exports = {
             PutRule: 0,
             PutTargets: 0,
             SetQueueAttributes: 0,
-            TestEventPattern: 0
+            //TestEventPattern: 0
         },
         PL_SERVERLESS_APP: {
             ChangeResourceRecordSets:  0,
