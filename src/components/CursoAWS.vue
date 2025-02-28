@@ -131,6 +131,15 @@
             v-model="check"
             />
         </fieldset>
+		<fieldset class="col-12 col-md-3" style="padding-right:20px;">
+          <vuestic-radio-button
+            :label="'TCC'"
+            id="radio10"
+            value="option11"
+            :name="'radio'"
+            v-model="check"
+            />
+        </fieldset>
       </div>
 
 
@@ -366,79 +375,79 @@ export default {
 
 				if (this.check == "option1"){
 					 this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EMR"
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_GRAVITON"  && obj["0"]!=="PL_DATA_LAKE"  && obj["0"]!=="PL_EVENTS_WORKFLOWS"   
 					})
 					 this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EMR"
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_GRAVITON"  && obj["0"]!=="PL_DATA_LAKE"  && obj["0"]!=="PL_EVENTS_WORKFLOWS"   
 					})
 				}
 				if (this.check == "option2"){
 
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_CF"
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_GRAVITON"  && obj["0"]!=="PL_DATA_LAKE"  && obj["0"]!=="PL_EVENTS_WORKFLOWS"   
 					})
 					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_CF"
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_GRAVITON"  && obj["0"]!=="PL_DATA_LAKE"  && obj["0"]!=="PL_EVENTS_WORKFLOWS"   
 					})
 				}
 				if (this.check == "option3"){
 					var removeValIndex = [0,1,2,3,4,5,7]
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_GRAVITON"  && obj["0"]!=="PL_DATA_LAKE"  && obj["0"]!=="PL_EVENTS_WORKFLOWS"   
 					})
 					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_GRAVITON"  && obj["0"]!=="PL_DATA_LAKE"  && obj["0"]!=="PL_EVENTS_WORKFLOWS"   
 					})
 				}
 				if (this.check == "option4"){
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_GRAVITON"  && obj["0"]!=="PL_DATA_LAKE"  && obj["0"]!=="PL_EVENTS_WORKFLOWS"   
 					})
 					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_GRAVITON"  && obj["0"]!=="PL_DATA_LAKE"  && obj["0"]!=="PL_EVENTS_WORKFLOWS"   
 					})
 				}
 				if (this.check == "option5"){
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_GRAVITON"  && obj["0"]!=="PL_DATA_LAKE"  && obj["0"]!=="PL_EVENTS_WORKFLOWS"   
 					})
 					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_EC2" && obj["0"]!=="PL_EC2_S3" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_GRAVITON"  && obj["0"]!=="PL_DATA_LAKE"  && obj["0"]!=="PL_EVENTS_WORKFLOWS"   
 					})
 				}
 				if (this.check == "option6"){
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_EMR" && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_GRAVITON"  && obj["0"]!=="PL_DATA_LAKE"  && obj["0"]!=="PL_EVENTS_WORKFLOWS"   
 					})
 					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_EMR"  && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_EMR"  && obj["0"]!=="PL_VPC" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_GRAVITON"  && obj["0"]!=="PL_DATA_LAKE"  && obj["0"]!=="PL_EVENTS_WORKFLOWS"   
 					})
 				}
 				if (this.check == "option7"){
 
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_GRAVITON"  && obj["0"]!=="PL_DATA_LAKE"  && obj["0"]!=="PL_EVENTS_WORKFLOWS"   
 					})
 					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_GRAVITON"  && obj["0"]!=="PL_DATA_LAKE"  && obj["0"]!=="PL_EVENTS_WORKFLOWS"   
 					})
 				}
 				if (this.check == "option8"){
 
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_GRAVITON"  && obj["0"]!=="PL_DATA_LAKE"  && obj["0"]!=="PL_EVENTS_WORKFLOWS"   
 					})
 					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_VPC" && obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_RDS" && obj["0"]!=="PL_APP" && obj["0"]!=="PL_CF" && obj["0"]!=="PL_LAMBDA_SQS"  && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_GRAVITON"  && obj["0"]!=="PL_DATA_LAKE"  && obj["0"]!=="PL_EVENTS_WORKFLOWS"   
 					})
 				}
         		if (this.check == "option9"){
 
 					this.graphData = this.graphData.filter(function(obj){
-						return obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_GRAVITON"  && obj["0"]!=="PL_DATA_LAKE"  && obj["0"]!=="PL_EVENTS_WORKFLOWS"   
 					})
 					this.all_data = this.all_data.filter(function(obj){
-						return obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP"
+						return obj["0"]!=="PL_DYNAMODB" && obj["0"]!=="PL_EMR" && obj["0"]!=="PL_SERVERLESS_APP" && obj["0"]!=="PL_GRAVITON"  && obj["0"]!=="PL_DATA_LAKE"  && obj["0"]!=="PL_EVENTS_WORKFLOWS"   
 					})
 				}
 				if (this.check == "option10"){
@@ -450,6 +459,9 @@ export default {
 							&& obj["0"]!=="PL_RDS"
 							&& obj["0"]!=="PL_APP"
 							&& obj["0"]!=="PL_VPC"
+							&& obj["0"]!=="PL_GRAVITON"
+							&& obj["0"]!=="PL_DATA_LAKE"  
+							&& obj["0"]!=="PL_EVENTS_WORKFLOWS"   
 					})
 					this.all_data = this.all_data.filter(function(obj){
 						return obj["0"]!=="PL_DYNAMODB" 
@@ -459,6 +471,37 @@ export default {
 							&& obj["0"]!=="PL_RDS"
 							&& obj["0"]!=="PL_APP"
 							&& obj["0"]!=="PL_VPC"
+							&& obj["0"]!=="PL_GRAVITON" 
+							&& obj["0"]!=="PL_DATA_LAKE" 
+							&& obj["0"]!=="PL_EVENTS_WORKFLOWS"   
+					})
+				}
+				if (this.check == "option11"){
+					this.graphData = this.graphData.filter(function(obj){
+						return obj["0"]!=="PL_EC2" 
+							&& obj["0"]!=="PL_LAMBDA_SQS"
+							&& obj["0"]!=="PL_CF" 
+							&& obj["0"]!=="PL_DYNAMODB" 
+							&& obj["0"]!=="PL_EMR" 
+							&& obj["0"]!=="PL_SERVERLESS_APP" 
+							&& obj["0"]!=="PL_EC2_S3"
+							&& obj["0"]!=="PL_RDS"
+							&& obj["0"]!=="PL_APP"
+							&& obj["0"]!=="PL_VPC"
+
+					})
+					this.all_data = this.all_data.filter(function(obj){
+						return obj["0"]!=="PL_EC2" 
+							&& obj["0"]!=="PL_LAMBDA_SQS"
+							&& obj["0"]!=="PL_CF" 
+							&& obj["0"]!=="PL_DYNAMODB" 
+							&& obj["0"]!=="PL_EMR" 
+							&& obj["0"]!=="PL_SERVERLESS_APP"  
+							&& obj["0"]!=="PL_EC2_S3"
+							&& obj["0"]!=="PL_RDS"
+							&& obj["0"]!=="PL_APP"
+							&& obj["0"]!=="PL_VPC"
+	
 					})
 				}
 
