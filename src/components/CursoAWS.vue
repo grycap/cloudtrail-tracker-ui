@@ -133,7 +133,7 @@
         </fieldset>
 		<fieldset class="col-12 col-md-3" style="padding-right:20px;">
           <vuestic-radio-button
-            :label="'TCC'"
+            :label="'MUCNAP-TCC'"
             id="radio10"
             value="option11"
             :name="'radio'"
