@@ -2,3 +2,8 @@ dist
 node_modules
 package-lock.json
 src/env.js
+
+
+# Ignore macOS system files
+.DS_Store
+**/.DS_Store
