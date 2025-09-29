@@ -239,9 +239,7 @@ module.exports = {
         },
         PL_EVENTS_WORKFLOWS:{
             CreateStage: 1,
-            CreateDeployment: 1,
             PutTargets: 1,
-            CreateRestApi: 1,
             CreateStateMachine: 1,
             ImportApi: 1,
             PutRule: 1,
@@ -495,9 +493,7 @@ module.exports = {
         },
         PL_EVENTS_WORKFLOWS:{
             CreateStage: 1,
-            CreateDeployment: 1,
             PutTargets: 1,
-            CreateRestApi: 1,
             CreateStateMachine: 1,
             ImportApi: 1,
             PutRule: 1,
@@ -752,9 +748,7 @@ module.exports = {
         },
         PL_EVENTS_WORKFLOWS:{
             CreateStage: 0,
-            CreateDeployment: 0,
             PutTargets: 0,
-            CreateRestApi: 0,
             CreateStateMachine: 0,
             ImportApi: 0,
             PutRule: 0,
