@@ -94,7 +94,7 @@
         </fieldset>
         <fieldset class="col-12 col-md-3" style="padding-right:20px;">
           <vuestic-radio-button
-            :label="'GII-LPP'"
+            :label="'GII-CNA'"
             id="radio7"
             value="option7"
             :name="'radio'"
