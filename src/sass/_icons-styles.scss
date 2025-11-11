@@ -1,4 +1,13 @@
-@import url(https://weloveiconfonts.com/api/?family=brandico|entypo|fontelico|iconicfill|iconicstroke|maki|openwebicons|typicons|zocial);
+/* weloveiconfonts.com is down, so load the same CSS bundles from the GitHub mirror via jsDelivr */
+@import url("https://cdn.jsdelivr.net/gh/TimPietrusky/weloveiconfonts/api/fonts/brandico/brandico.css");
+@import url("https://cdn.jsdelivr.net/gh/TimPietrusky/weloveiconfonts/api/fonts/entypo/entypo.css");
+@import url("https://cdn.jsdelivr.net/gh/TimPietrusky/weloveiconfonts/api/fonts/fontelico/fontelico.css");
+@import url("https://cdn.jsdelivr.net/gh/TimPietrusky/weloveiconfonts/api/fonts/iconicfill/iconicfill.css");
+@import url("https://cdn.jsdelivr.net/gh/TimPietrusky/weloveiconfonts/api/fonts/iconicstroke/iconicstroke.css");
+@import url("https://cdn.jsdelivr.net/gh/TimPietrusky/weloveiconfonts/api/fonts/maki/maki.css");
+@import url("https://cdn.jsdelivr.net/gh/TimPietrusky/weloveiconfonts/api/fonts/openwebicons/openwebicons.css");
+@import url("https://cdn.jsdelivr.net/gh/TimPietrusky/weloveiconfonts/api/fonts/typicons/typicons.css");
+@import url("https://cdn.jsdelivr.net/gh/TimPietrusky/weloveiconfonts/api/fonts/zocial/zocial.css");
 
 /* brandico */
 [class*="brandico-"]:before {
