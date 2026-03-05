@@ -333,10 +333,21 @@ export default {
 				}
 			}
 
-			if(this.check == "option4" || this.check == "option9"){						// Opcion 4 and 9 VPC after PL_EC2_S3
-				this.referData = envprac.REFERDATA1;
-			}else {
-				this.referData = envprac.REFERDATA;
+			// Use a cloned reference map per search to avoid mutating shared config.
+			var baseReferData = (this.check == "option4" || this.check == "option9")
+				? envprac.REFERDATA1
+				: envprac.REFERDATA;
+
+			// MUIS-DOS: compute only with practices that belong to this subject.
+			// This prevents hidden practices from consuming shared events.
+			if (this.check == "option10") {
+				this.referData = {
+					PL_EC2: JSON.parse(JSON.stringify(baseReferData.PL_EC2)),
+					PL_CF: JSON.parse(JSON.stringify(baseReferData.PL_CF)),
+					PL_LAMBDA_SQS: JSON.parse(JSON.stringify(baseReferData.PL_LAMBDA_SQS)),
+				};
+			} else {
+				this.referData = JSON.parse(JSON.stringify(baseReferData));
 			}
 
 			var totalref=0
